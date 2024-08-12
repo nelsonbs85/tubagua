@@ -21,15 +21,15 @@ class DB extends PDO {
 		$conn = mysqli_init();
 		mysqli_real_connect($conn, $this->hostname, $this->username, $this->password,  $this->database, 3306);
 		if (!$conn){
-		die('Failed to connect to MySQL: '.mysqli_connect_error());
-}
+			die('Failed to connect to MySQL: '.mysqli_connect_error());
+		}
 }
 		/*
 		$dsn = mysqli_init();
 			mysqli_ssl_set($con,NULL,NULL,NULL, NULL, NULL);
 			mysqli_real_connect($conn, "azuremysqlgt.mysql.database.azure.com", "nbstargt", "15Mar2010*!", "tubagua", 3306, MYSQLI_CLIENT_SSL);
 */
-	}
+
 	public function CloseConnection() {
 	 	$this->pdo = null;
 	}
