@@ -2,11 +2,14 @@
     require_once 'controllers/UsuarioController.php';
     $usuario = new UsuarioController();
     $usuario->login();
-
+	//$key ='Tubagua2022$.#';
+	
+	//$enc_text = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $_POST['password'], MCRYPT_MODE_ECB);
     if (isset($_POST['acceder'])) {
         $datos = array(
             'nick'    => $_POST['nick'],
-            'password' => md5($_POST['password'])
+			//'password' => $enc_text
+			'password' => md5($_POST['password'])
         );
         $respuesta = $usuario->accesoUsuario($datos);
     }

@@ -28,6 +28,9 @@ class Usuario extends ModeloBase {
 
 	public function accesoUsuario($nick, $password) {
 		$db = new ModeloBase();
+		-/*$query = "SELECT * FROM usuario WHERE usuario = '".$nick. "' AND password = 
+		(AES_ENCRYPT('" .$password ."','Tubagua2022$.#'))";
+		*/
 		$query = "SELECT * FROM usuario WHERE usuario = '".$nick. "' AND password = '".$password . "'";
 				return $respuesta = $db->consultarRegistro($query);
 	}

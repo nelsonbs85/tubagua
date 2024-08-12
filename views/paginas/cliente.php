@@ -3,6 +3,7 @@ $usuario_id = $_SESSION['id_usuario'];
 ?>
 
 <main role="main" class="container">
+<!-- 	
 	<div class="row">
 		<span class="text-bg-success"><strong>Solicitud de Crédito</strong> </span> 
 		<div class="col">
@@ -13,8 +14,8 @@ $usuario_id = $_SESSION['id_usuario'];
 			<label>Fecha:</label>
 			<input type="date">
 		</div>
-	</div><!-- /.row -->
-</br>
+	</div>
+	</br>
 	<div class="row control-group">
 			<span class="text-bg-success"><strong>1. Datos de la Emprea Solicitante</strong> </span> 
 				<div class="row">
@@ -61,7 +62,7 @@ $usuario_id = $_SESSION['id_usuario'];
 			<input  class= "col" type="text" id="tel" name ="tel">
 	</div>
 
-	 <!-- 2. Datos del Dueño y Representante legal  -->
+	  2. Datos del Dueño y Representante legal  
 </br>
 	 <div class="row control-group">
 			<span class="text-bg-success"><strong>2. Datos del Dueño y Representante Legal</strong> </span> 
@@ -88,7 +89,7 @@ $usuario_id = $_SESSION['id_usuario'];
 				<input  class= "col" type="text" id="emailRepre" name ="emailRepre">
 		</div>
 	</div>
- <!-- 3. DATOS DE LA PERSONA RESPONSABLE DE PAGOS -->
+  3. DATOS DE LA PERSONA RESPONSABLE DE PAGOS 
  </br>
 	 <div class="row control-group">
 			<span class="text-bg-success"><strong>3. Datos de la persona responsable de Pagos</strong> </span> 
@@ -108,7 +109,7 @@ $usuario_id = $_SESSION['id_usuario'];
 				<label class="col">Email:</label>
 				<input  class= "col" type="text" id="emailPagos" name ="emailPagos">
 		</div> 	
-<!-- 4. DATOS DEL LOCAL DE VENTA-->
+ 4. DATOS DEL LOCAL DE VENTA
 </br>
 	 <div class="row control-group">
 			<span class="text-bg-success"><strong>4. Datos del Local de Venta</strong> </span> 
@@ -186,7 +187,7 @@ $usuario_id = $_SESSION['id_usuario'];
 			</div>
 		</div>
 	</div>
-	<!-- 5. REFERENCIAS COMERCIALES-->
+	 5. REFERENCIAS COMERCIALES
 </br>	 
 </br>	 
 	<div class="row control-group">
@@ -253,7 +254,7 @@ $usuario_id = $_SESSION['id_usuario'];
 		</tbody>
 	</table>
 	</div>
-		<!-- 6. Autorización del Solicitante-->
+		6. Autorización del Solicitante
 </br>	 
 </br>	 
 	<div class="row control-group">
@@ -271,7 +272,7 @@ $usuario_id = $_SESSION['id_usuario'];
 				<td><input type="text"name="lugar" id ="lugar"></td>
 				<td><input type="date"name="fecha" id ="fecha"></td>
 				<td class = "col-6"> <div id="canvasDiv"></div>
-				
+					
                 <br>
                 <button type="button" class="btn btn-danger" id="reset-btn">Clear</button>
                 <button type="button" class="btn btn-success" id="btn-save">Save</button>
@@ -280,6 +281,6 @@ $usuario_id = $_SESSION['id_usuario'];
 			</tr>
 		</tbody>
 		</table>
-	</div>
+	</div> -->
 	</main><!-- /.container -->
 	

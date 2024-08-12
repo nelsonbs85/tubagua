@@ -1,11 +1,11 @@
 <?php
 
 class DB extends PDO {
-	private $hostname = 'localhost';
-	//private $database = 'up_login_mvc';
+	private $hostname = 'localhost:3306';
+	//private $database = 'up_login_mvc';	
 	private $database = 'tubagua';
 	private $username = 'root';
-	private $password = 'sasa';
+	private $password = '';
 	private $pdo;
 	private $sQuery;
 	private $dbConnected = false;

@@ -13,7 +13,7 @@ if (!empty($page)) {
 	$data = array(
 		'login' 			=> array('model' => 'UsuarioModel', 'view' => 'login', 	'controller' => 'UsuarioController'),
 		'inicio' 			=> array('model' => 'UsuarioModel',	'view' => 'inicio', 'controller' => 'InicioController'), 
-		'cliente' 			=> array('model' => 'ClienteModel',	'view' => 'cliente', 'controller' => 'ClienteController'), 
+		'cliente01'			=> array('model' => 'Cliente01Model',	'view' => 'cliente01', 'controller' => 'Cliente01Controller'), 
 		'error' 			=> array('model' => 'UsuarioModel',	'view' => 'error', 	'controller' => 'InicioController'), 
 		'categoria' 		=> array('model' => 'CategoriaModel','view' => 'categoria', 		'controller' => 'CategoriaController'), 
 		'categoria-detalle'	=> array('model' => 'CategoriaModel','view' => 'categoriaDetalle', 	'controller' => 'CategoriaController'), 

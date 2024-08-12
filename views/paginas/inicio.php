@@ -1,7 +1,7 @@
 <?php
 
-require_once 'controllers/PermisoController.php';
-$objeto = new PermisoController();
+//require_once 'controllers/PermisoController.php';
+//$objeto = new PermisoController();
 $usuario_id = $_SESSION['id_usuario'];
 //$permisos = $objeto->obtenerPermisos($usuario_id);
 
