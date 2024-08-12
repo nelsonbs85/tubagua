@@ -1,7 +1,7 @@
 <?php
 
 class DB extends PDO {
-	private $hostname = 'localhost:3306';
+	private $hostname = 'localhost';
 	//private $database = 'up_login_mvc';	
 	private $database = 'tubagua';
 	private $username = 'root';

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login MVC</title>
+    <title>Sistema CRM Ventas</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,6 +12,13 @@
 
     <!-- jQuery v3.7.0 -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <style>
+        #canvasDiv{
+            position: relative;
+            border: 2px dashed grey;
+            height:100px;
+        }
+    </style> 
     
 </head>
 <body>
