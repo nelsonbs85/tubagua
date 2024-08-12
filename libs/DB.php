@@ -1,5 +1,8 @@
 <?php
-
+/*$con = mysqli_init();
+mysqli_ssl_set($con,NULL,NULL, "{path to CA cert}", NULL, NULL);
+mysqli_real_connect($conn, "azuremysqlgt.mysql.database.azure.com", "nbstargt", "{your_password}", "{your_database}", 3306, MYSQLI_CLIENT_SSL);
+*/
 class DB extends PDO {
 	private $hostname = 'azuremysqlgt.mysql.database.azure.com';
 	//private $database = 'up_login_mvc';	
@@ -14,18 +17,30 @@ class DB extends PDO {
 	public function __construct() {
 		$dsn = 'mysql:dbname='.$this->database.';host='.$this->hostname;
 		parent::__construct($dsn, $this->username, $this->password, 
+<<<<<<< HEAD
 		array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 		$conn = mysqli_init();
 		mysqli_real_connect($conn, $this->hostname, $this->username, $this->password,  $this->database, 3306);
 		if (!$conn){
 		die('Failed to connect to MySQL: '.mysqli_connect_error());
+=======
+		array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+		$conn = mysqli_init();
+		mysqli_real_connect($conn, $this->hostname, $this->username, $this->password,  $this->database, 3306);
+		if (!$conn){
+			die('Failed to connect to MySQL: '.mysqli_connect_error());
+		}
+>>>>>>> c3775cfdad9a2056f65f2ea5a51b52fb404fb600
 }
 		/*
 		$dsn = mysqli_init();
 			mysqli_ssl_set($con,NULL,NULL,NULL, NULL, NULL);
 			mysqli_real_connect($conn, "azuremysqlgt.mysql.database.azure.com", "nbstargt", "15Mar2010*!", "tubagua", 3306, MYSQLI_CLIENT_SSL);
 */
+<<<<<<< HEAD
 	}
+=======
+>>>>>>> c3775cfdad9a2056f65f2ea5a51b52fb404fb600
 
 	public function CloseConnection() {
 	 	$this->pdo = null;
