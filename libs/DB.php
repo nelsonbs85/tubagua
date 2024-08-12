@@ -1,11 +1,12 @@
 <?php
 
+
 class DB extends PDO {
-	private $hostname = 'localhost';
+	private $hostname = 'azuremysqlgt.mysql.database.azure.com';
 	//private $database = 'up_login_mvc';	
 	private $database = 'tubagua';
-	private $username = 'root';
-	private $password = '';
+	private $username = 'nbstargt';
+	private $password = '15Mar2010*!';
 	private $pdo;
 	private $sQuery;
 	private $dbConnected = false;
