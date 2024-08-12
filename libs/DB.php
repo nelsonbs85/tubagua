@@ -20,8 +20,9 @@ class DB extends PDO {
 		array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 		$conn = mysqli_init();
 		mysqli_real_connect($conn, $this->hostname, $this->username, $this->password,  $this->database, 3306);
-		if (mysqli_connect_errno($conn)) {
+		if (!$conn){
 		die('Failed to connect to MySQL: '.mysqli_connect_error());
+}
 }
 		/*
 		$dsn = mysqli_init();
