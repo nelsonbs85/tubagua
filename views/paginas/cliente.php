@@ -9,7 +9,7 @@ $usuario_id = $_SESSION['id_usuario'];
 ?>
 
 <main role="main" class="container">
-<div class="accordion" id="accordionClientes01">
+<!-- <div class="accordion" id="accordionClientes01">
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" 
@@ -473,5 +473,5 @@ $usuario_id = $_SESSION['id_usuario'];
         }
     })
 
-</script>
+</script> -->
 </main>
