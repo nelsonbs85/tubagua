@@ -10,7 +10,7 @@ $usuario_id = $_SESSION['id_usuario'];
 
 <main role="main" class="container">
   <!-- inicio -->
-<!-- <div class="row">
+<div class="row">
 		<span class="text-bg-success"><h4><strong>Solicitud de Crédito</strong></h4> </span> 
 		<div class="col">
 			<label>Monto Solicitado:</label>
@@ -20,7 +20,7 @@ $usuario_id = $_SESSION['id_usuario'];
 			<label>Fecha:</label>
 			<input type="date" name= "fecha" id ="fecha">
 		</div>
-	</div> -->
+	</div>
 
    <!--    -->
 <div class="accordion" id="accordionClientes01">
@@ -35,18 +35,7 @@ $usuario_id = $_SESSION['id_usuario'];
     </h2>
     <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionClientes01">
       <div class="accordion-body">
-    
-<div class="row">
-		<div class="col">
-			<label>Monto Solicitado:</label>
-			<input type="number" placeholder="Q.000,000" id= "monto" name="monto">
-		</div>
-		<div class="col">
-			<label>Fecha:</label>
-			<input type="date" name= "fecha" id ="fecha">
-		</div>
-	</div>
-
+        <span></span>
         <div class="row control-group container">
 						<label><strong>Tipo de Facturación:</strong></label>
 						<div class="form-check">

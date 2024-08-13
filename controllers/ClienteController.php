@@ -62,6 +62,9 @@ class ClienteController {
 		$cliente = new ClienteModel();
 		return $cliente->obtenerCliente($id);
 	}
-
+	public function obtenerClienteSig() {
+		$cliente = new ClienteModel();
+		return $cliente->obtenerClienteSig();
+	}
 }
 }

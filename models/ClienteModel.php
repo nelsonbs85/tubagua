@@ -24,22 +24,35 @@ class ClienteModel extends DB {
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
+	public function obtenerClienteSig() {
+		$conn = new DB();
+		$query = "SELECT max(id)+1 as siguiente FROM cliente";
+		$resultado = $conn->query($query);
+		while ($row = $resultado->fetch()) {
+			$result = $row[0];
+		  }
+		return $result;
 
+		
+	}
 	public function insertarCliente($datos) {
 		$conn = new DB();
 		try {
 			//$insertar = $db->insertar('form_clientes', $datos);
-			$query= "INSERT INTO form_clientes  (idCliente,tipoFact,nitCliente,dpiRepresentanteLegal,razonSocialCliente,nombreComercial,
+			$query= "INSERT INTO form_clientes  (idCliente,montoSolicitado, fechaSolicitud,tipoFact,nitCliente,dpiRepresentanteLegal,razonSocialCliente,nombreComercial,
 			direccionCliente, telefonoCliente, usuario_created)
 			VALUES (" .$datos['idCliente']
-			. ", '" .$datos['tipoFact'] 
+			. ", " .$datos['montoSolicitado'] 
+			. ", '" .$datos['fechaSolicitud'] 
+			. "', '" .$datos['tipoFact'] 
 			. "', '" .$datos['nitCliente']
 			. "', '" .$datos['dpiRepresentanteLegal']
 			. "', '" .$datos['razonSocialCliente']
 			. "', '" .$datos['nombreComercial']
 			. "', '" .$datos['direccionCliente']
 			. "', '" .$datos['telefonoCliente']
-			. "', 'nelson')";
+			. "', '" .$datos['usuario']
+			. "')";
 			$resultado = $conn->query($query);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
