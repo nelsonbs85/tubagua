@@ -4,11 +4,10 @@ mysqli_ssl_set($con,NULL,NULL, "{path to CA cert}", NULL, NULL);
 mysqli_real_connect($conn, "azuremysqlgt.mysql.database.azure.com", "nbstargt", "{your_password}", "{your_database}", 3306, MYSQLI_CLIENT_SSL);
 */
 class DB extends PDO {
-	private $hostname = 'azuremysqlgt.mysql.database.azure.com';
-	//private $database = 'up_login_mvc';	
+	private $hostname = 'localhost'; //'azuremysqlgt.mysql.database.azure.com';
 	private $database = 'tubagua';
-	private $username = 'nbstargt';
-	private $password = '15Mar2010*!';
+	private $username = 'root' ;//'nbstargt';
+	private $password = '';//'15Mar2010*!';
 	private $pdo;
 	private $sQuery;
 	private $dbConnected = false;
@@ -18,11 +17,11 @@ class DB extends PDO {
 		$dsn = 'mysql:dbname='.$this->database.';host='.$this->hostname;
 		parent::__construct($dsn, $this->username, $this->password, 
 		array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
-		$conn = mysqli_init();
+		/*$conn = mysqli_init();
 		mysqli_real_connect($conn, $this->hostname, $this->username, $this->password,  $this->database, 3306);
 		if (!$conn){
 		die('Failed to connect to MySQL: '.mysqli_connect_error());
-}
+		}*/
 		/*
 		$dsn = mysqli_init();
 			mysqli_ssl_set($con,NULL,NULL,NULL, NULL, NULL);

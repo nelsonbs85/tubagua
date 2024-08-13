@@ -10,6 +10,7 @@ $usuario_id = $_SESSION['id_usuario'];
 
 <main role="main" class="container">
 <div class="accordion" id="accordionClientes01">
+  <form action="index.php?page=cliente-insertar" method="POST">
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" 
@@ -22,13 +23,14 @@ $usuario_id = $_SESSION['id_usuario'];
         <div class="row control-group container">
 						<label><strong>Tipo de Facturación:</strong></label>
 						<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="chkNatural">
+							<input class="form-check-input" type="checkbox" value="" 
+              id="chkNatural" name="chkNatural">
 							<label class="form-check-label" for="flexCheckDefault">
 								Persona Natural
 							</label>
 						</div>
 						<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="chkJuridico">
+							<input class="form-check-input" type="checkbox" value="" id="chkJuridico" name="chkJuridico">
 							<label class="form-check-label" for="flexCheckChecked">
 								Persona Jurídica
 							</label>
@@ -59,8 +61,10 @@ $usuario_id = $_SESSION['id_usuario'];
                     </div>
 			    </div>
 		    </div>
+        <input type="submit" value="Submit">
         </div>
-    </div>
+        </form>
+      </div>
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
