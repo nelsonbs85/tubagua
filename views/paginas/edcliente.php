@@ -378,6 +378,9 @@ require_once './controllers/ClienteController.php';
 				<td><input type="text"name="lugar" id ="lugar"></br>
 				<input type="date"name="fecha" id ="fecha"></td>
 				<td class = "col-6"> <div id="canvasDiv"></div>
+        <button type="button" class="btn btn-danger" id="reset-btn">Autorizar</button>
+                <!-- <button type="button" class="btn btn-success" id="btn-save">Save</button> -->
+
   			</td>
 			</tr>
 		</tbody>

@@ -27,7 +27,7 @@ class ClienteController {
 		}
 	}
 	public function edcliente() {
-		session_start();
+		//session_start();
 
 		if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 
