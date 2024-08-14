@@ -1,83 +1,117 @@
 <?php
 $usuario_id = $_SESSION['id_usuario'];
 // $permisos = $objPermiso->obtenerPermisos($usuario_id);
-
-// require_once './controllers/CategoriaController.php';
-// $objCategoria = new CategoriaController();
-// $categorias = $objCategoria->obtenerCategorias();
+$idform =$_GET["id"];
+require_once './controllers/ClienteController.php';
+ $objCliente = new ClienteController();
+ $formularios = $objCliente->obtenerFormulario($idform);
+ while ($row = $formularios->fetch()) {
+  $monto = $row[2];
+  $fecha = $row[3];
+  $tipoFact = $row[4];
+  $nitCliente = $row[5];
+  $dpiRepresentanteLegal = $row[6];
+  $razonSocialCliente = $row[7];
+  $nombreComercial = $row[8];
+  $direccionCliente = $row[9];
+  $telefonoCliente = $row[10];
+}
 
 ?>
 
 <main role="main" class="container">
   <!-- inicio -->
-<div class="row">
+<!-- <div class="row">
 		<span class="text-bg-success"><h4><strong>Solicitud de Crédito</strong></h4> </span> 
 		<div class="col">
 			<label>Monto Solicitado:</label>
-			<input type="number" placeholder="Q.000,000" id= "monto" name="monto">
+			<input type="number" placeholder="Q.000,000" id= "monto" name="monto" value = "<?php echo number_format($monto, 2, '.', ''); ?>">
 		</div>
 		<div class="col">
 			<label>Fecha:</label>
-			<input type="date" name= "fecha" id ="fecha">
+			<input type="date" name= "fecha" id ="fecha" value ="<?php echo $fecha ?>">
 		</div>
-	</div>
+	</div> -->
 
    <!--    -->
 <div class="accordion" id="accordionClientes01">
-  <form action="index.php?page=cliente-insertar" method="POST">
+  
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" 
       data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        <h4 class= "col-10">1. Datos de la Empresa Solicitante</h4>
-        <h4 class= "col-2"> <span class="badge text-bg-warning"><?php echo "1" ?></span></h4>
+      
+        <h4 class= "col-10">1. Datos de la Empresa Solicitante: </h4>
+        <h4 class= "col-2"> <span class="badge text-bg-warning"><?php echo "Solicitud #" .$_GET["id"]; ?></span></h4>
       </button>
     </h2>
+    <form action="index.php?page=cliente-editar" method="POST">
+    <input type ="hidden" value =" <?php echo $idform?>" name="idForm" id ="idForm" >
     <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionClientes01">
       <div class="accordion-body">
         <span></span>
+        <div class="row">
+		<span class="text-bg-success"><h4><strong>Solicitud de Crédito</strong></h4> </span> 
+		<div class="col">
+			<label>Monto Solicitado:</label>
+			<input type="number" placeholder="Q.000,000" id= "monto" name="monto" value = "<?php echo number_format($monto, 2, '.', ''); ?>">
+		</div>
+		<div class="col">
+			<label>Fecha:</label>
+			<input type="date" name= "fecha" id ="fecha" value ="<?php echo $fecha ?>">
+		</div>
+	</div>
+
         <div class="row control-group container">
 						<label><strong>Tipo de Facturación:</strong></label>
 						<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" 
-              id="chkNatural" name="chkNatural">
-							<label class="form-check-label" for="flexCheckDefault">
-								Persona Natural
-							</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="chkJuridico" name="chkJuridico">
-							<label class="form-check-label" for="flexCheckChecked">
-								Persona Jurídica
-							</label>
-						</div>
-                        <div class="row">
+            <input class="form-check-input" type="radio" name="tipoPersona" id="tipoPersona" value="N" 
+            <?php if ($tipoFact=='N'){
+                      echo 'Checked';
+                  }
+              ?>
+            >
+            <label class="form-check-label" for="exampleRadios1">
+              Persona Natural
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="tipoPersona" id="TipoPersona" value="J"
+            <?php if ($tipoFact=='J'){
+                      echo 'Checked';
+                  }
+              ?>
+            >
+            <label class="form-check-label" for="exampleRadios2">
+              Persona Jurídica
+            </label>
+          </div>            <div class="row">
                             <label class="col">NIT:</label>
-                            <input class="col" type="text" id="nit" name ="nit">
+                            <input class="col" type="text" id="nit" name ="nit" value ="<?php echo $nitCliente ?>">
                         </div>    
                         <div class="row">
                             <label class="col">DPI Representante Legal:</label>
-                            <input class="col" type="text" id="dpiRepre" name ="dpiRepre">
+                            <input class="col" type="text" id="dpiRepre" name ="dpiRepre" value ="<?php echo $dpiRepresentanteLegal ?>">
                         </div>
                     <div class="row">
                             <label class="col">Nombre o Razón Comercial:</label>
-                            <input  class= "col" type="text" id="razon" name ="razon">
+                            <input  class= "col" type="text" id="razon" name ="razon" value ="<?php echo $razonSocialCliente ?>">
                     </div>
                     <div class="row">
                             <label class="col">Nombre Comercial:</label>
-                            <input  class= "col" type="text" id="nombreComercial" name ="nombreComercial">
+                            <input  class= "col" type="text" id="nombreComercial" name ="nombreComercial" value ="<?php echo $razonSocialCliente ?>">
                     </div>
                     <div class="row">
                             <label class="col">Dirección:</label>
-                            <input  class= "col" type="text" id="direccion" name ="direccion">
+                            <input  class= "col" type="text" id="direccion" name ="direccion" value ="<?php echo $direccionCliente ?>">
                     </div>
                     <div class="row">
                             <label class="col">Teléfono:</label>
-                            <input  class= "col" type="text" id="tel" name ="tel">
+                            <input  class= "col" type="text" id="tel" name ="tel" value ="<?php echo $telefonoCliente ?>">
                     </div>
 			    </div>
 		    </div>
-        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
         
         </div>
         </form>

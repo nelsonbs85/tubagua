@@ -24,6 +24,19 @@ class ClienteModel extends DB {
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
+
+	public function obtenerFormulario($id) {
+		$conn = new DB();
+		$query = "SELECT  * FROM form_clientes where idform =" .$id;
+		$resultado = $conn->query(	$query);
+		// while ($row = $resultado->fetch()) {
+		// 	$result = $row[0];
+		//   }
+		return $resultado;
+
+	}
+
+	
 	public function obtenerClienteSig() {
 		$conn = new DB();
 		$query = "SELECT max(id)+1 as siguiente FROM cliente";
@@ -34,6 +47,25 @@ class ClienteModel extends DB {
 		return $result;
 
 		
+	}
+	public function editarFormulario($id,$datos) {
+		$conn = new DB();
+		try {
+			//$insertar = $db->insertar('form_clientes', $datos);
+			$query= "UPDATE form_clientes SET montoSolicitado=" .$datos['montoSolicitado'] 
+			. ", fechaSolicitud ='"	 .$datos['fechaSolicitud'] 
+			. "', tipoFact='" .$datos['tipoFact'] 
+			. "', nitCliente='" .$datos['nitCliente']
+			. "', dpiRepresentanteLegal='" .$datos['dpiRepresentanteLegal']
+			. "', razonSocialCliente ='" .$datos['razonSocialCliente']
+			. "', nombreComercial='" .$datos['nombreComercial']
+			. "', direccionCliente='" .$datos['direccionCliente']
+			. "', telefonoCliente='" .$datos['telefonoCliente']
+			. "' WHERE idForm =" .$id;
+			$resultado = $conn->query($query);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
 	}
 	public function insertarCliente($datos) {
 		$conn = new DB();

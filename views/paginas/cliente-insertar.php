@@ -9,7 +9,7 @@ $usuario_id = $_SESSION['id_usuario'];
 		'idCliente'   => $clienteid, //htmlentities, limites caracteres y toda la seguridad...
         'montoSolicitado'   => $_POST['monto'],
         'fechaSolicitud'   => $_POST['fecha'],
-		'tipoFact'   => $_POST['chkJuridico'],
+		'tipoFact'   => $_POST['tipoPersona'],
         'nitCliente'   => $_POST['nit'],
         'dpiRepresentanteLegal'   => $_POST['dpiRepre'],
         'razonSocialCliente'   => $_POST['razon'],
@@ -34,7 +34,7 @@ $usuario_id = $_SESSION['id_usuario'];
 		//aqui debe ir el array completamente depurado, validado
 		//sin caracteres raros, campos numericos o emails validados, longitud correcta etc...
 		$objeto->insertarCliente($datos);
-        header('Location: index.php?page=edcliente');
+        
 
 	}
     

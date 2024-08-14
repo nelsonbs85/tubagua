@@ -13,7 +13,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                aria-label="Toggle navigation">
-               <ion-icon name="menu-outline"></ion-icon>
+               <i class="bi bi-menu-button-wide"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav text-right">
@@ -22,6 +22,10 @@
 				</li>
 				<li class="nav-item" >	
 					<a class="nav-link" href="index.php?page=cliente"><?php echo "Nuevo Cliente";?></a>
+				</li>
+                <li class="nav-item" >	
+					<a class="nav-link" href="index.php?page=listacliente">
+                        <?php echo "Lista de Solicitudes";?></a>
 				</li>
 				<li class="nav-item">
 					<form action="" method="POST" name="logoutForm" id="logoutForm">

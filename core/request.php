@@ -7,9 +7,11 @@ if (!empty($page)) {
 		'login' 			=> array('model' => 'UsuarioModel', 'view' => 'login', 	'controller' => 'UsuarioController'),
 		'inicio' 			=> array('model' => 'UsuarioModel',	'view' => 'inicio', 'controller' => 'InicioController'), 
 		'cliente'			=> array('model' => 'ClienteModel',	'view' => 'cliente', 'controller' => 'ClienteController'), 
-		'edcliente'			=> array('model' => 'ClienteModel',	'view' => 'cliente', 'controller' => 'ClienteController'), 
+		'edcliente'			=> array('model' => 'ClienteModel',	'view' => 'edcliente', 'controller' => 'ClienteController'), 
+		'listacliente'		=> array('model' => 'ClienteModel',	'view' => 'listacliente', 'controller' => 'ClienteController'), 
 		'error' 			=> array('model' => 'UsuarioModel',	'view' => 'error', 	'controller' => 'InicioController'), 
 		'cliente-insertar' 	=> array('model' => 'ClienteModel',	'view' => 'clienteInsertar', 	'controller' => 'ClienteController'), 
+		'cliente-editar' 	=> array('model' => 'ClienteModel',	'view' => 'clienteEditar', 	'controller' => 'ClienteController'), 
 
 	);
 
@@ -23,7 +25,9 @@ if (!empty($page)) {
 	}
 
 	if (isset($model)) {
-		require_once 'controllers/'.$controller.'.php';
+		
+		//require_once 'controllers/'.$controller.'.php';
+		include_once 'controllers/'.$controller.'.php';
 		$objeto = new $controller();
 		$objeto->$view();
 	}

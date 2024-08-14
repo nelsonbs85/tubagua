@@ -1,19 +1,27 @@
 <?php
-//session_start();
+// if(!isset($_SESSION)) 
+// { 
+// 	session_start(); 
+// } 
 require_once 'models/UsuarioModel.php';
 
 class UsuarioController {
 
 	public function login() {
-		session_start();
-	    session_destroy();
+		if(!isset($_SESSION)) 
+		{ 
+			session_start(); 
+			session_destroy();
+		} 	
+		
+			    
 	    require_once('./views/includes/cabecera.php');
 	    require_once('./views/paginas/login.php');
 	    require_once('./views/includes/pie.php');
 	}
 
 	public function accesoUsuario($datos) {
-		session_start();
+		session_start(); 
 		$usuario = new Usuario();
 		$respuesta = $usuario->accesoUsuario($datos['nick'], $datos['password']);
 		if ($respuesta != false) {
@@ -32,8 +40,10 @@ class UsuarioController {
 	}
 
 	public function cerrarSesion() {
+		if(!isset($_SESSION))  {
 		session_start();
 		session_destroy();
+		}
 		header('Location: index.php?page=login');
 	}
 

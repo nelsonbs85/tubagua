@@ -6,6 +6,9 @@ $usuario_id = $_SESSION['id_usuario'];
 // $objCategoria = new CategoriaController();
 // $categorias = $objCategoria->obtenerCategorias();
 
+require_once './controllers/ClienteController.php';
+ $objCliente = new ClienteController();
+
 ?>
 
 <main role="main" class="container">
@@ -30,7 +33,7 @@ $usuario_id = $_SESSION['id_usuario'];
       <button class="accordion-button" type="button" data-bs-toggle="collapse" 
       data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
         <h4 class= "col-10">1. Datos de la Empresa Solicitante</h4>
-        <h4 class= "col-2"> <span class="badge text-bg-warning"><?php echo "1" ?></span></h4>
+        <h4 class= "col-2"> <span class="badge text-bg-warning"></span></h4>
       </button>
     </h2>
     <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionClientes01">
@@ -50,18 +53,17 @@ $usuario_id = $_SESSION['id_usuario'];
         <div class="row control-group container">
 						<label><strong>Tipo de Facturación:</strong></label>
 						<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" 
-              id="chkNatural" name="chkNatural">
-							<label class="form-check-label" for="flexCheckDefault">
-								Persona Natural
-							</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="chkJuridico" name="chkJuridico">
-							<label class="form-check-label" for="flexCheckChecked">
-								Persona Jurídica
-							</label>
-						</div>
+            <input class="form-check-input" type="radio" name="tipoPersona" id="tipoPersona" value="N" >
+            <label class="form-check-label" for="exampleRadios1">
+              Persona Natural
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="tipoPersona" id="TipoPersona" value="J">
+            <label class="form-check-label" for="exampleRadios2">
+              Persona Jurídica
+            </label>
+          </div>
                         <div class="row">
                             <label class="col">NIT:</label>
                             <input class="col" type="text" id="nit" name ="nit">
