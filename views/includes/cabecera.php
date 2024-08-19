@@ -23,10 +23,14 @@
             height:100px;
         }
     </style> 
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@5.0.2/dist/signature_pad.umd.min.js" integrity="sha256-qeL5hv3MZ3rdqyLkH6eoAdX7qr6UAoTNTB07xP7bnvI=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="js/DataTables/datatables.min.css" />
     <script src="https://cdn.datatables.net/v/dt/dt-2.1.3/datatables.min.js"></script>
     <!-- data table local -->
-    
+    <!--- signature -->
+    <link href="assets/jquery.signaturepad.css" rel="stylesheet">
+
+  <!--[if lt IE 9]><script src="../assets/flashcanvas.js"></script><![endif]-->
 </head>
 <script>
         $(document).ready(function(){  

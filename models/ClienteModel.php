@@ -61,7 +61,27 @@ class ClienteModel extends DB {
 			. "', nombreComercial='" .$datos['nombreComercial']
 			. "', direccionCliente='" .$datos['direccionCliente']
 			. "', telefonoCliente='" .$datos['telefonoCliente']
-			. "' WHERE idForm =" .$id;
+			//2.datos del representante legal
+			. "', nombreRepre='" .$datos['nombreRepre']
+			. "', direccionRepre='" .$datos['direccionRepre']
+			. "', ciudadRepre='" .$datos['ciudadRepre']
+			. "', telefonoRepre='" .$datos['telefonoRepre']
+			. "', celularRepre='" .$datos['celularRepre']
+			. "', emailRepre='" .$datos['emailRepre']
+			//3. información de pagos
+			. "', nombrePagos='" .$datos['nombrePagos']
+			. "', telOficinaPagos='" .$datos['telOficinaPagos']
+			. "', telParticularPagos='" .$datos['telParticularPagos']
+			. "', telCelularPagos='" .$datos['telCelularPagos']
+			. "', emailPagos='" .$datos['emailPagos']
+			. "', horarios='" .$datos['horarios']
+            . "', localExterior='" .$datos['localExterior']
+            . "', noEmpleados='" .$datos['noEmpleados']
+            . "', localSucursales='" .$datos['localSucursales']
+            . "', localCuantos='" .$datos['localCuantos']
+            . "', ubicacionSucursales='" .$datos['ubicacionSucursales']
+            . "', referencias='" .$datos['referencias']		
+			. "' WHERE idform =" .$id;
 			$resultado = $conn->query($query);
 		} catch (PDOException $e) {
 			echo $e->getMessage();

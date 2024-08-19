@@ -21,7 +21,7 @@
 					<a class="nav-link" href="#"><?php echo "Usuario: " .$_SESSION['nombre']; ?></a>
 				</li>
 				<li class="nav-item" >	
-					<a class="nav-link" href="index.php?page=cliente"><?php echo "Nuevo Cliente";?></a>
+					<a class="nav-link" href="index.php?page=cliente"><?php echo "Solicitud de Crédito";?></a>
 				</li>
                 <li class="nav-item" >	
 					<a class="nav-link" href="index.php?page=listacliente">

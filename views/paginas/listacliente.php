@@ -13,10 +13,10 @@ $clientes = $listaClientes->obtenerClientes();
 <h5>Listado de solicitudes usuario: <?php echo $usuario?></h5>
 <div class="panel-body p-20">
     <div class="table-responsive">
-    <table id="solicitud" class="table table-striped table-bordered display">     
+    <table id="solicitud" class="responsive table table-striped table-bordered display">     
             <thead>
-                <th>#</th>
-                <th>No. Solicitud</th>
+                <th>Solicitud</th>
+                <th>Nit</th>
                 <th>Razón Social</th>
                 <th>Monto</th>
                 <th>Fecha Solicitud</th>
@@ -29,8 +29,8 @@ $clientes = $listaClientes->obtenerClientes();
                 while ($row = $clientes->fetch()) {
 
                 ?><tr>
-                    <td><?php echo $cnt;?></td>
                     <td><?php echo $row[0];?></td>
+                    <td><?php echo $row[5];?></td>
                     <td><?php echo $row[7];?></td>
                     <td><?php echo $row[2];?></td>
                     <td><?php echo $row[3];?></td>
@@ -38,8 +38,8 @@ $clientes = $listaClientes->obtenerClientes();
                             <a  class="btn btn-warning"href=" index.php?page=edcliente&id=<?php echo $row[0]; ?>">Editar</a>
                     </td>
                     <td>
-                            <a  class="btn btn-danger" onclick="javascript:return confirm('¿Seguro de eliminar este registro?');"
-                             href=" index.php?page=login&id=<?php echo $row[0]; ?>">Ver</a>
+                            <!-- <a  class="btn btn-danger" onclick="javascript:return confirm('¿Seguro de eliminar este registro?');"
+                             href=" index.php?page=login&id=<?php echo $row[0]; ?>">Ver</a> -->
                     </td>
                 </tr>
                 <?php
