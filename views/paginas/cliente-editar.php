@@ -1,22 +1,21 @@
 <?php
 
     require_once 'controllers/ClienteController.php';
-    require_once 'signatureToImage.php';
 //    require "base64";
 
    
     if(isset($_POST['signaturesubmit'])){ 
-        $signature = $_POST['signature'];
-        $signatureFileName = uniqid().'.png';
-        // $signature = str_replace('data:image/png;base64,', '', $signature);
-        // $signature = str_replace(' ', '+', $signature);
-        $data = base64_decode($signature);
-        $file = 'sign/'.$signatureFileName;
-        file_put_contents($file, $data);
-        sigJsonToImage($signature);
-        $msg = "<div class 'alert alert-success'>Signature Uploaded</div>";        
-    } 
-    var_dump($_POST);
+        $signature = $_POST['svg-data'];  
+        $Autorizado = 'A';
+        $fechaAutorizacion = $_POST['fechaAutorizacion'];  
+        $lugarAutorización = $_POST['lugarAutorizacion'];  
+    } else {
+        $signature = "" ; //$_POST['svg-data'];  
+        $Autorizado = '';
+        $fechaAutorizacion = '';
+        $lugarAutorización = '';
+    }
+    //var_dump($_POST);
     $objeto = new ClienteController();
     $id = $_POST['idform'];
     
@@ -102,6 +101,10 @@
             'ubicacionSucursales' => $_POST['ubicacionSucursales'],
             //5 referencias
             'referencias' => $json2,
+            'firma' => $signature,
+            'fechaAutorizacion' => $fechaAutorizacion,
+            'lugarAutorizacion' => $lugarAutorización,
+            'Autorizado' => $Autorizado,
             
 	);
         

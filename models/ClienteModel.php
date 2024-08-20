@@ -81,6 +81,10 @@ class ClienteModel extends DB {
             . "', localCuantos='" .$datos['localCuantos']
             . "', ubicacionSucursales='" .$datos['ubicacionSucursales']
             . "', referencias='" .$datos['referencias']		
+			. "', firma='" .$datos['firma']		
+			. "', fechaAutorizacion='" .$datos['fechaAutorizacion']		
+			. "', lugarAutorizacion='" .$datos['lugarAutorizacion']		
+			. "', Autorizado='" .$datos['Autorizado']		
 			. "' WHERE idform =" .$id;
 			$resultado = $conn->query($query);
 		} catch (PDOException $e) {
