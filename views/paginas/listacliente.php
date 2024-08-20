@@ -15,13 +15,11 @@ $clientes = $listaClientes->obtenerClientes();
     <div class="table-responsive">
     <table id="solicitud" class="responsive table table-striped table-bordered display">     
             <thead>
-                <th>Solicitud</th>
+                <th>#</th>
                 <th>Nit</th>
                 <th>Razón Social</th>
                 <th>Monto</th>
-                <th>Fecha Solicitud</th>
-                <th> Editar</th>
-                <th>Visualizar</th>
+                <th> Acción</th>
             </thead>
             <tbody >
                 <?php 
@@ -33,13 +31,16 @@ $clientes = $listaClientes->obtenerClientes();
                     <td><?php echo $row[5];?></td>
                     <td><?php echo $row[7];?></td>
                     <td><?php echo $row[2];?></td>
-                    <td><?php echo $row[3];?></td>
                     <td>
+                        <?php if ($row[31]!='A'){?>
+                            Estado: Ingresada<br>
                             <a  class="btn btn-warning"href=" index.php?page=edcliente&id=<?php echo $row[0]; ?>">Editar</a>
-                    </td>
-                    <td>
-                            <!-- <a  class="btn btn-danger" onclick="javascript:return confirm('¿Seguro de eliminar este registro?');"
-                             href=" index.php?page=login&id=<?php echo $row[0]; ?>">Ver</a> -->
+                        
+                        <?php }else{?>
+                            Estado Autorizada<br>
+                            <a  class="btn btn-success "
+                             href=" index.php?page=edcliente&id=<?php echo $row[0]; ?>">Ver</a>
+                        <?php }?>
                     </td>
                 </tr>
                 <?php

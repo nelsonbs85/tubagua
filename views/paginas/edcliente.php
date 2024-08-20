@@ -7,7 +7,7 @@ require_once './controllers/ClienteController.php';
  $formularios = $objCliente->obtenerFormulario($idform);
  while ($row = $formularios->fetch()) {
   $monto = $row[2];
-  $fecha = $row[3];
+  $fechaSolicitud = $row[3];
   $tipoFact = $row[4];
   $nitCliente = $row[5];
   $dpiRepresentanteLegal = $row[6];
@@ -33,7 +33,9 @@ require_once './controllers/ClienteController.php';
   $ubicacionSucursales =  $row[26];
   $noEmpleados =  $row[27];
   $jsonHorario = json_decode($horarios,false);
-  $referencias = ($row[28]);
+
+    $referencias = ($row[28]);
+
   $jsonReferencias = json_decode($referencias,false);
   $lugarAutorizacion = $row[29];
   $fechaAutorizacion = $row[30];
@@ -44,10 +46,11 @@ require_once './controllers/ClienteController.php';
 
 ?>
 <main role="main" class="container">
+<div> 
 <div class="accordion" id="accordionClientes01">
-<form action="index.php?page=cliente-editar" method="POST">
+    <form action="index.php?page=cliente-editar" method="POST">
 <!-- acordeon 1  -->
-<div class="accordion-item">
+  <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" 
       data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -60,68 +63,67 @@ require_once './controllers/ClienteController.php';
     <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionClientes01">
       <div class="accordion-body">
         <div class="row">
-          <span class="text-bg-success"><h4><strong>Solicitud de Crédito</strong></h4> </span> 
-			<div class="col">
-				<label>Monto Solicitado:</label>
-				<input type="number" placeholder="Q.000,000" id= "monto" name="monto" value = "<?php echo number_format($monto, 2, '.', ''); ?>">
-			</div>
-			<div class="col">
-				<label>Fecha:</label>
-				<input type="date" name= "fecha" id ="fecha" value ="<?php echo $fecha ?>">
-			</div>
-		</div>
+            <span class="text-bg-success"><h4><strong>Solicitud de Crédito</strong></h4> </span> 
+            <div class="col">
+              <label>Monto Solicitado:</label>
+              <input type="number" placeholder="Q.000,000" id= "monto" name="monto" value = "<?php echo number_format($monto, 2, '.', ''); ?>">
+            </div>
+            <div class="col">
+              <label>Fecha:</label>
+              <input type="date" name= "fecha" id ="fecha" value ="<?php echo $fechaSolicitud ?>">
+            </div>
+        </div>
         <div class="row control-group container">
-			<label><strong>Tipo de Facturación:</strong></label>
-			<div class="form-check">
-				<input class="form-check-input" type="radio" name="tipoPersona" id="tipoPersona" value="N" 
-				  <?php if ($tipoFact=='N'){
-							echo 'Checked';
-						}
-					?>
-              >
-				<label class="form-check-label" for="exampleRadios1">
-                Persona Natural
-				</label>
-			</div>
-			<div class="form-check">
-			  <input class="form-check-input" type="radio" name="tipoPersona" id="TipoPersona" value="J"
-			  <?php if ($tipoFact=='J'){
-						echo 'Checked';
-					}
-				?>
-			  >
-			  <label class="form-check-label" for="exampleRadios2">
-				Persona Jurídica
-			  </label>
-			</div>            
-			<div class="row">
-				<label class="col">NIT:</label>
-				<input class="col" type="text" id="nit" name ="nit" value ="<?php echo $nitCliente ?>">
-			</div>    
-			<div class="row">
-			  <label class="col">DPI Representante Legal:</label>
-			 <input class="col" type="text" id="dpiRepre" name ="dpiRepre" value ="<?php echo $dpiRepresentanteLegal ?>">
-			</div>
-			<div class="row">
-					<label class="col">Nombre o Razón Comercial:</label>
-					<input  class= "col" type="text" id="razon" name ="razon" value ="<?php echo $razonSocialCliente ?>">
-			</div>
-			<div class="row">
-					<label class="col">Nombre Comercial:</label>
-					<input  class= "col" type="text" id="nombreComercial" name ="nombreComercial" value ="<?php echo $razonSocialCliente ?>">
-			</div>
-			<div class="row">
-					<label class="col">Dirección:</label>
-					<input  class= "col" type="text" id="direccion" name ="direccion" value ="<?php echo $direccionCliente ?>">
-			</div>
-			<div class="row">
-					<label class="col">Teléfono:</label>
-					<input  class= "col" type="text" id="tel" name ="tel" value ="<?php echo $telefonoCliente ?>">
-			</div>
+          <label><strong>Tipo de Facturación:</strong></label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="tipoPersona" id="tipoPersona" value="N" 
+              <?php if ($tipoFact=='N'){
+                  echo 'Checked';
+                }
+              ?>
+                  >
+            <label class="form-check-label" for="exampleRadios1">
+                    Persona Natural
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="tipoPersona" checked id="TipoPersona" value="J"
+            <?php if ($tipoFact=='J'){
+                echo 'Checked';
+              }
+            ?>
+            >
+            <label class="form-check-label" for="exampleRadios2">
+            Persona Jurídica
+            </label>
+          </div>            
+          <div class="row">
+            <label class="col">NIT:</label>
+            <input class="col" type="text" id="nit" name ="nit" value ="<?php echo $nitCliente ?>">
+          </div>    
+          <div class="row">
+            <label class="col">DPI Representante Legal:</label>
+            <input class="col" type="text" id="dpiRepre" name ="dpiRepre" value ="<?php echo $dpiRepresentanteLegal ?>">
+          </div>
+          <div class="row">
+            <label class="col">Nombre o Razón Comercial:</label>
+            <input  class= "col" type="text" id="razon" name ="razon" value ="<?php echo $razonSocialCliente ?>">
+        </div>
+        <div class="row">
+            <label class="col">Nombre Comercial:</label>
+            <input  class= "col" type="text" id="nombreComercial" name ="nombreComercial" value ="<?php echo $razonSocialCliente ?>">
+        </div>
+        <div class="row">
+            <label class="col">Dirección:</label>
+            <input  class= "col" type="text" id="direccion" name ="direccion" value ="<?php echo $direccionCliente ?>">
+        </div>
+        <div class="row">
+            <label class="col">Teléfono:</label>
+            <input  class= "col" type="text" id="tel" name ="tel" value ="<?php echo $telefonoCliente ?>">
+        </div>
 		</div>
-          <button type="submit" class="btn btn-primary">Guardar</button>
-      </div>       
-    </div>
+    <button type="submit" class="btn btn-primary" <?php if ($Autorizacion=='A'){echo 'disabled';}else{echo '';} ?>>Guardar</button>
+    </div>       
 </div>
 <!-- acordeon 1  -->
 <!-- Acordeon 2 -->
@@ -133,36 +135,36 @@ require_once './controllers/ClienteController.php';
     </h2>
     <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionClientes01">
       <div class="accordion-body">
-		<div class="row control-group container">
-			<div class="row">
-				<label class="col-3">Nombre:</label>
-				<input  class= "col-9" type="text" id="nombreRepre" name ="nombreRepre" value ="<?php echo $nombreRepre ?>">
-			</div>
-			<div class="row">
-				<label class="col-3">Dirección:</label>
-				<input  class= "col" type="text" id="dirRepre" name ="direccionRepre" value ="<?php echo $direccionRepre ?>">>
-			</div>
-			<div class="row">
-				<label class="col-3">Ciudad:</label>
-				<input  class= "col-9" type="text" id="ciudadRepre" name ="ciudadRepre" value ="<?php echo $ciudadRepre ?>">
-			</div>
-			<div class="row">
-				<label class="col-3">Teléfono:</label>
-				<input  class= "col-9" type="text" id="telRepre" name ="telefonoRepre" value ="<?php echo $telefonoRepre ?>">
-			</div>    
-			<div class="row">		
-				<label class="col-3">Celular:</label>
-				<input  class= "col-9" type="text" id="celRepre" name ="celularRepre" value ="<?php echo $celularRepre ?>">
-			</div>
-			<div class="row">
-				<label class="col-3">Email:</label>
-				<input  class= "col-9" type="email" id="emailRepre" name ="emailRepre" value ="<?php echo $emailRepre ?>">
-			</div>
-			<div class="row col-1">
-				<button type="submit" class="btn btn-primary">Guardar</button>
-			</div>              
-		</div>
-     </div>
+        <div class="row control-group container">
+          <div class="row">
+            <label class="col-3">Nombre:</label>
+            <input  class= "col-9" type="text" id="nombreRepre" name ="nombreRepre" value ="<?php echo $nombreRepre ?>">
+          </div>
+          <div class="row">
+            <label class="col-3">Dirección:</label>
+            <input  class= "col" type="text" id="dirRepre" name ="direccionRepre" value ="<?php echo $direccionRepre ?>">>
+          </div>
+          <div class="row">
+            <label class="col-3">Ciudad:</label>
+            <input  class= "col-9" type="text" id="ciudadRepre" name ="ciudadRepre" value ="<?php echo $ciudadRepre ?>">
+          </div>
+          <div class="row">
+            <label class="col-3">Teléfono:</label>
+            <input  class= "col-9" type="text" id="telRepre" name ="telefonoRepre" value ="<?php echo $telefonoRepre ?>">
+          </div>    
+          <div class="row">		
+            <label class="col-3">Celular:</label>
+            <input  class= "col-9" type="text" id="celRepre" name ="celularRepre" value ="<?php echo $celularRepre ?>">
+          </div>
+          <div class="row">
+            <label class="col-3">Email:</label>
+            <input  class= "col-9" type="email" id="emailRepre" name ="emailRepre" value ="<?php echo $emailRepre ?>">
+          </div>
+          <div class="row col-1">
+          <button type="submit" class="btn btn-primary" <?php if ($Autorizacion=='A'){echo 'disabled';}else{echo '';} ?>>Guardar</button>
+          </div>              
+        </div>
+      </div>
     </div>
  </div>
 <!-- Acordeon 2 -->
@@ -175,34 +177,34 @@ require_once './controllers/ClienteController.php';
     </h2>
     <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionClientes01">
       <div class="accordion-body">
-		<div class="row control-group container">
-			<div class="row">
-				<label class="col-4">Nombre:</label>
-				<input  class= "col-8" type="text" id="nombrePagos" name ="nombrePagos" value ="<?php echo $nombrePagos ?>">
-			</div>
-			<div class="row">
-				<label class="col-4">Tel. Oficina:</label>
-				<input  class= "col-8" type="text" id="telOficinaPagos" name ="telOficinaPagos" value ="<?php echo $telOficinaPagos ?>">
-			</div>
-			<div class="row">
-				<label class="col-4">Tel. Particular:</label>
-				<input  class= "col-8" type="text" id="telParticularPagos" name ="telParticularPagos" value ="<?php echo $telParticularPagos ?>">
-			</div>
-			<div class="row">
-				<label class="col-4">Tel. Celular:</label>
-				<input  class= "col-8" type="text" id="telCelularPagos" name ="telCelularPagos" value ="<?php echo $telCelularPagos ?>">
-			</div>
-			<div class="row">
-				<label class="col-4">Email:</label>
-				<input  class= "col-8" type="text" id="emailPagos" name ="emailPagos" value ="<?php echo $emailPagos ?>">
-			</div> 	
-			<div class="row col-1">
-				<button type="submit" class="btn btn-primary">Guardar</button>
-			</div>             
-		</div>
+        <div class="row control-group container">
+          <div class="row">
+            <label class="col-4">Nombre:</label>
+            <input  class= "col-8" type="text" id="nombrePagos" name ="nombrePagos" value ="<?php echo $nombrePagos ?>">
+          </div>
+          <div class="row">
+            <label class="col-4">Tel. Oficina:</label>
+            <input  class= "col-8" type="text" id="telOficinaPagos" name ="telOficinaPagos" value ="<?php echo $telOficinaPagos ?>">
+          </div>
+          <div class="row">
+            <label class="col-4">Tel. Particular:</label>
+            <input  class= "col-8" type="text" id="telParticularPagos" name ="telParticularPagos" value ="<?php echo $telParticularPagos ?>">
+          </div>
+          <div class="row">
+            <label class="col-4">Tel. Celular:</label>
+            <input  class= "col-8" type="text" id="telCelularPagos" name ="telCelularPagos" value ="<?php echo $telCelularPagos ?>">
+          </div>
+          <div class="row">
+            <label class="col-4">Email:</label>
+            <input  class= "col-8" type="text" id="emailPagos" name ="emailPagos" value ="<?php echo $emailPagos ?>">
+          </div> 	
+          <div class="row col-1">
+            <button type="submit" class="btn btn-primary" <?php if ($Autorizacion=='A'){echo 'disabled';}else{echo '';} ?>>Guardar</button>
+          </div>             
+        </div>
       </div>
     </div>
-  </div>
+</div>
 
 <!-- acordeon 3 -->
 <!-- acordeon 4 -->
@@ -220,7 +222,7 @@ require_once './controllers/ClienteController.php';
 			<label >Días y horarios de atención al público:</label>
             <div class="row">
                 <label class="col-3" for="">Lunes de:</label>
-                <input type="time" class ="col-3" name="lunesde" id="lunesde" value="<?php echo $jsonHorario->{'lunesde'};?>">
+                <input type="time" class ="col-3" name="lunesde" id="lunesde"  value="<?php echo $jsonHorario->{'lunesde'};?>">
                 <label class="col-1" for="">a:</label>
                 <input type="time" class ="col-3" name="lunesa" id="lunesa" value="<?php echo $jsonHorario->{'lunesa'};?>">
             </div>
@@ -263,7 +265,7 @@ require_once './controllers/ClienteController.php';
             <div class="row control-group container">
 				<label><strong>¿Su local tiene señalamiento visible al exterior?</strong></label>
 				<div class="form-check">
-					<input class="form-check-input" type="radio" name="localExterior" id="localExterior" value="S" 
+					<input class="form-check-input" type="radio" checked name="localExterior" id="localExterior" value="S" 
 					  <?php if ($exterior=='S'){
 								echo 'Checked';
 							}
@@ -292,7 +294,7 @@ require_once './controllers/ClienteController.php';
 				<label><strong>¿Tiene Sucursales?
 				</strong></label>
 				<div class="form-check">
-					<input class="form-check-input" type="radio" name="localSucursales" id="localSucursales" value="S" 
+					<input class="form-check-input" type="radio"  checked name="localSucursales" id="localSucursales" value="S" 
 					<?php if ($localSucursales=='S'){
 							  echo 'Checked';
 						  }
@@ -321,13 +323,14 @@ require_once './controllers/ClienteController.php';
 					<textarea class="col-10" id="ubicacionsucursales" name ="ubicacionSucursales" 
 					> <?php echo $ubicacionSucursales?></textarea>
 				  <div class="row col-1">
-				    <button type="submit" class="btn btn-primary">Guardar</button>
+				    <button type="submit" class="btn btn-primary" <?php if ($Autorizacion=='A'){echo 'disabled';}else{echo '';} ?>>Guardar</button>
 			  </div>
 				</div>      
 			</div>
 		</div>
 	 </div>
 	</div>
+  
 </div>
 <!-- acordeon 5 -->
 <div class="accordion-item">
@@ -400,11 +403,11 @@ require_once './controllers/ClienteController.php';
           </tbody>
         </table>
         <div class="row col-1">
-				<button type="submit" class="btn btn-primary">Guardar</button>
-			</div>
+				  <button type="submit" class="btn btn-primary" <?php if ($Autorizacion=='A'){echo 'disabled';}else{echo '';} ?>>Guardar</button>
+			  </div>
       </div>
     </div>
-  </div>
+</div>
 
  <!-- acordeon 5 -->
 
@@ -418,43 +421,57 @@ require_once './controllers/ClienteController.php';
     </h2>
     <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionClientes01">
       <div class="accordion-body">
-		<div class="row control-group">
-			Autorizo a TUBAGUA, S.A. a coroborar la información aquí presentada a su entera satisfacción y así
-			mismo declaro que la información proporcionada en esta solicitud es verdadera
-			<table class="table table-success table-striped-columns">
-				<tbody>
-				<thead>
-					<th scope="col">Lugar y Fecha</th>
-					<th scope="col">Firma</th>
-				</thead>
-				<tr>
-
-					<!-- <div id="canvasDiv"></div>
-					<button type="button" class="btn btn-danger" id="reset-btn">Limpiar</button>
-					<button type="button" class="btn btn-success" id="btn-save">Autorizar</button>
-					<input type="hidden" name="signaturesubmit" value="1">
-					<form id="signatureform" action="" style="display:none" method="post">
-            <input type="hidden" id="signature" name="signature">
-            <input type="hidden" name="signaturesubmit" value="1">
-          </form> -->
-           <?php if ($Autorizacion!='A'){?>
-            <form id="signatureform" action="" style="display:none" method="post">
-              <td>
-                <input type="text"name="lugarAutorizacion" id ="lugarAutorizacion"></br>
-                <input type="date"name="fechaAutorizacion" id ="fechaAutorizacion">
-              </td>
-				      <td class = "col-6"> 
-                  <input type="hidden" name="signaturesubmit" value="1">  
-                  <canvas id="signature-pad" width="300" height="150" style="border:1px solid #000;"></canvas>
-                  <button id="save-svg">Autorizar</button>
-                  <textarea  id="svg-data" rows="10" cols="50" name="svg-data" readonly style="display:none"></textarea>
-                  <style>
+		      <div class="row control-group">
+			      Autorizo a TUBAGUA, S.A. a coroborar la información aquí presentada a su entera satisfacción y así
+			      mismo declaro que la información proporcionada en esta solicitud es verdadera
+            <table class="table table-success table-striped-columns">
+              <tbody>
+              <thead>
+                <th scope="col">Lugar y Fecha</th>
+                <th scope="col">Firma</th>
+              </thead>
+              <tr>
+              <?php if ($Autorizacion!='A'){?>
+                <form id="signatureform" action="" style="display:none" method="post">
+                  <td>
+                    <input type="text"name="lugarAutorizacion" id ="lugarAutorizacion"></br>
+                    <input type="date"name="fechaAutorizacion" id ="fechaAutorizacion">
+                  </td>
+                  <td class = "col-6"> 
+                    <input type="hidden" name="signaturesubmit" value="1">  
+                    <canvas id="signature-pad" width="300" height="150" style="border:1px solid #000;"></canvas>
+                    <button id="save-svg">Autorizar</button>
+                    <textarea  id="svg-data" rows="10" cols="50" name="svg-data" readonly style="display:none"></textarea> 
+                  </td>
+                </form>
+                  <?php 
+                    }else{            
+                  ?>
+                  <td>
+                      <input type="text"name="lugarAutorizacion" id ="lugarAutorizacion" value = "<?php echo $lugarAutorizacion ?>"></br>
+                      <input type="date"name="fechaAutorizacion" id ="fechaAutorizacion" value = "<?php echo $fechaAutorizacion ?>">      
+                  </td>
+				         <td class = "col-6"> 
+                    <img src="<?php echo $firma ?>" width="300" height="150" style="border:1px solid #000;">
+                    <!-- <img src="<?php echo $firma ?>" alt=""> -->
+                  </td>
+              <?php } ?>
+			      	</tbody>
+			      </table>
+          </div>
+       </div>
+  </div>
+ </div>
+ <!-- acordeon 6 -->
+ </form>
+  <style>
+    
                     body {
-                      display: flex;
+                      /* display: flex;
                       flex-direction: column;
                       align-items: center;
                       justify-content: center;
-                      height: 100vh;
+                      height: 100vh; */
                       margin: 0;
                       font-family: Arial, sans-serif;
                       }
@@ -464,7 +481,7 @@ require_once './controllers/ClienteController.php';
                       }
 
                       textarea {
-                          margin-top: 20px;
+                          /* margin-top: 20px; */
                           width: 400px;
                       }
                   </style>
@@ -478,33 +495,6 @@ require_once './controllers/ClienteController.php';
                         });
                   </script>
                   <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
-              </td>
-            </form>
-            <?php 
-              }else{            
-            ?>
-            <td>
-                <input type="text"name="lugarAutorizacion" id ="lugarAutorizacion" value = "<?php echo $lugarAutorizacion ?>"></br>
-                <input type="date"name="fechaAutorizacion" id ="fechaAutorizacion" value = "<?php echo $fechaAutorizacion ?>">
-              
-              </td>
-				      <td class = "col-6"> 
-                  <img src="<?php echo $firma ?>" width="300" height="150" style="border:1px solid #000;">
-                  <!-- <img src="<?php echo $firma ?>" alt=""> -->
-                  </canvas>  
-              </td>
-              
-          <?php 
-              }            
-            ?>
-</tr>
-				</tbody>
-			</table>
-      </div>
-    </div>
-  </div>
- </div>
- <!-- acordeon 6 -->
-  </form>
+</div>
 </div>
 </main>

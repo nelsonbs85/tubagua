@@ -1,8 +1,8 @@
 <?php
 
     require_once 'controllers/ClienteController.php';
-//    require "base64";
-
+//    require "base64"
+//var_dump($_POST);
    
     if(isset($_POST['signaturesubmit'])){ 
         $signature = $_POST['svg-data'];  
@@ -10,15 +10,15 @@
         $fechaAutorizacion = $_POST['fechaAutorizacion'];  
         $lugarAutorización = $_POST['lugarAutorizacion'];  
     } else {
-        $signature = "" ; //$_POST['svg-data'];  
-        $Autorizado = '';
-        $fechaAutorizacion = '';
-        $lugarAutorización = '';
+    //    $signature = "" ; //$_POST['svg-data'];  
+      //  $Autorizado = '';
+        //$fechaAutorizacion = '';
+        //$lugarAutorización = '';
     }
-    //var_dump($_POST);
+    
     $objeto = new ClienteController();
     $id = $_POST['idform'];
-    
+   
     $dias = array(
         'lunesde' => $_POST['lunesde'],
         'martesde' => $_POST['martesde'],
@@ -36,6 +36,7 @@
         'domingoa' => $_POST['domingoa'],
     );
 
+    
     $referencias = array(
         'emp1' => $_POST['emp1'],        
         'cnt1' => $_POST['cnt1'],        

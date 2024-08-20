@@ -96,7 +96,7 @@ class ClienteModel extends DB {
 		try {
 			//$insertar = $db->insertar('form_clientes', $datos);
 			$query= "INSERT INTO form_clientes  (idCliente,montoSolicitado, fechaSolicitud,tipoFact,nitCliente,dpiRepresentanteLegal,razonSocialCliente,nombreComercial,
-			direccionCliente, telefonoCliente, usuario_created)
+			direccionCliente, telefonoCliente, usuario_created,horarios, referencias)
 			VALUES (" .$datos['idCliente']
 			. ", " .$datos['montoSolicitado'] 
 			. ", '" .$datos['fechaSolicitud'] 
@@ -108,6 +108,8 @@ class ClienteModel extends DB {
 			. "', '" .$datos['direccionCliente']
 			. "', '" .$datos['telefonoCliente']
 			. "', '" .$datos['usuario']
+			. "', '" .$datos['horarios']
+			. "', '" .$datos['referencias']
 			. "')";
 			$resultado = $conn->query($query);
 		} catch (PDOException $e) {

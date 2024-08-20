@@ -85,7 +85,7 @@ class ClienteController {
 			$respuesta['mensaje'] = "Registro insertado correctamente";
 			$respuesta['codigo'] = 200;
 			echo json_encode($respuesta, JSON_PRETTY_PRINT);
-			header('Location: index.php?page=edcliente');
+			header('Location: index.php?page=listacliente');
 		//}
 	}
 

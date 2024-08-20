@@ -6,7 +6,7 @@
         $usuario->cerrarSesion();
     }
 ?>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<nav class="navbar navbar-fixed-top navbar-expand-md navbar-dark bg-dark">
          <div class="container">
             <a class="navbar-brand" href="index.php?page=inicio">
 			<?php echo "Inicio"; ?></a>
@@ -36,5 +36,12 @@
             </div>
          </div>
       </nav>
+      <style>
+        #header{
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        }
+        </style>
   
 <!-- <div class="mb-1 pb-1"></div> -->

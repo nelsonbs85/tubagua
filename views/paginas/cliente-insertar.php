@@ -3,8 +3,50 @@ $usuario_id = $_SESSION['id_usuario'];
 	require_once 'controllers/ClienteController.php';
 
 	$objeto = new ClienteController();
+	$dias = array (
+		'lunesa'=> '00:00',
+		'juevesa'=> '00:00',
+		'lunesde'=> '00:00',
+		'martesa'=> '00:00',
+		'sabadoa'=> '00:00',
+		'domingoa'=> '00:00',
+		'juevesde'=> '00:00',
+		'martesde'=> '00:00',
+		'sabadode'=> '00:00',
+		'viernesa'=> '00:00',
+		'domingode'=> '00:00',
+		'viernesde'=> '00:00',
+		'miercolesa'=> '00:00',
+		'miercolesde'=> '00:00'
+	);
 
+	$referencias = array( 'cnt1'=> '',
+    'cnt2'=> '',
+    'cnt3'=> '',
+    'dir1'=> '',
+    'dir2'=> '',
+    'dir3'=> '',
+    'emp1'=> '',
+    'emp2'=> '',
+    'emp3'=> '',
+    'tel1'=> '',
+    'tel2'=> '',
+    'tel3'=> '',
+    'city1'=> '',
+    'city2'=> '',
+    'city3'=> '',
+    'email1'=> '',
+    'email2'=> '',
+    'email3'=> '');
+	
+    $json2= json_encode($referencias);
+    $json_referencias = json_decode($json2,true);
+  //var_dump($json2);
 	$clienteid= $objeto->obtenerClienteSig();
+	
+    $json = json_encode($dias);
+    $object = json_decode($json,true);
+
 	$datos = array(
 		'idCliente'   => $clienteid, //htmlentities, limites caracteres y toda la seguridad...
         'montoSolicitado'   => $_POST['monto'],
@@ -17,7 +59,11 @@ $usuario_id = $_SESSION['id_usuario'];
         'direccionCliente'   => $_POST['direccion'],
         'telefonoCliente'   => $_POST['tel'],
 		'usuario'   => $usuario_id,
+		'horarios' => $json,
+		'referencias' => $json2,
 	);
+
+	var_dump($datos);
     //$respuesta['mensaje'] = $datos;
     //validaciones: campo vacio, tipo de dato, comparacion con otros campos del formulario...
 	if (empty($datos['idCliente'])) {

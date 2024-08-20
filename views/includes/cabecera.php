@@ -32,6 +32,7 @@
 
   <!--[if lt IE 9]><script src="../assets/flashcanvas.js"></script><![endif]-->
 </head>
+
 <script>
         $(document).ready(function(){  
       $('#solicitud').DataTable();  
