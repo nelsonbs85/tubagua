@@ -58,7 +58,7 @@ $usuario_id = $_SESSION['id_usuario'];
         'nombreComercial'   => $_POST['nombreComercial'],
         'direccionCliente'   => $_POST['direccion'],
         'telefonoCliente'   => $_POST['tel'],
-		'usuario'   => $usuario_id,
+		'usuario'   => $_POST['nick'],
 		'horarios' => $json,
 		'referencias' => $json2,
 	);

@@ -16,14 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
-   <style>
-        #canvasDiv{
-            position: relative;
-            border: 2px dashed grey;
-            height:100px;
-        }
-    </style> 
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@5.0.2/dist/signature_pad.umd.min.js" integrity="sha256-qeL5hv3MZ3rdqyLkH6eoAdX7qr6UAoTNTB07xP7bnvI=" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/signature_pad@5.0.2/dist/signature_pad.umd.min.js" integrity="sha256-qeL5hv3MZ3rdqyLkH6eoAdX7qr6UAoTNTB07xP7bnvI=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="js/DataTables/datatables.min.css" />
     <script src="https://cdn.datatables.net/v/dt/dt-2.1.3/datatables.min.js"></script>
     <!-- data table local -->
