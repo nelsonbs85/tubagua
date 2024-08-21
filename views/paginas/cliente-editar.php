@@ -4,17 +4,17 @@
 //    require "base64"
 //var_dump($_POST);
    
-    if(isset($_POST['signaturesubmit'])){ 
-        $signature = $_POST['svg-data'];  
-        $Autorizado = 'A';
-        $fechaAutorizacion = $_POST['fechaAutorizacion'];  
-        $lugarAutorización = $_POST['lugarAutorizacion'];  
-    } else {
-    //    $signature = "" ; //$_POST['svg-data'];  
-      //  $Autorizado = '';
-        //$fechaAutorizacion = '';
-        //$lugarAutorización = '';
-    }
+    // if(isset($_POST['signaturesubmit'])){ 
+    //     $signature = $_POST['svg-data'];  
+    //     $Autorizado = 'A';
+    //     $fechaAutorizacion = $_POST['fechaAutorizacion'];  
+    //     $lugarAutorización = $_POST['lugarAutorizacion'];  
+    // } else {
+    // //    $signature = "" ; //$_POST['svg-data'];  
+    //   //  $Autorizado = '';
+    //     $fechaAutorizacion = '';
+    //     $lugarAutorización = '';
+    // }
     
     $objeto = new ClienteController();
     $id = $_POST['idform'];
@@ -102,10 +102,10 @@
             'ubicacionSucursales' => $_POST['ubicacionSucursales'],
             //5 referencias
             'referencias' => $json2,
-            'firma' => $signature,
+            /*'firma' => $signature,
             'fechaAutorizacion' => $fechaAutorizacion,
             'lugarAutorizacion' => $lugarAutorización,
-            'Autorizado' => $Autorizado,
+            'Autorizado' => $Autorizado,*/
             
 	);
         

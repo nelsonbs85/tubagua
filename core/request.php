@@ -12,6 +12,8 @@ if (!empty($page)) {
 		'error' 			=> array('model' => 'UsuarioModel',	'view' => 'error', 	'controller' => 'InicioController'), 
 		'cliente-insertar' 	=> array('model' => 'ClienteModel',	'view' => 'clienteInsertar', 	'controller' => 'ClienteController'), 
 		'cliente-editar' 	=> array('model' => 'ClienteModel',	'view' => 'clienteEditar', 	'controller' => 'ClienteController'), 
+		'subir-archivo' 	=> array('model' => 'ClienteModel',	'view' => 'archivoInsertar', 	'controller' => 'ClienteController'), 
+		'autoriza-form' 	=> array('model' => 'ClienteModel',	'view' => 'autoriza', 	'controller' => 'ClienteController'), 
 
 	);
 

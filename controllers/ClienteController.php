@@ -78,6 +78,25 @@ class ClienteController {
 		//	die();
 	//	}
 	}
+
+	public function autoriza() {
+		//$nivelAcceso = $this->obtenerNivel();
+	////	if ($nivelAcceso >= 2){
+			require_once('./views/paginas/autoriza-form.php');
+		//}else{
+		//	header('Location: index.php?page=error');
+		//	die();
+	//	
+	}
+	public function archivoInsertar() {
+		//$nivelAcceso = $this->obtenerNivel();
+	////	if ($nivelAcceso >= 2){
+			require_once('./views/paginas/subir-archivo.php');
+		//}else{
+		//	header('Location: index.php?page=error');
+		//	die();
+	//	}
+	}
 	public function insertarCliente($datos) {
 
 			$cliente = new ClienteModel();
@@ -119,8 +138,16 @@ class ClienteController {
 		$cliente = new ClienteModel();
 		return $cliente->obtenerClienteSig();
 	}
-
-
+	public function subirArchivo($id, $orden,$datos) {
+		$clientes = new ClienteModel();
+		$clientes->subirArchivo($id, $orden,$datos);
+		header('Location: index.php?page=edcliente&id=' .$id);
+	}
+	public function autorizaForm($id, $datos) {
+		$clientes = new ClienteModel();
+		$clientes->autorizaForm($id,$datos); 
+		header('Location: index.php?page=edcliente&id=' .$id);
+	}
 	public function obtenerFormulario($id) {
 		$clientes = new ClienteModel();
 		return $clientes->obtenerFormulario($id);

@@ -1,5 +1,6 @@
 <?php
 require_once 'ModeloBase.php';
+error_reporting(E_ALL);
 
 require_once './libs/DB.php';
 
@@ -48,6 +49,23 @@ class ClienteModel extends DB {
 
 		
 	}
+	
+	public function autorizaForm($id,$datos) {
+		
+		$conn = new DB();
+		try {
+			//$insertar = $db->insertar('form_clientes', $datos);
+			$query= "UPDATE form_clientes 
+			SET firma='" .$datos['firma']		
+			. "', fechaAutorizacion='" .$datos['fechaAutorizacion']		
+			. "', lugarAutorizacion='" .$datos['lugarAutorizacion']		
+			. "', Autorizado='" .$datos['Autorizado']
+			. "' WHERE idform =" .$id;
+			$resultado = $conn->query($query);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
 	public function editarFormulario($id,$datos) {
 		$conn = new DB();
 		try {
@@ -80,11 +98,7 @@ class ClienteModel extends DB {
             . "', localSucursales='" .$datos['localSucursales']
             . "', localCuantos='" .$datos['localCuantos']
             . "', ubicacionSucursales='" .$datos['ubicacionSucursales']
-            . "', referencias='" .$datos['referencias']		
-			. "', firma='" .$datos['firma']		
-			. "', fechaAutorizacion='" .$datos['fechaAutorizacion']		
-			. "', lugarAutorizacion='" .$datos['lugarAutorizacion']		
-			. "', Autorizado='" .$datos['Autorizado']		
+            . "', referencias='" .$datos['referencias']				
 			. "' WHERE idform =" .$id;
 			$resultado = $conn->query($query);
 		} catch (PDOException $e) {
@@ -130,6 +144,27 @@ class ClienteModel extends DB {
 		$db = new ModeloBase();
 		try {
 			$eliminar = $db->eliminar('form_clientes', $id);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+	public function subirArchivo($id,$orden,$datos) {
+		$conn = new DB();
+		$campo = "";
+		switch($orden){
+			case 1 : $campo = 'fileRTU';break;
+			case 2 : $campo = 'filePatente';break;
+			case 3 : $campo = 'fileReferencia1';break;
+			case 4 : $campo = 'fileReferencia2';break;
+			case 5 : $campo = 'fileReferencia3';break;
+		}
+		
+		try {
+			//$insertar = $db->insertar('form_clientes', $datos);
+			$query= "UPDATE form_clientes SET " .$campo ." = '" .$datos['file'] 
+			
+			. "' WHERE idform =" .$id;
+			$resultado = $conn->query($query);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}

@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+
 $usuario_id = $_SESSION['id_usuario'];
 // $permisos = $objPermiso->obtenerPermisos($usuario_id);
 $idform =(int)$_GET["id"];
@@ -41,6 +43,11 @@ require_once './controllers/ClienteController.php';
   $fechaAutorizacion = $row[30];
   $Autorizacion = $row[31];
   $firma = $row[32];
+  $rtu = $row[33];
+  $patente = $row[34];
+  $refe1 = $row[35];
+  $refe2 = $row[36];
+  $refe3 = $row[37];
   //var_dump($jsonHorario->{'lunesde'});
 }
 
@@ -327,7 +334,7 @@ require_once './controllers/ClienteController.php';
         <div class="row">
           <label class="col">Ubicación de Sucursales:	</label>
           <textarea class="col form-control"cols="10" rows="3" id="ubicacionsucursales" name ="ubicacionSucursales" 
-			    > <?php echo $ubicacionSucursales?></textarea>
+			    > <?php echo trim($ubicacionSucursales)?></textarea>
         </div>
         <div class="col-2">
             <button type="submit" class="btn btn-primary" <?php if ($Autorizacion=='A'){echo 'disabled';}else{echo '';} ?>>Guardar</button>
@@ -414,7 +421,99 @@ require_once './controllers/ClienteController.php';
 </div>
 
  <!-- acordeon 5 -->
-
+ <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+       data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+        <h4>Requisitos Adicionales</h4>
+      </button>
+    </h2>
+    <div id="collapseSeven" class="accordion-collapse collapse container" data-bs-parent="#accordionClientes01">
+      <div class="accordion-body">
+      <table class="table table-success table-striped-columns">
+        <tbody>
+          <td>
+            Copia del RTU
+          </td>
+          <td>
+            <form action="index.php?page=subir-archivo"  method="POST" enctype="multipart/form-data">
+              <input type="hidden" name ="orden" id="orden" value = '1'>
+              <input type="hidden" name ="id" id="id" value = "<?php echo $idform;?>">
+            <?php if (!$rtu) { ?>
+              <input class="btn btn-secondary" type="file" name="uploadfile" id= "uploadfile" >
+              <input class="btn btn-primary"  type="submit" name="submit" value="Subir Archivo"
+              <?php if ($rtu) { echo 'disabled';}?>>
+            </form>
+          </td>
+          <td>
+          
+            <i class="bi bi-ban"></i>
+          <?php }else{ ?>
+            <i class="bi bi-check-circle-fill"></i>
+          <?php } ?>
+          </td>
+        </tr>
+        <td>
+            Patente de Comercio y Empresa
+          </td>
+          <td>
+            <form action="subir.php" method="post" enctype="multipart/form-data">
+              <input type="file" name="patente" >
+              <input type="submit" value="Subir Archivo">
+            </form>
+          </td>
+          <td>
+            <i class="bi bi-ban"></i>
+          </td>
+        </tr>
+        <td>
+            Referencia # 1
+          </td>
+          <td>
+            <form action="subir.php" method="post" enctype="multipart/form-data">
+              <input type="file" name="referencia1" >
+              <input type="submit" value="Subir Archivo">
+            </form>
+          </td>
+          <td>
+            <i class="bi bi-ban"></i>
+          </td>
+        </tr>    
+        </tr>
+        <td>
+            Referencia # 2
+          </td>
+          <td>
+            <form action="subir.php" method="post" enctype="multipart/form-data">
+              <input type="file" name="referencia2" >
+              <input type="submit" value="Subir Archivo">
+            </form>
+          </td>
+          <td>
+            <i class="bi bi-ban"></i>
+          </td>
+        </tr>    
+        </tr>
+        <td>
+            Referencia # 3
+          </td>
+          <td>
+            <form action="subir.php" method="post" enctype="multipart/form-data">
+              <input type="file" name="referencia3" >
+              <input type="submit" value="Subir Archivo">
+            </form>
+          </td>
+          <td>
+            <i class="bi bi-ban"></i>
+          </td>
+        </tr>    
+        
+        </tbody>
+      </table>
+ 
+      </div>
+    </div>
+</div>
  <!-- acordeon 6 -->
  <div class="accordion-item">
     <h2 class="accordion-header">
@@ -425,9 +524,11 @@ require_once './controllers/ClienteController.php';
     </h2>
     <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionClientes01">
       <div class="accordion-body">
-		      <div class="row control-group">
+		      <div class="row control-group container">
+        
 			      Autorizo a TUBAGUA, S.A. a coroborar la información aquí presentada a su entera satisfacción y así
 			      mismo declaro que la información proporcionada en esta solicitud es verdadera
+            
             <table class="table table-success table-striped-columns">
               <tbody>
               <thead>
@@ -436,8 +537,10 @@ require_once './controllers/ClienteController.php';
               </thead>
               <tr>
               <?php if ($Autorizacion!='A'){?>
-                <form id="signatureform" action="" style="display:none" method="post">
+                <form id="signatureform" action="index.php?page=autoriza-form" method="POST">
                   <td>
+                  <input  class="form-control" type  ="hidden" value =" <?php echo $idform?>" name="idform" id ="idform" >
+
                     <input  class="form-control" type ="text"name="lugarAutorizacion" id ="lugarAutorizacion"></br>
                     <input  class="form-control" type ="date"name="fechaAutorizacion" id ="fechaAutorizacion">
                   </td>
@@ -445,13 +548,22 @@ require_once './controllers/ClienteController.php';
                     <input  class="form-control" type ="hidden" name="signaturesubmit" value="1">  
                     <canvas id="signature-pad"  style="border:1px solid #000;"></canvas>
                     <!-- <button id="save-svg">Autorizar</button> -->
-                    <textarea  id="svg-data"  name="svg-data" readonly style="display:none"></textarea> 
-                  
-                    <div>                    
-                        <button type="submit" id="save-svg" class="btn btn-primary" >Autorizar</button>
+                    <textarea  id="svg-data"  name="svg-data" readonly style="display:none"></textarea>                   
+                    <div class="row">
+                        <div class="col-2">
+                          <button type="submit" id="save-svg" class="btn btn-primary" >Autorizar</button>                 
+                        </div>    
+              </form>
+                        <div class="col-2"></div>
+                
+                        <div class="col-2">
+                          <button type="submit" id="clear-svg" class="btn btn-danger" >Limpiar</button>
+                        </div> 
+                        
                     </div>
+                    
                   </td>
-                </form>
+                  
                   <?php 
                     }else{            
                   ?>
@@ -460,9 +572,13 @@ require_once './controllers/ClienteController.php';
                       <input  class="form-control" type ="date"name="fechaAutorizacion" id ="fechaAutorizacion" value = "<?php echo $fechaAutorizacion ?>">      
                   </td>
 				         <td class = "col"> 
-                    <img src="<?php echo $firma ?>" width="100%" height="100%" style="border:1px solid #000;">
+                    <div class ="">
+                     <img src="<?php echo $firma ?>" width="100%" height="100%" style="border:1px solid #000; background-size:cover">
+                    </div>
+                    
                     <!-- <img src="<?php echo $firma ?>" alt=""> -->
                   </td>
+                  
               <?php } ?>
 			      	</tbody>
 			      </table>
@@ -471,7 +587,7 @@ require_once './controllers/ClienteController.php';
   </div>
  </div>
  <!-- acordeon 6 -->
- </form>
+ 
   <style>
     
                     body {
@@ -479,10 +595,17 @@ require_once './controllers/ClienteController.php';
                       flex-direction: column;
                       align-items: center;
                       justify-content: center;
-                     /* height: 100vh; */
+                    height: 100vh; 
                       margin: 0;
                       font-family: Arial, sans-serif;
                       }
+                      .svg-background {
+                      width: 300px;
+                      height: 200px;
+                      background-image: url('<?php echo $firma ?>');
+                      background-size: contain;
+                      background-repeat: no-repeat;
+                  }
 
                       canvas {
                           /* margin-bottom: 20px; */
@@ -501,8 +624,15 @@ require_once './controllers/ClienteController.php';
                             const svgData = signaturePad.toDataURL('image/svg+xml');
                             document.getElementById('svg-data').value = svgData;
                         });
+                        document.getElementById('clear-svg').addEventListener('click', () => {
+                          //  const svgData = signaturePad.toDataURL('image/svg+xml');
+                            //document.getElementById('svg-data').value = svgData;
+                            const context = canvas.getContext('2d');
+                            context.clearRect(0, 0, canvas.width, canvas.height);
+                        });
                   </script>
                   <!-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script> -->
 </div>
+</form>
 </div>
 </main>
