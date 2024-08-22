@@ -1,21 +1,32 @@
 <?php
     require_once 'controllers/ClienteController.php';
     $objeto = new ClienteController();
-    $id = $_POST['id'];
+    $id = $_POST['idForm'];
 	$orden= $_POST['orden'];
-//	var_dump($_POST);
+    switch($orden){
+        case 1 : $campo = 'RTU';break;
+        case 2 : $campo = 'Patente';break;
+        case 3 : $campo = 'Ref1';break;
+        case 4 : $campo = 'Ref2';break;
+        case 5 : $campo = 'Ref3';break;
+    }
  /*SUBIR ARCHIVOS*/ 
      $dir="files/" .$id;
     if (!file_exists($dir)) {
         mkdir($dir, 0777, true);
     }
- $archivo = $dir ."/" .basename($_FILES['uploadfile']['name']);
+    $file = pathinfo($_FILES['uploadfile']["name"]);
+
+    $extension = $file['extension'];
+
+ //$archivo = $dir ."/" .basename($_FILES['uploadfile']['name']);
+ $archivo = $dir ."/" .$campo ."." .$extension;
  move_uploaded_file($_FILES['uploadfile']["tmp_name"],$archivo);
 
      // Preparar la consulta SQL
        
     $datos = array(
-        'idform' => $_POST['id'],            
+        'idform' => $_POST['idForm'],            
 		'orden' => $_POST['orden'],            
 		'file' => $archivo,            
 	);

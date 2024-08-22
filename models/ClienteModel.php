@@ -161,9 +161,7 @@ class ClienteModel extends DB {
 		
 		try {
 			//$insertar = $db->insertar('form_clientes', $datos);
-			$query= "UPDATE form_clientes SET " .$campo ." = '" .$datos['file'] 
-			
-			. "' WHERE idform =" .$id;
+			$query= "UPDATE form_clientes SET " .$campo ." = '" .$datos['file'] . "' WHERE idform =" .$id;
 			$resultado = $conn->query($query);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
