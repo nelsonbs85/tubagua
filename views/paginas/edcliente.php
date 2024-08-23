@@ -52,8 +52,9 @@ require_once './controllers/ClienteController.php';
 
 ?>
 <main role="main" class="container">
-	<div class="row-2" style="height: 100px;"></div>
+	<!-- <div class="row-2" style="height: 100px;"></div> -->
 	<div class="row-2">
+  <span class="badge text-bg-warning"><?php echo "Solicitud #" .$_GET["id"]; ?></span>
 		<div class="accordion" id="accordionClientes01">
 			<form action="index.php?page=cliente-editar" method="POST">
 				<div class="accordion-item">
@@ -61,13 +62,12 @@ require_once './controllers/ClienteController.php';
 						<button class="accordion-button" type="button" data-bs-toggle="collapse" 
 						data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">		  
 							<h4 class= "col-10">1. Datos de la Empresa Solicitante: </h4>
-							<h4 class= "col-2"> <span class="badge text-bg-warning"><?php echo "Solicitud #" .$_GET["id"]; ?></span></h4>
 						</button>
 					</h2>
 					<input  class="form-control" type  ="hidden" value =" <?php echo $idform?>" name="idform" id ="idform" >
 					<div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionClientes01">
 						<div class="accordion-body">
-							<div class="row">
+							<div class="row form-group container">
 								<span class="text-bg-success"><h4><strong>Solicitud de Crédito</strong></h4> </span> 
 								<div class="col">
 									<label>Monto Solicitado:</label>
@@ -77,59 +77,61 @@ require_once './controllers/ClienteController.php';
 									<label>Fecha:</label>
 									<input  class="form-control col" type ="date" name= "fecha" id ="fecha" value ="<?php echo $fechaSolicitud ?>">
                 </div>
-						</div>
-					</div>
-					<div class="row control-group container">
-							<label><strong>Tipo de Facturación:</strong></label>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="tipoPersona" id="tipoPersona" value="N" 
-									<?php if ($tipoFact=='N'){
-										echo 'Checked';
-										}
-									?>
-								>
-								<label class="form-check-label" for="exampleRadios1">
-									Persona Natural
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="tipoPersona" checked id="TipoPersona" value="J"
-									<?php if ($tipoFact=='J'){
-									echo 'Checked';
-									}
-								?>
-								>
-								<label class="form-check-label" for="exampleRadios2">
-									Persona Jurídica
-								</label>
-							</div>            
-							<div class="row">
-								<label class="col">NIT:</label>
-								<input  class="col form-control"   type="text" id="nit" name ="nit" value ="<?php echo $nitCliente ?>">
-							</div>    
-							<div class="row">
-								<label class="col">DPI Representante Legal:</label>
-								<input  class="col form-control"   type="text" id="dpiRepre" name ="dpiRepre" value ="<?php echo $dpiRepresentanteLegal ?>">
-							</div>
-							<div class="row">
-								<label class="col">Nombre o Razón Comercial:</label>
-								<input  class= "col form-control" type="text" id="razon" name ="razon" value ="<?php echo $razonSocialCliente ?>">
-							</div>
-							<div class="row">
-								<label class="col ">Nombre Comercial:</label>
-								<input  class= "col form-control" type="text" id="nombreComercial" name ="nombreComercial" value ="<?php echo $razonSocialCliente ?>">
-							</div>
-							<div class="row">
-								<label class="col">Dirección:</label>
-									<input  class= "col form-control" type="text" id="direccion" name ="direccion" value ="<?php echo $direccionCliente ?>">
-							</div>
-							<div class="row">
-								<label class="col">Teléfono:</label>
-								<input  class= "col form-control" type="text" id="tel" name ="tel" value ="<?php echo $telefonoCliente ?>">
-							</div>
-						</div>
-						<button type="submit" class="btn btn-primary" <?php if ($Autorizacion=='A'){echo 'disabled';}else{echo '';} ?>>Guardar</button>
-					</div>       
+						  </div>
+					
+              <div class="row form-group container">
+                  <label><strong>Tipo de Facturación:</strong></label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipoPersona" id="tipoPersona" value="N" 
+                      <?php if ($tipoFact=='N'){
+                        echo 'Checked';
+                        }
+                      ?>
+                    >
+                    <label class="form-check-label" for="exampleRadios1">
+                      Persona Natural
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipoPersona" checked id="TipoPersona" value="J"
+                      <?php if ($tipoFact=='J'){
+                      echo 'Checked';
+                      }
+                    ?>
+                    >
+                    <label class="form-check-label" for="exampleRadios2">
+                      Persona Jurídica
+                    </label>
+                  </div>            
+                  <div class="row">
+                    <label class="col">NIT:</label>
+                    <input  class="col form-control"   type="text" id="nit" name ="nit" value ="<?php echo $nitCliente ?>">
+                  </div>    
+                  <div class="row">
+                    <label class="col">DPI Representante Legal:</label>
+                    <input  class="col form-control"   type="text" id="dpiRepre" name ="dpiRepre" value ="<?php echo $dpiRepresentanteLegal ?>">
+                  </div>
+                  <div class="row">
+                    <label class="col">Nombre o Razón Comercial:</label>
+                    <input  class= "col form-control" type="text" id="razon" name ="razon" value ="<?php echo $razonSocialCliente ?>">
+                  </div>
+                  <div class="row">
+                    <label class="col ">Nombre Comercial:</label>
+                    <input  class= "col form-control" type="text" id="nombreComercial" name ="nombreComercial" value ="<?php echo $razonSocialCliente ?>">
+                  </div>
+                  <div class="row">
+                    <label class="col">Dirección:</label>
+                      <input  class= "col form-control" type="text" id="direccion" name ="direccion" value ="<?php echo $direccionCliente ?>">
+                  </div>
+                  <div class="row">
+                    <label class="col">Teléfono:</label>
+                    <input  class= "col form-control" type="text" id="tel" name ="tel" value ="<?php echo $telefonoCliente ?>">
+                  </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" <?php if ($Autorizacion=='A'){echo 'disabled';}else{echo '';} ?>>Guardar</button>
+              </div>   
+          </div>    <!-- acordion body  -->
 				</div><!-- acordion item 1  -->
       <!-- acordeon 2 -->
         <div class="accordion-item">

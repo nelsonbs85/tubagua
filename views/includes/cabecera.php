@@ -17,7 +17,7 @@
 <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/signature_pad@5.0.2/dist/signature_pad.umd.min.js" integrity="sha256-qeL5hv3MZ3rdqyLkH6eoAdX7qr6UAoTNTB07xP7bnvI=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="js/DataTables/datatables.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="js/DataTables/datatables.min.css" /> -->
     <script src="https://cdn.datatables.net/v/dt/dt-2.1.3/datatables.min.js"></script>
     <!-- data table local -->
     <!--- signature -->
@@ -28,7 +28,18 @@
 
 <script>
         $(document).ready(function(){  
-      $('#solicitud').DataTable();  
+      $('#solicitud').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+        },
+        "order": [[ 0, "desc" ]],
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    }); 
+       
+
  });  </script>
 <body>
   

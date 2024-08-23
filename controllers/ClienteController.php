@@ -74,7 +74,7 @@ class ClienteController {
 	////	if ($nivelAcceso >= 2){
 			require_once('./views/paginas/cliente-editar.php');
 		//}else{
-		//	header('Location: index.php?page=error');
+		//-	header('Location: index.php?page=error');
 		//	die();
 	//	}
 	}

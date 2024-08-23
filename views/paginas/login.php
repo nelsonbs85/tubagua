@@ -17,10 +17,11 @@
 
 	<main role="main" class="container">
 
-		<div class="starter-template">
-			<h1 class="text-center">CRM Vendedores</h1>
+		<div class="starter-template col-md-6" style="text-align: center;" >
+			<img src="./assets/logo.png" style="width: 25%; heigth:auto; " alt="" >
+			<h4 class="text-center">CRM Vendedores</h4>
 			<hr>
-			<div class="row">
+			<div class="row" style="text-align: center;" >
 				<div class="col-md-6 offset-3">
 					<?php
 						if (isset($_GET['mensaje'])) {
@@ -29,7 +30,9 @@
 					?>
 				</div>
 			</div>
-			<div class="col-md-6 offset-3">
+		</div>
+		<div >
+			<div class="col-md-6" >
 				<form action="index.php?page=login" method="POST" name="loginForm" id="loginForm" class="text-left">
 					<div class="form-group">
 						<label for="nick">Usuario</label>

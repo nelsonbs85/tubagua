@@ -14,7 +14,7 @@ class ClienteModel extends DB {
 
 	public function obtenerClientes() {
 		$db = new ModeloBase();
-		$query = "SELECT * FROM form_clientes ORDER BY idCliente";
+		$query = "SELECT * FROM form_clientes ORDER BY fechaSolicitud desc";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}

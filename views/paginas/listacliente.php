@@ -10,7 +10,7 @@ $clientes = $listaClientes->obtenerClientes();
  
 <main role="main" class="container">
 
-<h5>Listado de solicitudes usuario: <?php echo $usuario?></h5>
+<h1 class="align-center" >Listado de solicitudes usuario:<h1><h3><?php echo $_SESSION['nombre']?></h3>
 <div class="panel-body p-20">
     <div class="table-responsive">
     <table id="solicitud" class="responsive table table-striped table-bordered display">     
@@ -18,6 +18,7 @@ $clientes = $listaClientes->obtenerClientes();
                 <th>#</th>
                 <th>Nit</th>
                 <th>Razón Social</th>
+                <th>Fecha Sol.</th>
                 <th>Monto</th>
                 <th> Acción</th>
             </thead>
@@ -30,6 +31,7 @@ $clientes = $listaClientes->obtenerClientes();
                     <td><?php echo $row[0];?></td>
                     <td><?php echo $row[5];?></td>
                     <td><?php echo $row[7];?></td>
+                    <td><?php echo $row[3];?></td>
                     <td><?php echo $row[2];?></td>
                     <td>
                         <?php if ($row[31]!='A'){?>
@@ -37,8 +39,8 @@ $clientes = $listaClientes->obtenerClientes();
                             <a  class="btn btn-warning"href=" index.php?page=edcliente&id=<?php echo $row[0]; ?>">Editar</a>
                         
                         <?php }else{?>
-                            Estado Autorizada<br>
-                            <a  class="btn btn-success "
+                            Estado Completada<br>
+                            <a  class="btn btn-primary "
                              href=" index.php?page=edcliente&id=<?php echo $row[0]; ?>">Ver</a>
                         <?php }?>
                     </td>
