@@ -588,7 +588,8 @@ require_once './controllers/ClienteController.php';
                   </td>
 				         <td class = "col"> 
                     <div class ="">
-                     <img src="<?php echo $firma ?>" width="100%" height="100%" style="border:1px solid #000; background-size:cover">
+                    <?php echo $firma ?>
+                     <!-- <img src="<?php echo $firma ?>" width="100%" height="100%" style="border:1px solid #000; background-size:cover"> -->
                     </div>
                     
                     <!-- <img src="<?php echo $firma ?>" alt=""> -->
@@ -636,8 +637,14 @@ require_once './controllers/ClienteController.php';
                         const signaturePad = new SignaturePad(canvas);
 
                         document.getElementById('save-svg').addEventListener('click', () => {
-                            const svgData = signaturePad.toDataURL('image/svg+xml');
-                            document.getElementById('svg-data').value = svgData;
+                          const svgData = signaturePad.toDataURL('image/svg+xml');
+                            var dataURI =svgData;
+                            
+                            var svg = atob(dataURI.replace(/data:image\/svg\+xml;base64,/, ''));
+                            let expr=/viewBox=\"0 0 \d{1,3} \d{1,3}/gm;
+                           svg = svg.replace(expr,'viewBox=\"0 0 300 150');
+                           console.log(svg);
+                            document.getElementById('svg-data').value = svg;
                         });
                         document.getElementById('clear-svg').addEventListener('click', () => {
                           //  const svgData = signaturePad.toDataURL('image/svg+xml');
