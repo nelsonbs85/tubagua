@@ -30,7 +30,12 @@
 		'orden' => $_POST['orden'],            
 		'file' => $archivo,            
 	);
-        
-    $objeto->subirArchivo($id,$orden, $datos);
+    var_dump($_FILES);
+    if ($extension) {
+        $objeto->subirArchivo($id,$orden, $datos);
+    }else{
+        header('Location: index.php?page=edcliente&id=' .$id);
+    }
+    
 
 ?>

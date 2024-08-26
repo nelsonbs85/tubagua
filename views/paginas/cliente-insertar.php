@@ -1,5 +1,6 @@
 <?php 
 $usuario_id = $_SESSION['id_usuario'];
+$usuario = $_SESSION['nick'];
 	require_once 'controllers/ClienteController.php';
 
 	$objeto = new ClienteController();
@@ -58,7 +59,7 @@ $usuario_id = $_SESSION['id_usuario'];
         'nombreComercial'   => $_POST['nombreComercial'],
         'direccionCliente'   => $_POST['direccion'],
         'telefonoCliente'   => $_POST['tel'],
-		'usuario'   => $_POST['nick'],
+		'usuario'   => $usuario,
 		'horarios' => $json,
 		'referencias' => $json2,
 	);

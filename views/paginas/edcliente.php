@@ -343,7 +343,7 @@ require_once './controllers/ClienteController.php';
             </h2>
             <div id="collapseFive" class="accordion-collapse collapse container" data-bs-parent="#accordionClientes01">
               <div class="accordion-body">
-                <table class="table table-success table-striped-columns">
+                <table class="table table-striped-columns">
                   <tbody> 
                     <tr>
                       <td>Empresa:</td>
@@ -420,7 +420,7 @@ require_once './controllers/ClienteController.php';
             </h2>
             <div id="collapseSeven" class="accordion-collapse collapse container" data-bs-parent="#accordionClientes01">
               <div class="accordion-body">
-                  <table class="table table-success table-striped-columns">
+                  <table class="table  table-striped-columns">
                     <tbody>
                     <td>
                         RTU
@@ -591,7 +591,6 @@ require_once './controllers/ClienteController.php';
 				         <td class = "col"> 
                     <div class ="">
                     <?php echo $firma ?>
-                     <!-- <img src="<?php echo $firma ?>" width="100%" height="100%" style="border:1px solid #000; background-size:cover"> -->
                     </div>
                     
                     <!-- <img src="<?php echo $firma ?>" alt=""> -->
@@ -645,7 +644,7 @@ require_once './controllers/ClienteController.php';
                             var svg = atob(dataURI.replace(/data:image\/svg\+xml;base64,/, ''));
                             let expr=/viewBox=\"0 0 \d{1,3} \d{1,3}/gm;
                            svg = svg.replace(expr,'viewBox=\"0 0 300 150');
-                           console.log(svg);
+                           
                             document.getElementById('svg-data').value = svg;
                         });
                         document.getElementById('clear-svg').addEventListener('click', () => {

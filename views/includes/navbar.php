@@ -28,6 +28,15 @@
                                 <a class="dropdown-item" href="index.php?page=listacliente">Lista de Solicitudes</a>
                             </div>
                     </li>
+                    <li class="nav-item dropdown" >	
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Productos
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="index.php?page=listaproducto">Listado de Existencias</a>
+                                <a class="dropdown-item" href="#">Hacer Pedido</a>
+                            </div>
+                    </li>
                     <li class="nav-item">
                         <form action="" method="POST" name="logoutForm" id="logoutForm">
                             <button type="submit" class="btn btn-link nav-link" name="salir">Cerrar sesión</button>

@@ -1,5 +1,6 @@
 <?php
 $usuario_id = $_SESSION['id_usuario'];
+$usuario = $_SESSION['nick'];
 // $permisos = $objPermiso->obtenerPermisos($usuario_id);
 
 // require_once './controllers/CategoriaController.php';
