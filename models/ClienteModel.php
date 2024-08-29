@@ -1,6 +1,6 @@
 <?php
 require_once 'ModeloBase.php';
-error_reporting(E_ALL);
+
 
 require_once './libs/DB.php';
 
@@ -11,7 +11,12 @@ class ClienteModel extends DB {
 		parent::__construct();
 	
 	}
-
+	public function listarClientes() {
+		$db = new ModeloBase();
+		$query = "SELECT * FROM cliente WHERE active= 1 order by nombre_comercial";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
 	public function obtenerClientes() {
 		$db = new ModeloBase();
 		$query = "SELECT * FROM form_clientes ORDER BY fechaSolicitud desc";
@@ -148,6 +153,7 @@ class ClienteModel extends DB {
 			echo $e->getMessage();
 		}
 	}
+	
 	public function subirArchivo($id,$orden,$datos) {
 		$conn = new DB();
 		$campo = "";

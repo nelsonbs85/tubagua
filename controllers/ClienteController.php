@@ -59,6 +59,7 @@ class ClienteController {
         require_once('./views/paginas/error.php');
         require_once('./views/includes/pie.php');
 	}
+	
 	public function clienteInsertar() {
 		//$nivelAcceso = $this->obtenerNivel();
 	////	if ($nivelAcceso >= 2){
@@ -107,6 +108,7 @@ class ClienteController {
 			header('Location: index.php?page=listacliente');
 		//}
 	}
+	
 
 	public function editarFormulario($id,$datos) {
 
@@ -129,6 +131,10 @@ class ClienteController {
 	public function obtenerClientes() {
 		$clientes = new ClienteModel();
 		return $clientes->obtenerClientes();
+	}
+	public function listarClientes() {
+		$clientes = new ClienteModel();
+		return $clientes->listarClientes();
 	}
 	public function obtenerCliente($id) {
 		$cliente = new ClienteModel();

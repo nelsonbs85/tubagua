@@ -1,5 +1,4 @@
 <?php
-
 // session_destroy();
 if (!isset($_SESSION['id_usuario'])) {
      session_start();
@@ -26,6 +25,34 @@ class ProductoController {
             die();
 		}
 	}
+	public function pedido() {
+	//  if (!isset($_SESSION['id_usuario'])) {
+		//  	session_start();
+		//  }
+		if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
+
+	        require_once('./views/includes/cabecera.php');
+	        require_once('./views/includes/navbar.php');
+	        require_once('./views/paginas/pedido.php');
+	        require_once('./views/includes/pie.php');
+		} else{
+			header('Location: index.php?page=login');
+            die();
+		}
+	}
+	
+	public function pedidoInsertar() {
+
+	if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
+		require_once('./views/includes/cabecera.php');
+		require_once('./views/includes/navbar.php');
+		require_once('./views/paginas/pedido-insertar.php');
+		require_once('./views/includes/pie.php');
+	} else{
+		header('Location: index.php?page=login');
+		die();
+	}
+}
 	public function listaproducto() {
 		//  if (!isset($_SESSION['id_usuario'])) {
 		//  	session_start();
@@ -40,34 +67,44 @@ class ProductoController {
             die();
 		}
 	}
+	public function listapedido() {
+		//  if (!isset($_SESSION['id_usuario'])) {
+		//  	session_start();
+		//  }
+		if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
+	        require_once('./views/includes/cabecera.php');
+	        require_once('./views/includes/navbar.php');
+	        require_once('./views/paginas/listapedido.php');
+	        require_once('./views/includes/pie.php');
+		} else{
+			header('Location: index.php?page=login');
+            die();
+		}
+	}
 	public function error() {
         require_once('./views/includes/cabecera.php');
         require_once('./views/paginas/error.php');
         require_once('./views/includes/pie.php');
 	}
-	
-	public function productoEditar() {
-		//$nivelAcceso = $this->obtenerNivel();
-	////	if ($nivelAcceso >= 2){
-			require_once('./views/paginas/producto-editar.php');
-		//}else{
-		//-	header('Location: index.php?page=error');
-		//	die();
-	//	}
-	}
 
-	
 	public function insertarProducto($datos) {
 
 			$producto = new ProductoModel();
 			$cliente->insertarProducto($datos);
 			$respuesta['mensaje'] = "Registro insertado correctamente";
 			$respuesta['codigo'] = 200;
-			echo json_encode($respuesta, JSON_PRETTY_PRINT);
+	//		echo json_encode($respuesta, JSON_PRETTY_PRINT);
 			header('Location: index.php?page=listaproducto');
 		//}
 	}
-
+	public function insertarPedido($datos) {
+		
+		$producto = new ProductoModel();
+		$id = $producto->insertarPedido($datos);
+		$respuesta['mensaje'] = "Registro insertado correctamente";
+		$respuesta['codigo'] = 200;
+		header('Location: index.php?page=pedido&id=' .$id);	
+}
 	public function obtenerProductos() {
 		$producto = new ProductoModel();
 		return $producto->obtenerProductos();
@@ -75,6 +112,19 @@ class ProductoController {
 	public function obtenerProducto($id) {
 		$producto = new ProductoModel();
 		return $producto->obtenerProducto($id);
+	}
+
+	public function obtenerDatos($tabla,$campo) {
+		$datos = new ProductoModel();
+		return $datos->obtenerDatos($tabla,$campo);
+	}
+	public function obtenerDatosbyId($tabla,$campo,$id) {
+		$datos = new ProductoModel();
+		return $datos->obtenerDatos($tabla,$campo,$id);
+	}
+	public function obtenerPedidos($usuario_id) {
+		$datos = new ProductoModel();
+		return $datos->obtenerPedidos($usuario_id);
 	}
 }
 }

@@ -11,10 +11,14 @@ if (!empty($page)) {
 		'listacliente'		=> array('model' => 'ClienteModel',	'view' => 'listacliente', 'controller' => 'ClienteController'), 
 		'listaproducto'		=> array('model' => 'ProductoModel','view' => 'listaproducto', 'controller' => 'ProductoController'), 
 		'error' 			=> array('model' => 'UsuarioModel',	'view' => 'error', 	'controller' => 'InicioController'), 
+		'listapedido'		=> array('model' => 'ProductoModel','view' => 'listapedido', 'controller' => 'ProductoController'), 
 		'cliente-insertar' 	=> array('model' => 'ClienteModel',	'view' => 'clienteInsertar', 	'controller' => 'ClienteController'), 
 		'cliente-editar' 	=> array('model' => 'ClienteModel',	'view' => 'clienteEditar', 	'controller' => 'ClienteController'), 
 		'subir-archivo' 	=> array('model' => 'ClienteModel',	'view' => 'archivoInsertar', 	'controller' => 'ClienteController'), 
 		'autoriza-form' 	=> array('model' => 'ClienteModel',	'view' => 'autoriza', 	'controller' => 'ClienteController'), 
+		'pedido' 			=> array('model' => 'ProductoModel', 'view' => 'pedido', 	'controller' => 'ProductoController'), 
+		'pedido-insertar' 	=> array('model' => 'ProductoModel','view' => 'pedidoInsertar', 	'controller' => 'ProductoController'), 
+		
 
 	);
 

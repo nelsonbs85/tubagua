@@ -1,20 +1,6 @@
 <?php
 
     require_once 'controllers/ClienteController.php';
-//    require "base64"
-//var_dump($_POST);
-   
-    // if(isset($_POST['signaturesubmit'])){ 
-    //     $signature = $_POST['svg-data'];  
-    //     $Autorizado = 'A';
-    //     $fechaAutorizacion = $_POST['fechaAutorizacion'];  
-    //     $lugarAutorización = $_POST['lugarAutorizacion'];  
-    // } else {
-    // //    $signature = "" ; //$_POST['svg-data'];  
-    //   //  $Autorizado = '';
-    //     $fechaAutorizacion = '';
-    //     $lugarAutorización = '';
-    // }
     
     $objeto = new ClienteController();
     $id = $_POST['idform'];

@@ -1,7 +1,5 @@
 <?php
 require_once 'ModeloBase.php';
-error_reporting(E_ALL);
-
 require_once './libs/DB.php';
 
 
@@ -60,7 +58,27 @@ class ProductoModel extends DB {
 
 		
 	}
-	
+	public function obtenerDatos($tabla,$campo) {
+		$db = new ModeloBase();
+		$query = "SELECT * from " .$tabla ." order by " .$campo;
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+	public function obtenerDatosbyId($tabla,$campo, $id) {
+		$db = new ModeloBase();
+		$query = "SELECT * from " .$tabla ." WHERE " .$campo ." = " .$id;
+		$resultado = $db->consultarRegistro($query);
+		return $resultado;
+	}
+	public function obtenerPedidos($usuario_id) {
+		$db = new ModeloBase();
+		$query = "SELECT a.id, a.fecha_pedido,a.cliente_id, b.nit,razon_social from pedido a 
+			inner join cliente b on a.cliente_id = b.id 
+		where usuario_pedido_creado_id= " .$usuario_id;
+		$resultado = $db->obtenerTodos($query);
+		//echo $query;
+		return $resultado;
+	}
 	public function editarFormulario($id,$datos) {
 		$conn = new DB();
 		try {
@@ -121,6 +139,32 @@ class ProductoModel extends DB {
 			. "', '" .$datos['referencias']
 			. "')";
 			$resultado = $conn->query($query);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+	public function insertarPedido($datos) {
+		$conn = new DB();
+		try {
+			//$insertar = $db->insertar('articulo', $datos);
+			$query= "INSERT  INTO pedido (active,status,cliente_id,fecha_pedido,forma_de_pago,
+                    transporte_id,observaciones, direccion_entrega,
+                    usuario_pedido_creado_id) VALUES (1,7," .$datos['cliente_id']
+			. ", '" .$datos['fecha_pedido'] 
+			. "', " .$datos['forma_de_pago'] 
+			. ", " .$datos['transporte_id'] 
+			. ", '" .$datos['observaciones']
+			. "', '" .$datos['direccion_entrega']
+			. "', '" .$datos['usuario_pedido_creado_id']
+			. "')";
+			$resultado = $conn->query($query);
+			if (!$resultado){
+				return false; 
+			}else{
+				return $conn->lastInsertId();
+				
+			}
+			///return $conn->mysql_insert_id();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
