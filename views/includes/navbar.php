@@ -34,12 +34,20 @@ if (!isset($_SESSION['id_usuario'])) {
                     </li>
                     <li class="nav-item dropdown" >	
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Depositos
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="index.php?page=listadepositos">Lista de Depositos</a>
+                            </div>
+                    </li>
+                    <li class="nav-item dropdown" >	
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Productos
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="index.php?page=listaproducto">Listado de Existencias</a>
                                 <a class="dropdown-item" href="index.php?page=pedido">Hacer Pedido</a>
-                                <a class="dropdown-item" href="index.php?page=listapedido">Lita de Pedidos</a>
+                                <a class="dropdown-item" href="index.php?page=listapedido">Lista de Pedidos</a>
                             </div>
                     </li>
                     <li class="nav-item">

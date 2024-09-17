@@ -2,7 +2,6 @@
 require_once 'ModeloBase.php';
 require_once './libs/DB.php';
 
-
 class ProductoModel extends DB {
 
 	public function __construct() {
@@ -12,52 +11,64 @@ class ProductoModel extends DB {
 
 	public function obtenerProductos() {
 		$db = new ModeloBase();
-		$query = " SELECT a.id, a.codigo, a.nombre_corto, 
-		b.nombre, c.nombre, d.nombre, e.stock
-		FROM articulo as a 
-		INNER JOIN unidad_medida  as b 
-    	on a.uni_med_id = b.id
-   			 INNER JOIN categoria as c 
-    	on a.categoria_id = c.id
-		INNER JOIN marca as d
-		on a.marca_id = d.id
-		INNER JOIN inventario e 
-		on a.id = e.articulo_id
-		WHERE a.active = 1
-		";
-		$resultado = $db->obtenerTodos($query);
-		return $resultado;
-	}
-
-	public function obtenerProducto($id) {
-		$db = new ModeloBase();
 		$query = "SELECT a.id, a.codigo, a.nombre_corto, b.nombre, c.nombre, d.nombre,
-		stock
+		stock, f.precio_local
 		FROM articulo a 
 		INNER JOIN unidad_medida b 
     	on a.uni_med_id = b.id
    			 INNER JOIN categoria c 
     	on a.categoria_id = c.id
 		INNER JOIN marca d
-		on a.marca_id = d.id;
+		on a.marca_id = d.id
 		INNER JOIN inventario e 
 		on a.id = e.articulo_id
-		WHERE a.id = '".$id."'";
+		INNER JOIN listado_precio_d f
+		on a.id =f. articulo_id
+		WHERE a.active = 1
+		and stock >0
+		";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+	public function obtenerProductosbyDescripcion($descripcion) {
+		$db = new ModeloBase();
+		$query = "SELECT a.id, a.codigo, a.nombre_corto, b.nombre, c.nombre, d.nombre,
+		stock, f.precio_local
+		FROM articulo a 
+		INNER JOIN unidad_medida b 
+    	on a.uni_med_id = b.id
+   			 INNER JOIN categoria c 
+    	on a.categoria_id = c.id
+		INNER JOIN marca d
+		on a.marca_id = d.id
+		INNER JOIN inventario e 
+		on a.id = e.articulo_id
+		INNER JOIN listado_precio_d f
+		on a.id =f. articulo_id
+		WHERE a.active = 1 and nombre_corto like '%" .$descripcion ."%'";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+	public function obtenerProducto($id) {
+		$db = new ModeloBase();
+		$query = "SELECT a.id, a.codigo, a.nombre_corto, b.nombre, c.nombre, d.nombre,
+		stock, f.precio_local
+		FROM articulo a 
+		INNER JOIN unidad_medida b 
+    	on a.uni_med_id = b.id
+   			 INNER JOIN categoria c 
+    	on a.categoria_id = c.id
+		INNER JOIN marca d
+		on a.marca_id = d.id
+		INNER JOIN inventario e 
+		on a.id = e.articulo_id
+		INNER JOIN listado_precio_d f
+		on a.id =f. articulo_id
+		WHERE a.id = '".$id."' and stock >0";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
 
-	public function obtenerProductoSig() {
-		$conn = new DB();
-		$query = "SELECT max(id)+1 as siguiente FROM cliente";
-		$resultado = $conn->query($query);
-		while ($row = $resultado->fetch()) {
-			$result = $row[0];
-		  }
-		return $result;
-
-		
-	}
 	public function obtenerDatos($tabla,$campo) {
 		$db = new ModeloBase();
 		$query = "SELECT * from " .$tabla ." order by " .$campo;
@@ -70,54 +81,50 @@ class ProductoModel extends DB {
 		$resultado = $db->consultarRegistro($query);
 		return $resultado;
 	}
+	public function obtenerPedido( $id) {
+		$conn = new DB();
+		$query = "SELECT  * FROM pedido
+		 where id =" .$id;
+		// var_dump($query);
+		$resultado = $conn->query($query);
+		// while ($row = $resultado->fetch()) {
+		// 	$result = $row[0];
+		//   }
+		return $resultado;
+
+	}
 	public function obtenerPedidos($usuario_id) {
 		$db = new ModeloBase();
-		$query = "SELECT a.id, a.fecha_pedido,a.cliente_id, b.nit,razon_social from pedido a 
+		$query = "SELECT a.id, a.fecha_pedido,a.cliente_id, b.nit,razon_social,a.status from pedido a 
 			inner join cliente b on a.cliente_id = b.id 
 		where usuario_pedido_creado_id= " .$usuario_id;
 		$resultado = $db->obtenerTodos($query);
 		//echo $query;
 		return $resultado;
 	}
-	public function editarFormulario($id,$datos) {
+	public function obtenerDetalle($pedido_id) {
+		$db = new ModeloBase();
+		$query = "SELECT a.*,nombre_corto FROM pedido_d a
+			INNER JOIN articulo b 
+			on a.articulo_id = b.id
+		WHERE a.pedido_id = " .$pedido_id;
+		$resultado = $db->obtenerTodos($query);
+		//echo $query;
+		return $resultado;
+	}
+
+	public function autorizaDetalle($id) {
+		//var_dump($id);
 		$conn = new DB();
 		try {
 			//$insertar = $db->insertar('articulo', $datos);
-			$query= "UPDATE articulo SET montoSolicitado=" .$datos['montoSolicitado'] 
-			. ", fechaSolicitud ='"	 .$datos['fechaSolicitud'] 
-			. "', tipoFact='" .$datos['tipoFact'] 
-			. "', nitProducto='" .$datos['nitProducto']
-			. "', dpiRepresentanteLegal='" .$datos['dpiRepresentanteLegal']
-			. "', razonSocialProducto ='" .$datos['razonSocialProducto']
-			. "', nombreComercial='" .$datos['nombreComercial']
-			. "', direccionProducto='" .$datos['direccionProducto']
-			. "', telefonoProducto='" .$datos['telefonoProducto']
-			//2.datos del representante legal
-			. "', nombreRepre='" .$datos['nombreRepre']
-			. "', direccionRepre='" .$datos['direccionRepre']
-			. "', ciudadRepre='" .$datos['ciudadRepre']
-			. "', telefonoRepre='" .$datos['telefonoRepre']
-			. "', celularRepre='" .$datos['celularRepre']
-			. "', emailRepre='" .$datos['emailRepre']
-			//3. información de pagos
-			. "', nombrePagos='" .$datos['nombrePagos']
-			. "', telOficinaPagos='" .$datos['telOficinaPagos']
-			. "', telParticularPagos='" .$datos['telParticularPagos']
-			. "', telCelularPagos='" .$datos['telCelularPagos']
-			. "', emailPagos='" .$datos['emailPagos']
-			. "', horarios='" .$datos['horarios']
-            . "', localExterior='" .$datos['localExterior']
-            . "', noEmpleados='" .$datos['noEmpleados']
-            . "', localSucursales='" .$datos['localSucursales']
-            . "', localCuantos='" .$datos['localCuantos']
-            . "', ubicacionSucursales='" .$datos['ubicacionSucursales']
-            . "', referencias='" .$datos['referencias']				
-			. "' WHERE idform =" .$id;
+			$query= "UPDATE pedido SET status= 7 WHERE id =" .$id;
 			$resultado = $conn->query($query);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
 	}
+
 	public function insertarProducto($datos) {
 		$conn = new DB();
 		try {
@@ -149,7 +156,7 @@ class ProductoModel extends DB {
 			//$insertar = $db->insertar('articulo', $datos);
 			$query= "INSERT  INTO pedido (active,status,cliente_id,fecha_pedido,forma_de_pago,
                     transporte_id,observaciones, direccion_entrega,
-                    usuario_pedido_creado_id) VALUES (1,7," .$datos['cliente_id']
+                    usuario_pedido_creado_id) VALUES (1,1," .$datos['cliente_id']
 			. ", '" .$datos['fecha_pedido'] 
 			. "', " .$datos['forma_de_pago'] 
 			. ", " .$datos['transporte_id'] 
@@ -169,7 +176,36 @@ class ProductoModel extends DB {
 			echo $e->getMessage();
 		}
 	}
-
+	public function insertarDetalle($datos) {
+		//var_dump($datos );
+		$conn = new DB();
+		try {
+			//$insertar = $db->insertar('articulo', $datos);
+			$query= "INSERT  INTO pedido_d (active,pedido_id,tipo,articulo_id,
+				cantidad, precio_local,precio_local_sin_iva,total,
+				total_sin_iva,usuario_id
+			) VALUES (1," .$datos['pedido_id']
+			. ",1," .$datos['articulo_id'] 
+			. ", " .$datos['cantidad'] 
+			. ", " .$datos['precio_local'] 
+			. ", " .$datos['precio_local_sin_iva'] 
+			. ", " .$datos['total']
+			. ", " .$datos['total_sin_iva']
+			. ", " .$datos['usuario_id']
+			. ")";
+			$resultado = $conn->query($query);
+			if (!$resultado){
+				return false; 
+			}else{
+				//return $conn->lastInsertId();
+				return $datos['pedido_id']; 
+				
+			}
+			///return $conn->mysql_insert_id();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
 	public function editarProducto($id, $datos) {
 		$db = new ModeloBase();
 		try {

@@ -28,17 +28,19 @@
 
 <script>
         $(document).ready(function(){  
-      $('#solicitud').DataTable({
-        "language": {
-            "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+          $('#solicitud').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            },
+            "order": [[ 0, "desc" ]],
+            dom: 'Bfrtip',
+            pageLength: 5,
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
         },
-        "order": [[ 0, "desc" ]],
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    }); 
-       
+      ); 
+
 
  });  </script>
 <body>

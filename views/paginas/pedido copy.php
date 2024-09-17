@@ -190,20 +190,20 @@ require_once './controllers/ProductoController.php';
             
                     <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content model-dialog-centered">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="exampleModalLabel">Listado de Artículos</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                 <table id="solicitud" class="large table-responsive table-bordered display">     
+                                 <table id="solicitud" class="small table-responsive table-bordered display">     
                                     <thead>
                                         <th class="col-1">#</th>
                                         <th class ="col-1">Código</th>
                                         <th>Nombre</th>
                                         <!-- <th>Marca</th> -->
-                                        <!-- <th>Categoria</th> -->
+                                        <th>Categoria</th>
                                         <!-- <th class ="col-1">Existencias</th> -->
                                         <th class ="col-1">Agregar</th>
 
@@ -216,34 +216,20 @@ require_once './controllers/ProductoController.php';
                                         ?><tr>
                                         <td><?php echo $row[0];?></td>
                                         <td><?php echo $row[1];?></td>
-                                        <td style="width: 20%"><?php echo $row[2] ." -" .$row[5];?></td>
+                                        <td><?php echo $row[2] ." -" .$row[5];?></td>
                                         <!-- <td><?php echo $row[5];?></td> -->
                                         <!-- <td><?php echo $row[3];?></td> -->
-                                        <!-- <td><?php echo $row[4];?></td> -->
+                                        <td><?php echo $row[4];?></td>
                                         <!-- <td><?php echo $row[6];?></td> -->
                                         <td <?php if ($row[6]<=0){ echo "disabled";}else { echo "";}?>>
-                                        <form action="index.php?page=detalle-insertar" method="POST">
-                                            
-                                                <div class="row-2">
-                                                    <label class="col-2" for="">Cantidad:</label>
-                                                    <input require class="col-3 form-control" type="number" max= "<?php echo $row[6] ?>" name="cantidad"
-                                                    placeholder = "Max. <?php echo $row[6] ?>">
-                                                </div>
-                                                <div class="row-2"> 
-                                                    <label class="col-2" for="">Precio:</label>
-                                                    <input class="col-3 form-control" type="number" name="precio" 
-                                                    placeholder = "Max. <?php echo $row[7] ?>"
-                                                    >
-                                                </div>            
-                                                <div class="row-2">                          
-                                                    <input   type  ="hidden" value =" <?php echo $id?>" name="pedido_id" id ="pedido_id" >
-                                                    <input   type  ="hidden" value ="<?php echo $row[0]?>" name="articulo_id" id ="articulo_id" >
-                                                    <button type="submit" class="btn btn-primary">Agregar</button>
-                                                </div>
-                                        </form>
+
+                                            <button class="btn btn-primary" name="button[<?php echo $row[0]?>]"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal2<?php echo $row[0]?>"
+                                             
+                                            ><i class="bi bi-cart-plus-fill"></i>
+                                            </button>
                                         </td>                                       
-                                        <?php } ?> 
-                                    </tr>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div><!--MODAL BODY -->
@@ -254,8 +240,38 @@ require_once './controllers/ProductoController.php';
                         </div> <!-- MODAL CONTENT -->
                     </div><!-- MODAL DIALOG -->
                 </div><!-- MODAL FADE -->
-<!-- MODAL 2 --
-                
+<!-- MODAL 2 -->
+                <div class="modal fade" id="exampleModal2<?php echo $row[0]?>" tabindex="-1" aria-labelledby="exampleModal2Label" 
+                        aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModal2Label">Artículo: <?php echo $row[2] ?> </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="index.php?page=detalle-insertar" method="POST">
+                                <div class="modal-body container">
+                                    <div class="row">
+                                        <div class="col-2"><label for="">Cantidad:</label></div>
+                                        <input require class="col-3" type="number" max= "<?php echo $row[6] ?>" name="cantidad"
+                                        placeholder = "Max. <?php echo $row[6] ?>">
+                                        <div class="col-2"><label for="">Precio:</label></div>
+                                        <input class="col-3" type="number" name="precio" 
+                                        placeholder = "Max. <?php echo $row[7] ?>"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <input   type  ="hidden" value =" <?php echo $id?>" name="pedido_id" id ="pedido_id" >
+                                    <input   type  ="hidden" value ="<?php echo $row[0]?>" name="articulo_id" id ="articulo_id" >
+                                    <button type="submit" class="btn btn-primary">Agregar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div> 
+                </div><!-- MODAL 2 -->
+                <?php } ?> 
             <?php }?>    <!-- Si no está autorizado -->
             <!-- Modal -->       
         </div> <!-- tab detalle del pedido -->
