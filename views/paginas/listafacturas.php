@@ -6,7 +6,7 @@ $usuario_id = $_SESSION['id_usuario'];
 
 require_once './controllers/ProductoController.php';
 $listaPedidos = new ProductoController();
-$pedidos = $listaPedidos->obtenerDepositos();
+$pedidos = $listaPedidos->obtenerFacturas();
 
 ?>
  
@@ -18,24 +18,26 @@ $pedidos = $listaPedidos->obtenerDepositos();
     <table id="solicitud" class="responsive table table-striped table-bordered display">     
             <thead>
                 <th>#</th>
-                <th>Fecha</th>
-                <th>Documento</th>
+                <th>Factura</th>
+                <th>Fecha Pedido</th>
                 <th>Cliente</th>
-                <th>Monto</th>
-                <th></th>
+                <th>Total</th>
+                <th>Acciones</th>
+                
             </thead>
             <tbody >
                 <?php 
                 $cnt= 1;
                 while ($row = $pedidos->fetch()) {
                 ?><tr>
-                    <td><?php echo $row[0];?></td>
-                    <td><?php echo $row[1];?></td>
-                    <td><?php echo $row[3];?></td>
-                    <td><?php echo $row[4];?></td>
-                    <td><?php echo $row[2];?></td>
+                    <td><?php echo $cnt;?></td>
+                    <td><?php echo $row[1] ." " .$row[2];?></td>
+                    <td><?php echo $row[6];?></td>
+                    <td><?php echo $row[10];?></td>
+                    <td><?php echo $row[9];?></td>
+                    
                     <td>
-                         <a  class="btn btn-success"href="#">Ver</a>
+                         <a  class="btn btn-warning"href=" index.php?page=pedido&id=<?php echo $row[0]; ?>">Editar</a>
                     </td>
                 </tr>
                 <?php

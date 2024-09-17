@@ -93,6 +93,20 @@ public function detalleInsertar() {
             die();
 		}
 	}
+	public function listafacturas() {
+		//  if (!isset($_SESSION['id_usuario'])) {
+		//  	session_start();
+		//  }
+		if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
+	        require_once('./views/includes/cabecera.php');
+	        require_once('./views/includes/navbar.php');
+	        require_once('./views/paginas/listafacturas.php');
+	        require_once('./views/includes/pie.php');
+		} else{
+			header('Location: index.php?page=login');
+            die();
+		}
+	}
 	public function listapedido() {
 		//  if (!isset($_SESSION['id_usuario'])) {
 		//  	session_start();
@@ -142,6 +156,16 @@ public function detalleInsertar() {
 	public function obtenerProductos() {
 		$producto = new ProductoModel();
 		return $producto->obtenerProductos();
+	}
+
+	public function obtenerFacturas() {
+		$producto = new ProductoModel();
+		return $producto->obtenerFacturas();
+	}
+
+	public function obtenerDepositos() {
+		$producto = new ProductoModel();
+		return $producto->obtenerDepositos();
 	}
 	public function obtenerProducto($id) {
 		$producto = new ProductoModel();

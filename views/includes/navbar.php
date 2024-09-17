@@ -37,8 +37,10 @@ if (!isset($_SESSION['id_usuario'])) {
                             Depositos
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="index.php?page=listafacturas">Lista de Facturas</a>
                                 <a class="dropdown-item" href="index.php?page=listadepositos">Lista de Depositos</a>
                             </div>
+                           
                     </li>
                     <li class="nav-item dropdown" >	
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

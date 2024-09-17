@@ -75,6 +75,37 @@ class ProductoModel extends DB {
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
+
+	public function obtenerFacturas() {
+		$db = new ModeloBase();
+		$query = "SELECT 
+			a.id, a.serie, a.numero_factura, a.numero_fel, a.numero_de_resolucion,
+			a.status, a.fecha_pedido,a.forma_de_pago, a.cliente_id, sum(b.total),
+			c.nombre_comercial
+			FROM factura a 
+			inner join factura_d b on a.id = b.factura_id
+			inner join cliente c on a.cliente_id = c.id
+			group by a.id, a.serie, a.numero_factura, a.numero_fel, a.numero_de_resolucion,
+			a.status, a.fecha_pedido,a.forma_de_pago, a.cliente_id, 
+			c.nombre_comercial";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+
+	public function obtenerDepositos() {
+		$db = new ModeloBase();
+		// $query = "SELECT b.recibo_id, b.fecha_recibo, b.monto, b.factura_id, b.forma_de_pago_id, 
+		// b.documento, b.documento_cheque, c.serie, c.numero_factura,c.fecha_pedido, d.nombre_comercial
+		//  FROM recibo a inner join recibo_d b on a.id = b.recibo_id 
+		//  inner join factura c on c.id = b.factura_id inner join cliente d on d.id = c.cliente_id;";
+		$query = "SELECT b.recibo_id, b.fecha_recibo, SUM(b.monto), b.documento,
+		 d.nombre_comercial FROM recibo a inner join recibo_d b on a.id = b.recibo_id 
+		 inner join factura c on c.id = b.factura_id inner join cliente d 
+		 on d.id = c.cliente_id GROUP BY b.recibo_id, b.fecha_recibo, b.documento,
+		  d.nombre_comercial";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
 	public function obtenerDatosbyId($tabla,$campo, $id) {
 		$db = new ModeloBase();
 		$query = "SELECT * from " .$tabla ." WHERE " .$campo ." = " .$id;
