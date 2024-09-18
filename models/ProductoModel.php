@@ -76,6 +76,14 @@ class ProductoModel extends DB {
 		return $resultado;
 	}
 
+	public function obtenerDetalleRecibobyId($id) {
+		$db = new ModeloBase();
+		$query = "SELECT * from  recibo_d WHERE recibo_id =" .$id;
+		
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+
 	public function obtenerFacturas() {
 		$db = new ModeloBase();
 		$query = "SELECT 
@@ -83,8 +91,33 @@ class ProductoModel extends DB {
 			a.status, a.fecha_pedido,a.forma_de_pago, a.cliente_id, sum(b.total),
 			c.nombre_comercial
 			FROM factura a 
-			inner join factura_d b on a.id = b.factura_id
+			inner join factura_d b on a.id = b.factura_id 
 			inner join cliente c on a.cliente_id = c.id
+			WHERE not exists (
+				SELECT 1 FROM recibo_d x
+				WHERE x.factura_id = a.id
+				)
+			AND numero_factura is not null
+			group by a.id, a.serie, a.numero_factura, a.numero_fel, a.numero_de_resolucion,
+			a.status, a.fecha_pedido,a.forma_de_pago, a.cliente_id, 
+			c.nombre_comercial";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+	public function obtenerFacturasbyCliente($id) {
+		$db = new ModeloBase();
+		$query = "SELECT 
+			a.id, a.serie, a.numero_factura, a.numero_fel, a.numero_de_resolucion,
+			a.status, a.fecha_pedido,a.forma_de_pago, a.cliente_id, sum(b.total),
+			c.nombre_comercial
+			FROM factura a 
+			inner join factura_d b on a.id = b.factura_id 
+			inner join cliente c on a.cliente_id = c.id
+			WHERE a.cliente_id = " .$id ." and not exists (
+				SELECT 1 FROM recibo_d x
+				WHERE x.factura_id = a.id
+				)
+			AND numero_factura is not null
 			group by a.id, a.serie, a.numero_factura, a.numero_fel, a.numero_de_resolucion,
 			a.status, a.fecha_pedido,a.forma_de_pago, a.cliente_id, 
 			c.nombre_comercial";
@@ -125,6 +158,16 @@ class ProductoModel extends DB {
 
 	}
 	public function obtenerPedidos($usuario_id) {
+		$db = new ModeloBase();
+		$query = "SELECT a.id, a.fecha_pedido,a.cliente_id, b.nit,razon_social,a.status from pedido a 
+			inner join cliente b on a.cliente_id = b.id 
+		where usuario_pedido_creado_id= " .$usuario_id;
+		$resultado = $db->obtenerTodos($query);
+		//echo $query;
+		return $resultado;
+	}
+
+	public function obtenerRecibo($id) {
 		$db = new ModeloBase();
 		$query = "SELECT a.id, a.fecha_pedido,a.cliente_id, b.nit,razon_social,a.status from pedido a 
 			inner join cliente b on a.cliente_id = b.id 
@@ -195,6 +238,29 @@ class ProductoModel extends DB {
 			. "', '" .$datos['direccion_entrega']
 			. "', '" .$datos['usuario_pedido_creado_id']
 			. "')";
+			$resultado = $conn->query($query);
+			if (!$resultado){
+				return false; 
+			}else{
+				return $conn->lastInsertId();
+				
+			}
+			///return $conn->mysql_insert_id();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
+	public function insertarRecibo($datos) {
+		$conn = new DB();
+		try {
+		
+			$query= "INSERT  INTO recibo (status,fecha_asignado, fecha_alta,usuario_id)
+			 VALUES (2,'" .$datos['fecha_asignado']
+			. "', '" .$datos['fecha_asignado'] 
+			. "', " .$datos['usuario_id']
+			. ")";
+			
 			$resultado = $conn->query($query);
 			if (!$resultado){
 				return false; 

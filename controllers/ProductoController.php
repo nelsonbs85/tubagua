@@ -40,13 +40,40 @@ class ProductoController {
             die();
 		}
 	}
+	public function recibo() {
+		//  if (!isset($_SESSION['id_usuario'])) {
+			//  	session_start();
+			//  }
+			if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 	
+				require_once('./views/includes/cabecera.php');
+				require_once('./views/includes/navbar.php');
+				require_once('./views/paginas/recibo.php');
+				require_once('./views/includes/pie.php');
+			} else{
+				header('Location: index.php?page=login');
+				die();
+			}
+		}
+		
 	public function pedidoInsertar() {
 
 	if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 		require_once('./views/includes/cabecera.php');
 		require_once('./views/includes/navbar.php');
 		require_once('./views/paginas/pedido-insertar.php');
+		require_once('./views/includes/pie.php');
+	} else{
+		header('Location: index.php?page=login');
+		die();
+	}
+}
+public function reciboInsertar() {
+
+	if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
+		require_once('./views/includes/cabecera.php');
+		require_once('./views/includes/navbar.php');
+		require_once('./views/paginas/recibo-insertar.php');
 		require_once('./views/includes/pie.php');
 	} else{
 		header('Location: index.php?page=login');
@@ -145,6 +172,17 @@ public function detalleInsertar() {
 		$respuesta['codigo'] = 200;
 		header('Location: index.php?page=pedido&id=' .$id);	
 	}
+
+	
+	public function insertarRecibo($datos) {
+		
+		$recibo = new ProductoModel();
+		$id = $recibo->insertarRecibo($datos);
+		$respuesta['mensaje'] = "Registro insertado correctamente";
+		$respuesta['codigo'] = 200;
+		return $id;
+		//header('Location: index.php?page=recibo&id=' .$id);	
+	}
 	public function insertarDetalle($datos) {
 		
 		$producto = new ProductoModel();
@@ -163,6 +201,11 @@ public function detalleInsertar() {
 		return $producto->obtenerFacturas();
 	}
 
+	public function obtenerFacturasbyCliente($id) {
+		$producto = new ProductoModel();
+		return $producto->obtenerFacturasbyCliente($id);
+	}
+
 	public function obtenerDepositos() {
 		$producto = new ProductoModel();
 		return $producto->obtenerDepositos();
@@ -178,6 +221,12 @@ public function detalleInsertar() {
 	public function obtenerDatos($tabla,$campo) {
 		$datos = new ProductoModel();
 		return $datos->obtenerDatos($tabla,$campo);
+	}
+
+	
+	public function obtenerDetalleRecibobyId($id) {
+		$datos = new ProductoModel();
+		return $datos->obtenerDetalleRecibobyId($id);
 	}
 	public function obtenerDatosbyId($tabla,$campo,$id) {
 		$datos = new ProductoModel();

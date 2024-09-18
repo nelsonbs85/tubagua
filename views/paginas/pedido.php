@@ -1,6 +1,7 @@
 ﻿<?php
 $usuario_id = $_SESSION['id_usuario'];
 $usuario = $_SESSION['nick'];
+$pedidos = $listaPedidos->obtenerFacturas();
 
 
 require_once './controllers/ClienteController.php';

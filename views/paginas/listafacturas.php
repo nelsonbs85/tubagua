@@ -5,8 +5,8 @@ $usuario = $_SESSION['nick'];
 $usuario_id = $_SESSION['id_usuario'];
 
 require_once './controllers/ProductoController.php';
-$listaPedidos = new ProductoController();
-$pedidos = $listaPedidos->obtenerFacturas();
+$listafacturas = new ProductoController();
+$facturas = $listafacturas->obtenerFacturas();
 
 ?>
  
@@ -28,10 +28,10 @@ $pedidos = $listaPedidos->obtenerFacturas();
             <tbody >
                 <?php 
                 $cnt= 1;
-                while ($row = $pedidos->fetch()) {
+                while ($row = $facturas->fetch()) {
                 ?><tr>
                     <td><?php echo $cnt;?></td>
-                    <td><?php echo $row[1] ." " .$row[2];?></td>
+                    <td><?php echo $row[1] ?></td>
                     <td><?php echo $row[6];?></td>
                     <td><?php echo $row[10];?></td>
                     <td><?php echo $row[9];?></td>
