@@ -3,10 +3,10 @@
     $usuario = $_SESSION['nick'];
 	
     require_once 'controllers/ProductoController.php';
-
-    $pedido = new ProductoController();
-    var_dump($_POST);
-    if ($_POST['nuevo'] ){
+$autoriza ="";
+    $recibo = new ProductoController();
+   // var_dump($_POST);
+    if  (isset($_POST['autoriza']) ){
         $datos = array(
             'forma' => $_POST['autoriza'],
             'pedido_id' => $_POST['pedido_id'],
@@ -16,28 +16,24 @@
         );
        $pedido->insertarRecibo($datos);
     }else {
-        
-        $cantidad = $_POST['cantidad'];
-        $precio = $_POST['precio'];
-    
         $datos = array(    
-        'pedido_id'   => $_POST['pedido_id'], 
-		'articulo_id'   => $_POST['articulo_id'], 
-        'cantidad' =>  $_POST['cantidad'],
-        'precio_local' => round($_POST['precio'],2),
-        'precio_local_sin_iva' => round($precio/1.12,2),
-        'total' => $cantidad*$precio,
-        'total_sin_iva' => ($cantidad*$precio)/1.12,
-        'usuario_id' => $usuario_id,  
+        'recibo_id'   => $_POST['recibo_id'], 
+        'fecha_recibo' => date("Y-m-d"),
+        'fecha_operacion' => date("Y-m-d"),
+		'factura_id'   => $_POST['factura_id'], 
+        'monto' => $_POST['monto'],
+        'forma_de_pago_id' => $_POST['forma_de_pago_id'],
+        'documento' => $_POST['documento'],
+        'usuario_id' => $usuario_id,
 	);
-//     if (empty($datos['articulo_id'])) {
-// 		$respuesta['mensaje'] = "No puede insertar con campos vacíos";
-// 		$respuesta['codigo'] = 400;
-// //        echo json_encode($respuesta);
-	
-// 	} else {
-// 		$pedido->insertarDetalle($datos);
-// 	}   
+   // var_dump($datos);
+    if (empty($datos['recibo_id'])) {
+		$respuesta['mensaje'] = "No puede insertar con campos vacíos";
+		$respuesta['codigo'] = 400;
+        echo json_encode($respuesta);
+	} else {
+		$recibo->insertarDetalleRecibo($datos);
+	}   
 }
  
 ?>

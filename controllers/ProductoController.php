@@ -183,6 +183,15 @@ public function detalleInsertar() {
 		return $id;
 		//header('Location: index.php?page=recibo&id=' .$id);	
 	}
+
+	public function insertarDetalleRecibo($datos) {
+		
+		$recibo = new ProductoModel();
+		$id = $recibo->insertarDetalleRecibo($datos);
+		$respuesta['mensaje'] = "Registro insertado correctamente";
+		$respuesta['codigo'] = 200;
+		header('Location: index.php?page=recibo&id=' .$id);	
+	}
 	public function insertarDetalle($datos) {
 		
 		$producto = new ProductoModel();
@@ -209,6 +218,11 @@ public function detalleInsertar() {
 	public function obtenerDepositos() {
 		$producto = new ProductoModel();
 		return $producto->obtenerDepositos();
+	}
+
+	public function obtenerRecibosbyId($id) {
+		$producto = new ProductoModel();
+		return $producto->obtenerRecibosbyId($id);
 	}
 	public function obtenerProducto($id) {
 		$producto = new ProductoModel();

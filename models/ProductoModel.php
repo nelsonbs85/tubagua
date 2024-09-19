@@ -78,8 +78,9 @@ class ProductoModel extends DB {
 
 	public function obtenerDetalleRecibobyId($id) {
 		$db = new ModeloBase();
-		$query = "SELECT * from  recibo_d WHERE recibo_id =" .$id;
-		
+		$query = "SELECT b.serie,b.numero_factura, b.fecha_pedido, a.recibo_id, a.monto,
+		 a.documento from recibo_d a inner join factura b on a.factura_id = b.id 
+		 WHERE recibo_id =" .$id;
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
@@ -112,7 +113,7 @@ class ProductoModel extends DB {
 			c.nombre_comercial
 			FROM factura a 
 			inner join factura_d b on a.id = b.factura_id 
-			inner join cliente c on a.cliente_id = c.id
+			inner join cliente c on a.cliente_id = c.id		
 			WHERE a.cliente_id = " .$id ." and not exists (
 				SELECT 1 FROM recibo_d x
 				WHERE x.factura_id = a.id
@@ -121,6 +122,7 @@ class ProductoModel extends DB {
 			group by a.id, a.serie, a.numero_factura, a.numero_fel, a.numero_de_resolucion,
 			a.status, a.fecha_pedido,a.forma_de_pago, a.cliente_id, 
 			c.nombre_comercial";
+			//var_dump($id);
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
@@ -136,6 +138,24 @@ class ProductoModel extends DB {
 		 inner join factura c on c.id = b.factura_id inner join cliente d 
 		 on d.id = c.cliente_id GROUP BY b.recibo_id, b.fecha_recibo, b.documento,
 		  d.nombre_comercial";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+
+	public function obtenerRecibosbyId($id) {
+		$db = new ModeloBase();
+		// $query = "SELECT b.recibo_id, b.fecha_recibo, b.monto, b.factura_id, b.forma_de_pago_id, 
+		// b.documento, b.documento_cheque, c.serie, c.numero_factura,c.fecha_pedido, d.nombre_comercial
+		//  FROM recibo a inner join recibo_d b on a.id = b.recibo_id 
+		//  inner join factura c on c.id = b.factura_id inner join cliente d on d.id = c.cliente_id;";
+		$query = "SELECT b.recibo_id, b.fecha_recibo, SUM(b.monto), b.documento,
+		 d.nombre_comercial,c.serie, c.numero_factura,b.forma_de_pago_id,c.cliente_id FROM recibo a inner join recibo_d b on a.id = b.recibo_id 
+		 inner join factura c on c.id = b.factura_id inner join cliente d 
+		 on d.id = c.cliente_id 
+		 WHERE b.recibo_id = " .$id . " 
+		 GROUP BY b.recibo_id, b.fecha_recibo, b.documento,
+		  d.nombre_comercial";
+		  //var_dump($query);
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
@@ -267,6 +287,36 @@ class ProductoModel extends DB {
 			}else{
 				return $conn->lastInsertId();
 				
+			}
+			///return $conn->mysql_insert_id();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+	public function insertarDetalleRecibo($datos) {
+		$conn = new DB();
+		try {
+		
+			$query= "INSERT  INTO recibo_d (status,recibo_id, 
+			fecha_recibo, fecha_operacion, factura_id, monto, 
+			forma_de_pago_id,
+			documento, usuario_id)
+			 VALUES (3," .$datos['recibo_id']
+			. ",'" .$datos['fecha_recibo']
+			. "','" .$datos['fecha_operacion']
+			. "', " .$datos['factura_id'] 
+			. ", " .$datos['monto']
+			. ", " .$datos['forma_de_pago_id']
+			. ", " .$datos['documento']
+			. ", " .$datos['usuario_id']
+			. ")";
+			
+			$resultado = $conn->query($query);
+			if (!$resultado){
+				var_dump($query);
+				return false; 			
+			}else{
+				return $datos['recibo_id'];
 			}
 			///return $conn->mysql_insert_id();
 		} catch (PDOException $e) {
