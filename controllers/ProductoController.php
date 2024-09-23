@@ -181,7 +181,7 @@ public function detalleInsertar() {
 		$respuesta['mensaje'] = "Registro insertado correctamente";
 		$respuesta['codigo'] = 200;
 		return $id;
-		//header('Location: index.php?page=recibo&id=' .$id);	
+		//header('Location: index.php?page=recibo&id=' . $id);	
 	}
 
 	public function insertarDetalleRecibo($datos) {
@@ -215,9 +215,9 @@ public function detalleInsertar() {
 		return $producto->obtenerFacturasbyCliente($id);
 	}
 
-	public function obtenerDepositos() {
+	public function obtenerDepositos($usuario_id) {
 		$producto = new ProductoModel();
-		return $producto->obtenerDepositos();
+		return $producto->obtenerDepositos($usuario_id);
 	}
 
 	public function obtenerRecibosbyId($id) {
@@ -262,6 +262,12 @@ public function detalleInsertar() {
 		$datos = new ProductoModel();
 		$upda = $datos->autorizaDetalle($id);
 		header('Location: index.php?page=pedido&id=' .$id);	
+	}
+	public function finalizaRecibo($id) {
+
+		$datos = new ProductoModel();
+		$upda = $datos->finalizaRecibo($id);
+		header('Location: index.php?page=recibo&id=' .$id);	
 	}
 }
 }

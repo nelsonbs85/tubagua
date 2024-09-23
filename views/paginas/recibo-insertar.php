@@ -26,7 +26,7 @@ $autoriza ="";
         'documento' => $_POST['documento'],
         'usuario_id' => $usuario_id,
 	);
-   // var_dump($datos);
+    var_dump($_POST);
     if (empty($datos['recibo_id'])) {
 		$respuesta['mensaje'] = "No puede insertar con campos vacíos";
 		$respuesta['codigo'] = 400;

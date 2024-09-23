@@ -5,48 +5,49 @@ $datos = new ProductoController();
 $detalle = false; 
 require_once './controllers/ProductoController.php';
 require_once './controllers/ClienteController.php';
- 
-// }else {
-//  $id= null;
-// }
 
-
-$objCliente = new ClienteController();
+ $objCliente = new ClienteController();
  $datos = new ProductoController();
  $recibos = new ProductoController();
+
+
+ if (isset($_POST['finaliza'])){ 
+  $recibo = $recibos->finalizaRecibo($_GET['id']);
  
-if (isset($_POST['clienteId'])){
+}
+ if (isset($_POST['clienteId'])){
     $data = array(
         'usuario_id' =>$usuario_id,
         'status' => 1,
         'fecha_asignado' => date("Y-m-d"),
     );
-    
   $id = $datos->insertarRecibo($data);
+  //header('Location: index.php?page=recibo&id=' .$id);	
   $cliente = $_POST['clienteId'];
   $getFormaPago=$_POST['formaPago'];
-  $getDocumento =$_POST['documento'];
-    
+  $getDocumento =$_POST['documento'];   
+  
 }else {
-$id = 0;
-$getFormaPago="";
-$cliente ="";
-$getDocumento =0;
+  $id = 0;
+  $getFormaPago=0;
+  $cliente =0;
+  $getDocumento =0;
+}
+
+if(isset($_GET['id'])) {  
+  $id =$_GET['id'];
+  $recibo = $recibos->obtenerRecibosbyId($_GET['id']);
+  
+    while ($row = $recibo->fetch()) {
+      $getFormaPago=$row[7];
+      $cliente =$row[8];
+      $getDocumento =$row[3];
+      $getEstado = $row[9];
+    }  
 
 }
-if(isset($_GET['id'])) {
-  $id = $_GET['id'];
-}
-//$recibo = $recibos->obtenerRecibobyId($id);
-$recibo = $recibos->obtenerRecibosbyId($id);
-$detalle = $recibos->obtenerDetalleRecibobyId($id);
 
-while ($row = $recibo->fetch()) {
-  $getFormaPago=$row[7];
-  $cliente =$row[8];
-  $getDocumento =$row[3];
 
-}
 $pedidos = $recibos->obtenerFacturasbyCliente($cliente);
 ?>
 
@@ -85,21 +86,30 @@ $pedidos = $recibos->obtenerFacturasbyCliente($cliente);
             <?php }?>
     </select>
     <br>
-  <?php if($id) {?>    
+  <?php if(($id==0)) {?>    
     <button type="submit" class="btn btn-success">Guardar</button>
     <input type  ="hidden" value ="Y" name="nuevo" id ="nuevo" > 
-    <?php  }?>
+    <?php }?>    
   </div>
 </form>
-
-  <div class="row-2">
+<?php if( $id>0) {?>    
+  <?php if ($getEstado==7) { $visible = "style=display:none"; }else {$visible="";}?>
+  <div class="row">
+    <br><form action="index.php?page=recibo&id=<?php echo $id ?>" method="POST">
+          <button type="button" class=" col-2 btn btn-primary" <?php echo $visible?> data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Agregar Facturas: 
+          </button>
+          
+              <button type="input" class="btn btn-danger" <?php echo $visible?>>
+                Finalizar 
+              </button> 
+              <input type  ="hidden" name="finaliza" value="true">
+          </form>
+          <?php } //si el estado = 7?>    
+    
     <br>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Agregar Facturas: 
-    </button>
     <br>
-    <br>
-
+    <?php if (isset($_GET['id'])){ ?>
       <!-- Button trigger modal -->
         <div class="table-responsive">
                   <table id="detalleRecibo" class="responsive table table-striped table-bordered display">     
@@ -113,12 +123,13 @@ $pedidos = $recibos->obtenerFacturasbyCliente($cliente);
                         <?php 
                         $cnt= 1;
                         $montototal = 0; 
+                        $detalle = $recibos->obtenerDetalleRecibobyId($id);
                         while ($row = $detalle->fetch()) {
                         ?><tr>
                             <td><?php echo $cnt; ?> </td>
                             <td><?php echo $row[0] ." " .$row[1];?></td>
                             <td><?php echo $row[2];?></td>
-                            <td><?php echo $row[4];?></td>                          
+                            <td align="right"><?php echo number_format(round($row[4],2),2);?></td>                          
                         </tr>
                         <?php
                             $cnt= $cnt+1;
@@ -128,11 +139,13 @@ $pedidos = $recibos->obtenerFacturasbyCliente($cliente);
                         <td><strong>Total:</strong></td>
                         <td></td>
                         <td></td>
-                        <td><?php echo $montototal;?></td>
+                        <td align="right"><strong>
+                          <?php echo number_format(round($montototal,2),2);?>
+                        </strong></td>
                     </tbody>
                   </table>
         </div><!-- /.table responsible detalle recibo -->
-
+        <?php  }?>  
   </div>  
   <form action="index.php?page=recibo-insertar" method="POST">
 
@@ -209,4 +222,5 @@ $(document).ready(function () {
     });
 });
 </script> -->
+
 </main>
