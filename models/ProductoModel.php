@@ -152,13 +152,17 @@ class ProductoModel extends DB {
 		//  FROM recibo a inner join recibo_d b on a.id = b.recibo_id 
 		//  inner join factura c on c.id = b.factura_id inner join cliente d on d.id = c.cliente_id;";
 		$query = "SELECT b.recibo_id, b.fecha_recibo, SUM(b.monto), b.documento,
-		 d.nombre_comercial,c.serie, c.numero_factura,b.forma_de_pago_id,c.cliente_id, a.status
+		 d.nombre_comercial,c.serie, c.numero_factura,b.forma_de_pago_id,c.cliente_id, a.status, 
+		 b.banco_para_recibos_id, e.nombre, f.nombre
 		 FROM recibo a inner join recibo_d b on a.id = b.recibo_id 
 		 inner join factura c on c.id = b.factura_id inner join cliente d 
 		 on d.id = c.cliente_id 
+		 inner join forma_de_pago e on b.forma_de_pago_id = e.id
+		 inner join banco_para_recibos f on f.id = b.banco_para_recibos_id
 		 WHERE b.recibo_id = " .$id . " 
 		 GROUP BY b.recibo_id, b.fecha_recibo, b.documento,
-		  d.nombre_comercial,c.serie, c.numero_factura,b.forma_de_pago_id,c.cliente_id,a.status ";
+		  d.nombre_comercial,c.serie, c.numero_factura,b.forma_de_pago_id,c.cliente_id,a.status,
+		  b.banco_para_recibos_id, e.nombre ";
 		  //var_dump($query);
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;

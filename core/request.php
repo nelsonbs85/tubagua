@@ -7,6 +7,7 @@ if (!empty($page)) {
 		'login' 			=> array('model' => 'UsuarioModel', 'view' => 'login', 	'controller' => 'UsuarioController'),
 		'inicio' 			=> array('model' => 'UsuarioModel',	'view' => 'inicio', 'controller' => 'InicioController'), 
 		'cliente'			=> array('model' => 'ClienteModel',	'view' => 'cliente', 'controller' => 'ClienteController'), 
+		
 		'edcliente'			=> array('model' => 'ClienteModel',	'view' => 'edcliente', 'controller' => 'ClienteController'), 
 		'listacliente'		=> array('model' => 'ClienteModel',	'view' => 'listacliente', 'controller' => 'ClienteController'), 
 		'listaproducto'		=> array('model' => 'ProductoModel','view' => 'listaproducto', 'controller' => 'ProductoController'), 
@@ -23,6 +24,7 @@ if (!empty($page)) {
 		'pedido' 			=> array('model' => 'ProductoModel', 'view' => 'pedido', 	'controller' => 'ProductoController'), 
 		'pedido-insertar' 	=> array('model' => 'ProductoModel','view' => 'pedidoInsertar', 	'controller' => 'ProductoController'), 
 		'recibo-insertar' 	=> array('model' => 'ProductoModel','view' => 'reciboInsertar', 	'controller' => 'ProductoController'), 
+		'recibopdf' 	=> array('model' => 'pdfModel','view' => 'recibopdf', 	'controller' => 'pdfController'), 
 		
 
 	);

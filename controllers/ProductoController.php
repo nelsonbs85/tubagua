@@ -80,6 +80,7 @@ public function reciboInsertar() {
 		die();
 	}
 }
+
 public function detalleInsertar() {
 
 	if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {

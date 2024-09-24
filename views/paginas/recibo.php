@@ -26,12 +26,13 @@ require_once './controllers/ClienteController.php';
   $cliente = $_POST['clienteId'];
   $getFormaPago=$_POST['formaPago'];
   $getDocumento =$_POST['documento'];   
-  
+  $getBanco = $_POST['banco_para_recibos_id'];
 }else {
   $id = 0;
   $getFormaPago=0;
   $cliente =0;
   $getDocumento =0;
+  $getBanco = 0;
 }
 
 if(isset($_GET['id'])) {  
@@ -43,6 +44,7 @@ if(isset($_GET['id'])) {
       $cliente =$row[8];
       $getDocumento =$row[3];
       $getEstado = $row[9];
+      $getBanco = $row[10];
     }  
 
 }
@@ -55,6 +57,19 @@ $pedidos = $recibos->obtenerFacturasbyCliente($cliente);
   <h2>Generación de Recibo</h2>  
   <form action="index.php?page=recibo" method="POST">
   <div class="row-2">
+  <label class="">Banco: </label>
+    <select class=" form-control" aria-label="Default select example" name="banco_para_recibos_id">
+      <option selected>Seleccione uno:</option>
+      <?php  
+          $formaPago = $datos->obtenerDatos('banco_para_recibos','id');
+          while ($row = $formaPago->fetch()) {?>
+          <option value="<?php echo $row[0];?>"
+              <?php echo $row[0]==$getBanco?" selected ":""
+              ?>>  
+              
+          <?php echo $row[1];?></option>
+          <?php } ?>
+    </select>
     <label>Documento: </label>
     <input type="number" name="documento" class="form-control" value="<?php 
       if ($getDocumento>0){ echo $getDocumento;}
@@ -93,7 +108,18 @@ $pedidos = $recibos->obtenerFacturasbyCliente($cliente);
   </div>
 </form>
 <?php if( $id>0) {?>    
-  <?php if ($getEstado==7) { $visible = "style=display:none"; }else {$visible="";}?>
+  <?php if ((isset($getEstado))&&($getEstado==7)) { 
+        $visible = "style=display:none";
+        ?>
+       <a class="btn btn-primary" target="_blank" href="index.php?page=recibopdf&id=<?php echo $id; ?>"
+        role="button">
+        <i class="bi bi-printer"></i>   
+            Imprimir
+        </a>
+        <?php 
+       }else {
+        $visible="";
+       }?>
   <div class="row">
     <br><form action="index.php?page=recibo&id=<?php echo $id ?>" method="POST">
           <button type="button" class=" col-2 btn btn-primary" <?php echo $visible?> data-bs-toggle="modal" data-bs-target="#exampleModal">
