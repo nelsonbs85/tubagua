@@ -318,7 +318,7 @@ class ProductoModel extends DB {
 			$query= "INSERT  INTO recibo_d (status,recibo_id, 
 			fecha_recibo, fecha_operacion, factura_id, monto, 
 			forma_de_pago_id,
-			documento, usuario_id)
+			documento, banco_para_recibos_id,usuario_id)
 			 VALUES (3," .$datos['recibo_id']
 			. ",'" .$datos['fecha_recibo']
 			. "','" .$datos['fecha_operacion']
@@ -326,18 +326,20 @@ class ProductoModel extends DB {
 			. ", " .$datos['monto']
 			. ", " .$datos['forma_de_pago_id']
 			. ", " .$datos['documento']
+			. ", " .$datos['banco_para_recibos_id']
 			. ", " .$datos['usuario_id']
 			. ")";
 			
 			$resultado = $conn->query($query);
 			if (!$resultado){
-				var_dump($query);
+				var_dump($datos['factura_id']);	
 				return false; 			
 			}else{
 				return $datos['recibo_id'];
 			}
 			///return $conn->mysql_insert_id();
 		} catch (PDOException $e) {
+			
 			echo $e->getMessage();
 		}
 	}

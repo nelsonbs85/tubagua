@@ -3,7 +3,7 @@
     $usuario = $_SESSION['nick'];
 	
     require_once 'controllers/ProductoController.php';
-$autoriza ="";
+    $autoriza ="";
     $recibo = new ProductoController();
    // var_dump($_POST);
     if  (isset($_POST['autoriza']) ){
@@ -16,6 +16,7 @@ $autoriza ="";
         );
        $pedido->insertarRecibo($datos);
     }else {
+        var_dump($_POST);
         $datos = array(    
         'recibo_id'   => $_POST['recibo_id'], 
         'fecha_recibo' => date("Y-m-d"),
@@ -24,9 +25,10 @@ $autoriza ="";
         'monto' => $_POST['monto'],
         'forma_de_pago_id' => $_POST['forma_de_pago_id'],
         'documento' => $_POST['documento'],
+        'banco_para_recibos_id' => $_POST['banco_id'],
         'usuario_id' => $usuario_id,
 	);
-    var_dump($_POST);
+    
     if (empty($datos['recibo_id'])) {
 		$respuesta['mensaje'] = "No puede insertar con campos vacíos";
 		$respuesta['codigo'] = 400;

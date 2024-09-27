@@ -57,8 +57,33 @@ $pedidos = $recibos->obtenerFacturasbyCliente($cliente);
   <h2>Generación de Recibo</h2>  
   <form action="index.php?page=recibo" method="POST">
   <div class="row-2">
+  <label class="">Forma de Pago: </label>
+    <select class=" form-control" onchange="mostrar()" aria-label="Default select example"
+     name="formaPago" id="formaPago">
+      <option selected>Forma de Pago:</option>
+      <?php  
+          $formaPago = $datos->obtenerDatos('forma_de_pago','id');
+          while ($row = $formaPago->fetch()) {?>
+          <option value="<?php echo $row[0];?>"
+              <?php echo $row[0]==$getFormaPago?" selected ":""
+              ?>>  
+          <?php echo $row[1];?></option>
+          <?php } ?>
+    </select>
+    <script>
+      function mostrar(){
+        var formapago = document.getElementById('formaPago').value;
+        if (formapago==1){
+          document.getElementById('otros').style.display ="none";
+        }else{
+          document.getElementById('otros').style.display ="inline";
+        }
+      }
+    </script>
+   <div id= "otros">
   <label class="">Banco: </label>
-    <select class=" form-control" aria-label="Default select example" name="banco_para_recibos_id">
+    <select class=" form-control" aria-label="Default select example" id = 'banco_para_recibos_id'
+    name="banco_para_recibos_id">
       <option selected>Seleccione uno:</option>
       <?php  
           $formaPago = $datos->obtenerDatos('banco_para_recibos','id');
@@ -71,22 +96,12 @@ $pedidos = $recibos->obtenerFacturasbyCliente($cliente);
           <?php } ?>
     </select>
     <label>Documento: </label>
-    <input type="number" name="documento" class="form-control" value="<?php 
+    <input type="number" name="documento" id="documento" class="form-control" value="<?php 
       if ($getDocumento>0){ echo $getDocumento;}
     ?>" >
-    <label class="">Forma de Pago: </label>
-    <select class=" form-control" aria-label="Default select example" name="formaPago">
-      <option selected>Forma de Pago:</option>
-      <?php  
-          $formaPago = $datos->obtenerDatos('forma_de_pago','id');
-          while ($row = $formaPago->fetch()) {?>
-          <option value="<?php echo $row[0];?>"
-              <?php echo $row[0]==$getFormaPago?" selected ":""
-              ?>>  
-              
-          <?php echo $row[1];?></option>
-          <?php } ?>
-    </select>
+   </div> <!-- div condicion de efectivo -->     
+    <label for="">Fecha: </label>
+    <input type="date" class="form-control col-2" name ="fecha" id ="fecha">
     <label for="">Cliente: </label>
     <select class="form-control" aria-label="Default select example" name ="clienteId" id ="clienteId" >
         <option selected>Selecione un cliente:</option>
@@ -173,7 +188,7 @@ $pedidos = $recibos->obtenerFacturasbyCliente($cliente);
         </div><!-- /.table responsible detalle recibo -->
         <?php  }?>  
   </div>  
-  <form action="index.php?page=recibo-insertar" method="POST">
+  
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -188,7 +203,8 @@ $pedidos = $recibos->obtenerFacturasbyCliente($cliente);
       
       <div class="modal-body">
           <div class="panel-body p-20">
-            <div class="table-responsive">
+  
+          <div class="table-responsive">
               <table id="solicitud" class="responsive table table-striped table-bordered display">     
                 <thead>
                     <th>Sel.</th>
@@ -198,21 +214,24 @@ $pedidos = $recibos->obtenerFacturasbyCliente($cliente);
                     <th>Total</th>
                     
                 </thead>
+  
                 <tbody >
                     <?php 
                     $cnt= 1;
                     while ($row = $pedidos->fetch()) {
                     ?><tr>
                         <td>
-                        <input  class="form-control" type  ="hidden" name="recibo_id" id ="recibo_id" value =<?php echo $id ?>>
-                            <input  class="form-control" type  ="hidden" name="documento" id ="documento"value =<?php echo $getDocumento ?> >
-                            <input  class="form-control" type  ="hidden" name="monto" id ="monto" value =<?php echo $row[9] ?>>
-                            <input  class="form-control" type  ="hidden" name="forma_de_pago_id" id ="forma_de_pago_id" value =<?php echo $getFormaPago ?>>
-                            <input  class="form-control" type  ="hidden" name="factura_id" id ="factura_id" value =<?php echo $row[0] ?>>
- 
-                        <button type="submit" class="btn btn-success">
-                        <i class="bi bi-plus-square-fill"></i>
+                      <form action="index.php?page=recibo-insertar" method="POST">                          
+                        <button type="submit" class="btn btn-success" name = "btn<?php echo $row[0]  ?>" id = "btn<?php echo $row[0] ?>" >
+                        <i class="bi bi-plus-circle-dotted"></i>
+                        <input  type  ="hidden" name="recibo_id" id ="recibo_id" value =<?php echo $id ?>>
+                            <input  type  ="hidden" name="documento" id ="documento"value =<?php echo $getDocumento ?> >
+                            <input  type  ="hidden" name="monto" id ="monto" value =<?php echo $row[9] ?>>
+                            <input  type  ="hidden" name="forma_de_pago_id" id ="forma_de_pago_id" value =<?php echo $getFormaPago ?>>
+                            <input  type  ="hidden" name="banco_id" id ="banco_id" value =<?php echo $getBanco ?>>
+                            <input  type  ="hidden" name="factura_id" id ="factura_id" value =<?php echo $row[0] ?>>
                         </button>
+                      </form>
                         </td>
                         <td><?php echo $row[1] ." " .$row[2];?></td>
                         <td><?php echo $row[6];?></td>
