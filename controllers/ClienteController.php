@@ -158,5 +158,13 @@ class ClienteController {
 		$clientes = new ClienteModel();
 		return $clientes->obtenerFormulario($id);
 	}
+	public function obtenerDatosCliente($id) {
+		$clientes = new ClienteModel();
+		return $clientes->obtenerDatosCliente($id);
+	}
+	public function obtenerDatosClientes() {
+		$clientes = new ClienteModel();
+		return $clientes->obtenerDatosClientes();
+	}
 }
 }

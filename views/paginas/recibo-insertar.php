@@ -19,7 +19,7 @@
         var_dump($_POST);
         $datos = array(    
         'recibo_id'   => $_POST['recibo_id'], 
-        'fecha_recibo' => date("Y-m-d"),
+        'fecha_recibo' =>  $_POST['fechaRecibo'], 
         'fecha_operacion' => date("Y-m-d"),
 		'factura_id'   => $_POST['factura_id'], 
         'monto' => $_POST['monto'],
