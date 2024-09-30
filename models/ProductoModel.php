@@ -94,7 +94,8 @@ class ProductoModel extends DB {
 			FROM factura a 
 			inner join factura_d b on a.id = b.factura_id 
 			inner join cliente c on a.cliente_id = c.id
-			WHERE not exists (
+			WHERE
+			a.active = 1 and a.status in (2,3,4) and not exists (
 				SELECT 1 FROM recibo_d x
 				WHERE x.factura_id = a.id
 				)
@@ -114,7 +115,7 @@ class ProductoModel extends DB {
 			FROM factura a 
 			inner join factura_d b on a.id = b.factura_id 
 			inner join cliente c on a.cliente_id = c.id		
-			WHERE a.cliente_id = " .$id ." and not exists (
+			WHERE a.active = 1 and a.status in (2,3,4) and a.cliente_id = " .$id ." and not exists (
 				SELECT 1 FROM recibo_d x
 				WHERE x.factura_id = a.id
 				)

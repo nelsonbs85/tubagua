@@ -133,22 +133,36 @@ $getBanco=0;
             <?php }?>
     </select>
   <?php   
+  $contador = 1;
     while ($row = $infocliente->fetch()) {
   ?>
-<div class="datos" id="datos<?php echo $row[0];?>" style="display:none">
-        <label class="badge text-bg-primary">NIT: <?php echo $row[5]; ?></label>
-          <br>
-          <label class="badge text-bg-primary">Nombre Comercial: <?php echo $row[7]; ?></label>
-          <br>
-          <label class="badge text-bg-primary">Dir. Facturación: <?php echo $row[15]; ?></label>
-          <br>
-          <label class="badge text-bg-primary">Departamento: <?php echo $row[43]; ?></label>
-          <label class="badge text-bg-primary">Municipio:<?php echo $row[50]; ?></label>
-          <label class="badge text-bg-primary">Zona:<?php echo $row[16]; ?></label>    
-</div>
- <?php 
+    <div class="datos" id="datos<?php echo $row[0];?>" style="display:none">
+            <label id = "datosnit<?php echo $row[0]; ?>" class="badge text-bg-primary">NIT: <?php echo $row[5]; ?></label>
+              <br>
+              <label  id = "datosnombre<?php echo $row[0]; ?>"class="badge text-bg-primary">Nombre Comercial: <?php echo $row[7]; ?></label>
+              <br>
+              <label id = "datosdir<?php echo $row[0]; ?>" class="badge text-bg-primary">Dir. Facturación: <?php echo $row[15]; ?></label>
+              <br>
+              <label id = "datosdepto<?php echo $row[0]; ?>" class="badge text-bg-primary">Departamento: <?php echo $row[43]; ?></label>
+              <label id = "datosmuni<?php echo $row[0]; ?>" class="badge text-bg-primary">Municipio:<?php echo $row[50]; ?></label>
+              <label id = "datoszona<?php echo $row[0]; ?>" class="badge text-bg-primary">Zona:<?php echo $row[16]; ?></label>    
+    </div>
+    <?php 
+    $contador +=1;
  }
 ?>
+    <div class="datos" id="datosinfo" style="display:inline">
+            <label id="lblnit" class="badge text-bg-primary">NIT:</label>
+              <br>
+              <label id="lblnombre" class="badge text-bg-primary">Nombre Comercial: </label>
+              <br>
+              <label id="lbldir"class="badge text-bg-primary">Dir. Facturación: </label>
+              <br>
+              <label id="lbldepto" class="badge text-bg-primary">Departamento: </label>
+              <label id="lblmuni" class="badge text-bg-primary">Municipio:</label>
+              <label id="lblzona" class="badge text-bg-primary">Zona:</label>    
+    </div>
+
     <br>
   <?php if(($id==0)) {?>    
     <button type="submit" class="btn btn-success">Guardar</button>
@@ -303,18 +317,26 @@ $(document).ready(function () {
        // $('.modal-body').html(info);
         //console.log(info);
     });
-});
+});$_FILES
 </script> -->
 <script>
       function infoclientes(){
         var cliente = document.getElementById('clienteId').value;
-        var id = "datos"+cliente;
-      
-        document.getElementById(id).style.display="inline";
-        
-        //document.getElementById('otros').style.display ="none";
+        var id = document.getElementById("datos"+cliente).value;
 
-        //console.log(clientes)
+        var nit = document.getElementById("datosnit"+cliente ).innerHTML;
+        var nombre = document.getElementById("datosnombre"+cliente).innerHTML;
+        var dir= document.getElementById("datosdir"+cliente).innerHTML;
+        var depto= document.getElementById("datosdepto"+cliente).innerHTML;
+        var muni= document.getElementById("datosmuni"+cliente).innerHTML;
+        var zona= document.getElementById("datoszona"+cliente).innerHTML;
+        console.log(nit);
+        document.getElementById("lblnit").innerHTML=nit; 
+        document.getElementById("lblnombre").innerHTML=nombre; 
+        document.getElementById("lbldir").innerHTML=dir; 
+        document.getElementById("lbldepto").innerHTML=depto; 
+        document.getElementById("lblmuni").innerHTML=muni; 
+        document.getElementById("lblzona").innerHTML=zona; 
       }
     </script>
 </main>
