@@ -166,5 +166,10 @@ class ClienteController {
 		$clientes = new ClienteModel();
 		return $clientes->obtenerDatosClientes();
 	}
+	
+	public function obtenerDatosClientebyDesc($search) {
+		$clientes = new ClienteModel();
+		return $clientes->obtenerDatosClientebyDesc(trim($search));
+	}
 }
 }

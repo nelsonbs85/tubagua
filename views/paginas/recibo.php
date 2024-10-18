@@ -42,7 +42,8 @@ require_once './controllers/ClienteController.php';
 if(isset($_GET['id'])) {  
   $disabled = " disabled ";
   $id =$_GET['id'];
-  $recibo = $recibos->obtenerRecibosbyId($_GET['id']);
+  
+  $recibo = $recibos->obtenerRecibosbyId($id);
   
     while ($row = $recibo->fetch()) {
       $getFormaPago=$row[7];
@@ -133,6 +134,7 @@ $getBanco=0;
             <?php }?>
     </select>
   <?php   
+if ($id==0) {
   $contador = 1;
     while ($row = $infocliente->fetch()) {
   ?>
@@ -149,7 +151,7 @@ $getBanco=0;
     </div>
     <?php 
     $contador +=1;
- }
+  }
 ?>
     <div class="datos" id="datosinfo" style="display:inline">
             <label id="lblnit" class="badge text-bg-primary">NIT:</label>
@@ -164,7 +166,27 @@ $getBanco=0;
     </div>
 
     <br>
-  <?php if(($id==0)) {?>    
+  <?php 
+    }else {
+      $infoc = $objCliente->obtenerDatosCliente($cliente);
+      while ($row = $infoc->fetch()) {
+        ?>    
+                <div class="datos" id="datos<?php echo $row[0];?>" >
+                  <label id = "datosnit<?php echo $row[0]; ?>" class="badge text-bg-primary">NIT: <?php echo $row[5]; ?></label>
+                    <br>
+                    <label  id = "datosnombre<?php echo $row[0]; ?>"class="badge text-bg-primary">Nombre Comercial: <?php echo $row[7]; ?></label>
+                    <br>
+                    <label id = "datosdir<?php echo $row[0]; ?>" class="badge text-bg-primary">Dir. Facturación: <?php echo $row[15]; ?></label>
+                    <br>
+                    <label id = "datosdepto<?php echo $row[0]; ?>" class="badge text-bg-primary">Departamento: <?php echo $row[43]; ?></label>
+                    <label id = "datosmuni<?php echo $row[0]; ?>" class="badge text-bg-primary">Municipio:<?php echo $row[50]; ?></label>
+                    <label id = "datoszona<?php echo $row[0]; ?>" class="badge text-bg-primary">Zona:<?php echo $row[16]; ?></label>    
+          </div>
+          <br>
+        <?php
+            } 
+  }
+  if(($id==0)) {?>    
     <button type="submit" class="btn btn-success">Guardar</button>
     <input type  ="hidden" value ="Y" name="nuevo" id ="nuevo" > 
     <?php }?>    
@@ -208,12 +230,14 @@ $getBanco=0;
                         <th>#</th>
                         <th>Factura</th>
                         <th>Fecha Pedido</th>
-                        <th>Monto</th>                      
+                        <th>Abono</th>               
+                        <!-- <th>Total Factura</th>                       -->
                     </thead>
                     <tbody >
                         <?php 
                         $cnt= 1;
                         $montototal = 0; 
+                        $abonototal = 0; 
                         $detalle = $recibos->obtenerDetalleRecibobyId($id);
                         while ($row = $detalle->fetch()) {
                         ?><tr>
@@ -221,18 +245,22 @@ $getBanco=0;
                             <td><?php echo $row[0] ." " .$row[1];?></td>
                             <td><?php echo $row[2];?></td>
                             <td align="right"><?php echo number_format(round($row[4],2),2);?></td>                          
+                            <!-- <td align="right"><?php echo number_format(round($row[6],2),2);?></td>                           -->
                         </tr>
                         <?php
                             $cnt= $cnt+1;
-                            $montototal+= $row[4];
+                            $abonototal+= $row[4];
+                            $montototal+= $row[6];
                           }           
                         ?>
                         <td><strong>Total:</strong></td>
                         <td></td>
                         <td></td>
+                        
                         <td align="right"><strong>
-                          <?php echo number_format(round($montototal,2),2);?>
+                          <?php echo number_format(round($abonototal,2),2);?>
                         </strong></td>
+                        <!-- <td align="right" ><strong><?php echo number_format(round($montototal,2),2);?></strong></td> -->
                     </tbody>
                   </table>
         </div><!-- /.table responsible detalle recibo -->
@@ -242,7 +270,7 @@ $getBanco=0;
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Facturas a cancelar:
@@ -252,16 +280,17 @@ $getBanco=0;
       <br>
       
       <div class="modal-body">
-          <div class="panel-body p-20">
+          <div class="panel-body p-30">
   
           <div class="table-responsive">
               <table id="solicitud" class="responsive table table-striped table-bordered display">     
                 <thead>
                     <th>Sel.</th>
                     <th>Factura</th>
-                    <th>Fecha Pedido</th>
-                    <th>Cliente</th>
                     <th>Total</th>
+                    <th>NIT</th>
+                    <th style="width:20%">Abono</th>
+                    <th>Saldo</th>
                     
                 </thead>
   
@@ -278,18 +307,19 @@ $getBanco=0;
                             <input  type  ="hidden" name="documento" id ="documento" 
                             value ="<?php echo $getDocumento ?>" >
                             <input  type  ="hidden" name="fechaRecibo" id ="fechaRecibo"value =<?php echo $getFechaRecibo ?> >
-                            <input  type  ="hidden" name="monto" id ="monto" value =<?php echo $row[9] ?>>
+                            <!-- <input  type  ="hidden" name="monto" id ="monto" value =<?php echo $row[9] ?>> -->
                             <input  type  ="hidden" name="forma_de_pago_id" id ="forma_de_pago_id" value =<?php echo $getFormaPago ?>>
                             <input  type  ="hidden" name="banco_id" id ="banco_id" value =<?php echo $getBanco ?>>
                             <input  type  ="hidden" name="factura_id" id ="factura_id" value =<?php echo $row[0] ?>>
                         </button>
-                      </form>
+                      
                         </td>
-                        <td><?php echo $row[1] ." " .$row[2];?></td>
+                        <td><?php echo $row[1];?></td>
+                        <td><?php echo $row[3];?></td>
+                        <td><?php echo $row[2];?></td>
+                        <td><input name="abono" class="form-control" type="number" required ></td>
                         <td><?php echo $row[6];?></td>
-                        <td><?php echo $row[10];?></td>
-                        <td><?php echo $row[9];?></td>
-                        
+                        </form>  
                     </tr>
                     <?php
                         $cnt= $cnt+1;
@@ -304,7 +334,7 @@ $getBanco=0;
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar</button>
+        <!-- <button type="button" class="btn btn-primary">Guardar</button> -->
       </div>
     </div>
   </div>

@@ -24,16 +24,27 @@ class ClienteModel extends DB {
 		return $resultado;
 	}
 	public function obtenerDatosCliente($id) {
+
 		$db = new ModeloBase();
 		$query = "SELECT * FROM cliente a 
 		inner join departamento b on a.departamento_id = b.id 
 		inner join municipio c on c.id = a.municipio_id and c.departamento_id = b.id 
 		WHERE a.id = " .$id;
+		//var_dump($query);
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
 
-	
+	public function obtenerDatosClientebyDesc($search) {
+		$db = new ModeloBase();
+		$query = "SELECT * FROM (
+			SELECT id,nombre_comercial, razon_social, nit,  CONCAT(UPPER(nombre_comercial),'-',UPPER(razon_social),'-',UPPER(NIT)) 
+			CLIENTE_BUSQUEDA FROM `cliente` ) A
+			WHERE CLIENTE_BUSQUEDA like '%".strtoupper($search) ."%';";
+			
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
 	public function obtenerDatosClientes() {
 		$db = new ModeloBase();
 		$query = "SELECT * FROM cliente a 

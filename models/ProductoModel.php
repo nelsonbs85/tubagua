@@ -79,8 +79,12 @@ class ProductoModel extends DB {
 	public function obtenerDetalleRecibobyId($id) {
 		$db = new ModeloBase();
 		$query = "SELECT b.serie,b.numero_factura, b.fecha_pedido, a.recibo_id, a.monto,
-		 a.documento from recibo_d a left join factura b on a.factura_id = b.id 
-		 WHERE recibo_id =" .$id;
+		 a.documento, sum(c.total) from recibo_d a 
+		 left join factura b on a.factura_id = b.id 
+		 left join factura_d c on a.factura_id = c.factura_id 
+		 WHERE recibo_id =" .$id
+		 ." group by b.serie,b.numero_factura, b.fecha_pedido, a.recibo_id, a.monto,
+		 a.documento" ;
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
@@ -108,32 +112,91 @@ class ProductoModel extends DB {
 	}
 	public function obtenerFacturasbyCliente($id) {
 		$db = new ModeloBase();
-		$query = "SELECT 
-			a.id, a.serie, a.numero_factura, a.numero_fel, a.numero_de_resolucion,
-			a.status, a.fecha_pedido,a.forma_de_pago, a.cliente_id, sum(b.total),
-			c.nombre_comercial
-			FROM factura a 
-			inner join factura_d b on a.id = b.factura_id 
-			inner join cliente c on a.cliente_id = c.id		
-			WHERE a.active = 1 and a.status in (2,3,4) and a.cliente_id = " .$id ." and not exists (
-				SELECT 1 FROM recibo_d x
-				WHERE x.factura_id = a.id
-				)
-			AND numero_factura is not null
-			group by a.id, a.serie, a.numero_factura, a.numero_fel, a.numero_de_resolucion,
-			a.status, a.fecha_pedido,a.forma_de_pago, a.cliente_id, 
-			c.nombre_comercial";
-			//var_dump($id);
+			$query = "SELECT
+    f.id,
+    f.numero_factura,
+    f.nit,
+    SUM(fd.total) AS total_factura,
+    COALESCE(nc.notas_de_credito, 0) AS notas_de_credito,
+    COALESCE(rd.abonos, 0) AS abonos,
+    SUM(fd.total) - COALESCE(nc.notas_de_credito, 0) - COALESCE(rd.abonos, 0) AS saldo
+FROM
+    factura f
+    JOIN factura_d fd ON fd.factura_id = f.id
+    LEFT JOIN (
+        SELECT 
+            nc.factura_id,
+            SUM(ncd.total) AS notas_de_credito
+        FROM 
+            nota_credito nc
+            JOIN nota_credito_d ncd ON ncd.nota_credito_id = nc.id
+        WHERE 
+             nc.status IN (2,3)
+        GROUP BY 
+            nc.factura_id
+    ) nc ON nc.factura_id = f.id
+    LEFT JOIN (
+        SELECT 
+            factura_id,
+            SUM(monto) AS abonos
+        FROM 
+            recibo_d
+        GROUP BY
+            factura_id
+    ) rd ON rd.factura_id = f.id
+WHERE
+    f.cliente_id = " .$id ." GROUP BY
+    f.id, f.numero_factura, f.nit, nc.notas_de_credito, rd.abonos;";
+			
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+	public function obtenerFacturasbyRecibo($id) {
+		$db = new ModeloBase();
+			$query = "SELECT
+    f.id,
+    f.numero_factura,
+    f.nit,
+    SUM(fd.total) AS total_factura,
+    COALESCE(nc.notas_de_credito, 0) AS notas_de_credito,
+    COALESCE(rd.abonos, 0) AS abonos,
+    SUM(fd.total) - COALESCE(nc.notas_de_credito, 0) - COALESCE(rd.abonos, 0) AS saldo,
+	rec.recibo_id
+FROM
+    factura f
+    JOIN factura_d fd ON fd.factura_id = f.id
+    LEFT JOIN (
+        SELECT 
+            nc.factura_id,
+            SUM(ncd.total) AS notas_de_credito
+        FROM 
+            nota_credito nc
+            JOIN nota_credito_d ncd ON ncd.nota_credito_id = nc.id
+        WHERE 
+             nc.status IN (2,3)
+        GROUP BY 
+            nc.factura_id
+    ) nc ON nc.factura_id = f.id
+    LEFT JOIN (
+        SELECT 
+            factura_id,
+            SUM(monto) AS abonos
+        FROM 
+            recibo_d
+        GROUP BY
+            factura_id
+    ) rd ON rd.factura_id = f.id
+	    JOIN recibo_d rec on rec.factura_id = f.id
+WHERE
+    rec.cliente_id = " .$id ." GROUP BY
+    f.id, f.numero_factura, f.nit, nc.notas_de_credito, rd.abonos;";
+			
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
 
 	public function obtenerDepositos($usuario_id) {
 		$db = new ModeloBase();
-		// $query = "SELECT b.recibo_id, b.fecha_recibo, b.monto, b.factura_id, b.forma_de_pago_id, 
-		// b.documento, b.documento_cheque, c.serie, c.numero_factura,c.fecha_pedido, d.nombre_comercial
-		//  FROM recibo a inner join recibo_d b on a.id = b.recibo_id 
-		//  inner join factura c on c.id = b.factura_id inner join cliente d on d.id = c.cliente_id;";
 		$query = "SELECT b.recibo_id, b.fecha_recibo, SUM(b.monto), b.documento,
 		 d.nombre_comercial FROM recibo a left join recibo_d b on a.id = b.recibo_id 
 		 left join factura c on c.id = b.factura_id left join cliente d 
@@ -160,8 +223,7 @@ class ProductoModel extends DB {
 		 on d.id = c.cliente_id 
 		 inner join forma_de_pago e on b.forma_de_pago_id = e.id
 		 left join banco_para_recibos f on f.id = b.banco_para_recibos_id
-		 WHERE b.recibo_id = " .$id . " 
-		 GROUP BY b.recibo_id, b.fecha_recibo, b.documento,
+		 WHERE b.recibo_id = " .$id ." GROUP BY b.recibo_id, b.fecha_recibo, b.documento,
 		  d.nombre_comercial,c.serie, c.numero_factura,b.forma_de_pago_id,c.cliente_id,a.status,
 		  b.banco_para_recibos_id, e.nombre ";
 		  //var_dump($query);
@@ -330,7 +392,7 @@ class ProductoModel extends DB {
 			. ", " .$datos['banco_para_recibos_id']
 			. ", " .$datos['usuario_id']
 			. ")";
-			
+			var_dump($query);
 			$resultado = $conn->query($query);
 			if (!$resultado){
 				var_dump($datos['factura_id']);	

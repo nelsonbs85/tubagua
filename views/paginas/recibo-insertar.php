@@ -5,7 +5,8 @@
     require_once 'controllers/ProductoController.php';
     $autoriza ="";
     $recibo = new ProductoController();
-   // var_dump($_POST);
+    var_dump($_POST);
+
     if  (isset($_POST['autoriza']) ){
         $datos = array(
             'forma' => $_POST['autoriza'],
@@ -16,13 +17,13 @@
         );
        $pedido->insertarRecibo($datos);
     }else {
-        var_dump($_POST);
+        
         $datos = array(    
         'recibo_id'   => $_POST['recibo_id'], 
         'fecha_recibo' =>  $_POST['fechaRecibo'], 
         'fecha_operacion' => date("Y-m-d"),
 		'factura_id'   => $_POST['factura_id'], 
-        'monto' => $_POST['monto'],
+        'monto' => $_POST['abono'],
         'forma_de_pago_id' => $_POST['forma_de_pago_id'],
         'documento' => $_POST['documento'],
         'banco_para_recibos_id' => $_POST['banco_id'],
