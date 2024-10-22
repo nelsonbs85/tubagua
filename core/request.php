@@ -8,12 +8,12 @@ if (!empty($page)) {
 		'inicio' 			=> array('model' => 'UsuarioModel',	'view' => 'inicio', 'controller' => 'InicioController'), 
 		'cliente'			=> array('model' => 'ClienteModel',	'view' => 'cliente', 'controller' => 'ClienteController'), 
 		'recibo'		=> array('model' => 'ProductoModel','view' => 'recibo', 'controller' => 'ProductoController'), 
-		'recibo2'		=> array('model' => 'ProductoModel','view' => 'recibo2', 'controller' => 'ProductoController'), 
+	
 		'edcliente'			=> array('model' => 'ClienteModel',	'view' => 'edcliente', 'controller' => 'ClienteController'), 
 		'listacliente'		=> array('model' => 'ClienteModel',	'view' => 'listacliente', 'controller' => 'ClienteController'), 
 		'listaproducto'		=> array('model' => 'ProductoModel','view' => 'listaproducto', 'controller' => 'ProductoController'), 
 		'listadepositos'		=> array('model' => 'ProductoModel','view' => 'listadeposito', 'controller' => 'ProductoController'), 
-		'recibo'		=> array('model' => 'ProductoModel','view' => 'recibo', 'controller' => 'ProductoController'), 
+	
 		'listafacturas'		=> array('model' => 'ProductoModel','view' => 'listafacturas', 'controller' => 'ProductoController'), 
 		'error' 			=> array('model' => 'UsuarioModel',	'view' => 'error', 	'controller' => 'InicioController'), 
 		'listapedido'		=> array('model' => 'ProductoModel','view' => 'listapedido', 'controller' => 'ProductoController'), 
