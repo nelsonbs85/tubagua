@@ -40,6 +40,7 @@ if (!isset($_SESSION['id_usuario'])) {
                                 <a class="dropdown-item" href="index.php?page=listafacturas">Lista de Facturas</a>
                                 <a class="dropdown-item" href="index.php?page=listadepositos">Lista de Depositos</a>
                                 <a class="dropdown-item" href="index.php?page=recibo">Crear Recibo</a>
+                                <a class="dropdown-item" href="index.php?page=estadocuenta">Estado de Cuenta</a>
                             </div>
                             
                            

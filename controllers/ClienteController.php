@@ -40,6 +40,20 @@ class ClienteController {
             die();
 		}
 	}
+	public function estadocuenta(){
+		//session_start();
+
+		if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
+
+	        require_once('./views/includes/cabecera.php');
+	        require_once('./views/includes/navbar.php');
+	        require_once('./views/paginas/estadocuenta.php');
+	        require_once('./views/includes/pie.php');
+		} else{
+			header('Location: index.php?page=login');
+            die();
+		}
+	}
 	public function listacliente() {
 		// if (!isset($_SESSION['id_usuario'])) {
 		// 	session_start();
@@ -170,6 +184,11 @@ class ClienteController {
 	public function obtenerDatosClientebyDesc($search) {
 		$clientes = new ClienteModel();
 		return $clientes->obtenerDatosClientebyDesc(trim($search));
+	}
+	
+	public function obtenerListaPedidos($idCliente) {
+		$clientes = new ClienteModel();
+		return $clientes->obtenerListaPedidos(trim($idCliente));
 	}
 }
 }

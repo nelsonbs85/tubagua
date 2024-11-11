@@ -7,6 +7,7 @@ if (!empty($page)) {
 		'login' 			=> array('model' => 'UsuarioModel', 'view' => 'login', 	'controller' => 'UsuarioController'),
 		'inicio' 			=> array('model' => 'UsuarioModel',	'view' => 'inicio', 'controller' => 'InicioController'), 
 		'cliente'			=> array('model' => 'ClienteModel',	'view' => 'cliente', 'controller' => 'ClienteController'), 
+		'estadocuenta'			=> array('model' => 'ClienteModel',	'view' => 'estadocuenta', 'controller' => 'ClienteController'), 
 		'recibo'		=> array('model' => 'ProductoModel','view' => 'recibo', 'controller' => 'ProductoController'), 
 	
 		'edcliente'			=> array('model' => 'ClienteModel',	'view' => 'edcliente', 'controller' => 'ClienteController'), 
