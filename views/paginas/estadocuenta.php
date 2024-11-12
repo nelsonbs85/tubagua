@@ -54,7 +54,7 @@ $clientes = $objCliente->obtenerClientes();
                         <td>
                             <form action="index.php?page=estadocuenta&idCliente=<?php echo $row[0] ?>" method="POST">
                                 <button type="submit" class="btn btn-success" name="btn<?php echo $row[0] ?>"
-                                    id="btn<?php echo $row[0] ?>">
+                                    id="<?php echo $row[0] ?>">
                                     <i class="bi bi-send"></i>
                                     <input type="hidden" name="clienteId" id="clienteId" value=<?php echo $row[0] ?>>
                                 </button>
@@ -102,32 +102,33 @@ $clientes = $objCliente->obtenerClientes();
                                     data-bs-target="#exampleModal">
                                     Launch demo modal
                                 </button> -->
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                    name="btn<?php echo $row[0] ?>" data-bs-target="#exampleModal"
-                                    id="btn<?php echo $row[0] ?>">
+                                <button type="button" name="<?php echo $row[0] ?>" class="detalleInfo btn btn-success"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal<?php echo $row[0] ?>"
+                                    id="<?php echo $row[0] ?>">
+                                  
                                     <i class="bi bi-eye-fill btn-primary"></i>
                                 </button>
                             </form>
-                        </td>
-                        <tr></tr>
-                    <?php }
-                    //} ?>
-                </tbody>
-            </table>
-        </div>
-    <?php } ?>
-
+                            
     <!--- MODAL DETALLE DE PEDIDO -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal<?php echo $row[0] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel"><?php echo "prueba" ?></h1>
+                  
+                    
+                    <h1 class="modal-title fs-5" id="exampleModalLabel"><?php echo "Pedido # " .$row[0]; ?></h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <?php $detallePedido = $objPedido->obtenerDetalle(43); ?>
-                    <div class="table-responsive" >
+                    
+                    <?php 
+                    
+                    
+                     ?>
+                    <div class="table-responsive">
+                        
                         <table class="responsive table table-striped table-bordered display">
                             <thead>
                                 <th>Producto</th>
@@ -137,23 +138,23 @@ $clientes = $objCliente->obtenerClientes();
                             </thead>
                             <tbody>
                                 <?php
-                                $totaldetalle =0;
+                                $detallePedido = $objPedido->obtenerDetalle($row[0]);
+                                $totaldetalle = 0;
                                 while ($row2 = $detallePedido->fetch()) { ?>
                                     <td><?php echo $row2[20]; ?></td>
                                     <td><?php echo $row2[5]; ?></td>
                                     <td><?php echo $row2[7]; ?></td>
                                     <td><?php echo $row2[9]; ?></td>
                                     <tr>
-                                    <?php
-                                $totaldetalle = $totaldetalle +$row2[9];    
-                                }?>
-                                <td></td>
-                                <td></td>
-                                <td>Total</td>
-                                <td><?php echo $totaldetalle?></td>
-                            
-                            
-                                
+                                        <?php
+                                        
+                                        $totaldetalle = $totaldetalle + $row2[9];
+                                } ?>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total</td>
+                                    <td><?php echo number_format(round( $totaldetalle,2),2) ?></td>
+
                             </tbody>
                         </table>
                     </div>
@@ -165,6 +166,26 @@ $clientes = $objCliente->obtenerClientes();
         </div>
     </div>
     <!-- FIN MODAL DETALLE DE PEDIDO -->
+                        </td>
+                        <tr></tr>
+                    <?php }
+                    //} ?>
+                </tbody>
+            </table>
+        </div>
+    <?php } ?>
 
+    <script type="text/javascript">
+        $(function () {
+           // location.reload();
+            $(".detalleInfo").click(function (e) {
+                e.preventDefault();
+                var idJS = $(this).attr('id');
+                $("#ids").text(idJS);
+                localStorage.setItem("idDetalle", idJS);
+                //encodeURIComponent(valorVariable), true);
+                document.cookie = "idDetalle=" + encodeURIComponent(idJS) + "; path=/";
 
-</main><!-- /.container -->
+            })  
+        })
+    </script>

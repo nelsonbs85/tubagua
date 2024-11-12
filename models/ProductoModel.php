@@ -347,7 +347,7 @@ WHERE
 			on a.articulo_id = b.id
 		WHERE a.pedido_id = " . $pedido_id;
 		$resultado = $db->obtenerTodos($query);
-		//echo $query;
+		//var_dump($query);
 		return $resultado;
 	}
 
