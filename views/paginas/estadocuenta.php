@@ -13,7 +13,7 @@ $clientes = $objCliente->obtenerClientes();
 <main role="main" class="container">
 
     <h1 class="align-center">Estado de Cuenta de pedidos por Cliente:</h1>
-    <label for="">
+    <label>
         <h4><strong>Búsqueda por Cliente:</strong></h4>
     </label>
     <form action="index.php?page=estadocuenta" method="POST">
@@ -22,16 +22,18 @@ $clientes = $objCliente->obtenerClientes();
                 <button class="btn btn-primary" type="input">Buscar</button>
             </div>
             <br>
-            <input type="text" class="form-control" name="search"
+            <input type="text" class="form-control" name="x"
                 placeholder="Puede buscar por Nombre Comercial, Razón Social o NIT" aria-label=""
                 aria-describedby="basic-addon1">
         </div>
+    <br>
     </form>
-    <?php if (isset($_POST['search'])) {
-        $clientesBusqueda = $objCliente->obtenerDatosClientebyDesc($_POST['search']);
+    <?php if (isset($_POST['x'])) {
+        $clientesBusqueda = $objCliente->obtenerDatosClientebyDesc($_POST['x']);
         ?>
+        
         <div class="table-responsive">
-            <table id="busqueda" class="responsive table table-striped table-bordered display">
+        <table id="solicitud" class="responsive table table-striped table-bordered display">     
                 <thead>
                     <!-- <th>#</th> -->
                     <th>Nombre Comercial</th>
@@ -42,12 +44,15 @@ $clientes = $objCliente->obtenerClientes();
                 </thead>
 
                 <tbody>
+
                     <?php
+                    $cnt =0; 
                     while ($row = $clientesBusqueda->fetch()) {
+                        
                         //$pendiente = $objProducto->ClienteTienePendiente($row[0]);
                         // if ($pendiente>0){
                         ?>
-
+                        <tr>
                         <td><?php echo $row[1]; ?></td>
                         <td><?php echo $row[2]; ?></td>
                         <td><?php echo $row[3]; ?></td>
@@ -60,8 +65,10 @@ $clientes = $objCliente->obtenerClientes();
                                 </button>
                             </form>
                         </td>
-                        <tr></tr>
-                    <?php }
+                        </tr>
+                    <?php
+                    
+                    }
                     //} ?>
                 </tbody>
             </table>
@@ -73,7 +80,7 @@ $clientes = $objCliente->obtenerClientes();
         $clientesPedido = $objCliente->obtenerListaPedidos($idCliente);
         ?>
         <div class="table-responsive">
-            <table id="busqueda" class="responsive table table-striped table-bordered display">
+            <table id="solicitud" class="responsive table table-striped table-bordered display">
                 <thead>
                     <!-- <th>#</th> -->
                     <th># Pedido</th>
@@ -85,6 +92,7 @@ $clientes = $objCliente->obtenerClientes();
                 </thead>
 
                 <tbody>
+                    <tr>
                     <?php
                     while ($row = $clientesPedido->fetch()) {
                         //$pendiente = $objProducto->ClienteTienePendiente($row[0]);
@@ -113,8 +121,8 @@ $clientes = $objCliente->obtenerClientes();
                             
     <!--- MODAL DETALLE DE PEDIDO -->
     <div class="modal fade" id="exampleModal<?php echo $row[0] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content ">
                 <div class="modal-header">
                   
                     
@@ -128,8 +136,7 @@ $clientes = $objCliente->obtenerClientes();
                     
                      ?>
                     <div class="table-responsive">
-                        
-                        <table class="responsive table table-striped table-bordered display">
+                        <table id= "solicitud" class="responsive table table-striped table-bordered display">
                             <thead>
                                 <th>Producto</th>
                                 <th>Cantidad</th>
@@ -137,24 +144,28 @@ $clientes = $objCliente->obtenerClientes();
                                 <th>Total </th>
                             </thead>
                             <tbody>
+                                
                                 <?php
                                 $detallePedido = $objPedido->obtenerDetalle($row[0]);
                                 $totaldetalle = 0;
                                 while ($row2 = $detallePedido->fetch()) { ?>
-                                    <td><?php echo $row2[20]; ?></td>
+                                <tr>                                    <td><?php echo $row2[20]; ?></td>
                                     <td><?php echo $row2[5]; ?></td>
                                     <td><?php echo $row2[7]; ?></td>
                                     <td><?php echo $row2[9]; ?></td>
-                                    <tr>
+                                    
                                         <?php
                                         
                                         $totaldetalle = $totaldetalle + $row2[9];
                                 } ?>
+                                </tr>
+                                <tr>
                                     <td></td>
                                     <td></td>
+                    
                                     <td>Total</td>
                                     <td><?php echo number_format(round( $totaldetalle,2),2) ?></td>
-
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -167,25 +178,11 @@ $clientes = $objCliente->obtenerClientes();
     </div>
     <!-- FIN MODAL DETALLE DE PEDIDO -->
                         </td>
-                        <tr></tr>
+                        </tr>
                     <?php }
                     //} ?>
                 </tbody>
             </table>
         </div>
+        
     <?php } ?>
-
-    <script type="text/javascript">
-        $(function () {
-           // location.reload();
-            $(".detalleInfo").click(function (e) {
-                e.preventDefault();
-                var idJS = $(this).attr('id');
-                $("#ids").text(idJS);
-                localStorage.setItem("idDetalle", idJS);
-                //encodeURIComponent(valorVariable), true);
-                document.cookie = "idDetalle=" + encodeURIComponent(idJS) + "; path=/";
-
-            })  
-        })
-    </script>
