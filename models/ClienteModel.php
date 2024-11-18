@@ -67,7 +67,9 @@ class ClienteModel extends DB
 		$query = "SELECT * FROM (
 			SELECT id,nombre_comercial, razon_social, nit,  CONCAT(UPPER(nombre_comercial),'-',UPPER(razon_social),'-',UPPER(NIT)) 
 			CLIENTE_BUSQUEDA FROM `cliente` ) A
-			WHERE CLIENTE_BUSQUEDA like '%" . strtoupper($search) . "%';";
+			WHERE CLIENTE_BUSQUEDA like '%" .strtoupper($search) . "%' 
+			AND EXISTS (SELECT 1 FROM PEDIDO B 
+                WHERE A.ID = B.cliente_id)";
 
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;

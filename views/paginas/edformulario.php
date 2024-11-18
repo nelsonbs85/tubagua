@@ -56,7 +56,7 @@ require_once './controllers/ClienteController.php';
 	<div class="row-2">
   <span class="badge text-bg-warning"><?php echo "Solicitud #" .$_GET["id"]; ?></span>
 		<div class="accordion" id="accordionClientes01">
-			<form action="index.php?page=cliente-editar" method="POST">
+			<form action="index.php?page=formulario-editar" method="POST">
 				<div class="accordion-item">
 					<h2 class="accordion-header">
 						<button class="accordion-button" type="button" data-bs-toggle="collapse" 

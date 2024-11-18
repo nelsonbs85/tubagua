@@ -13,27 +13,27 @@ if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 class ClienteController {
 
 	#estableciendo las vistas
-	public function cliente() {
+	public function formulario() {
 
 			//session_start();
 		if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 	        require_once('./views/includes/cabecera.php');
 	        require_once('./views/includes/navbar.php');
-	        require_once('./views/paginas/cliente.php');
+	        require_once('./views/paginas/formulario.php');
 	        require_once('./views/includes/pie.php');
 		} else{
 			header('Location: index.php?page=login');
             die();
 		}
 	}
-	public function edcliente() {
+	public function edformulario() {
 		//session_start();
 
 		if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 
 	        require_once('./views/includes/cabecera.php');
 	        require_once('./views/includes/navbar.php');
-	        require_once('./views/paginas/edcliente.php');
+	        require_once('./views/paginas/edformulario.php');
 	        require_once('./views/includes/pie.php');
 		} else{
 			header('Location: index.php?page=login');
@@ -74,20 +74,20 @@ class ClienteController {
         require_once('./views/includes/pie.php');
 	}
 	
-	public function clienteInsertar() {
+	public function formularioInsertar() {
 		//$nivelAcceso = $this->obtenerNivel();
 	////	if ($nivelAcceso >= 2){
-			require_once('./views/paginas/cliente-insertar.php');
+			require_once('./views/paginas/formulario-insertar.php');
 		//}else{
 		//	header('Location: index.php?page=error');
 		//	die();
 	//	}
 	}
 
-	public function clienteEditar() {
+	public function formularioEditar() {
 		//$nivelAcceso = $this->obtenerNivel();
 	////	if ($nivelAcceso >= 2){
-			require_once('./views/paginas/cliente-editar.php');
+			require_once('./views/paginas/formulario-editar.php');
 		//}else{
 		//-	header('Location: index.php?page=error');
 		//	die();
@@ -131,7 +131,7 @@ class ClienteController {
 		$respuesta['mensaje'] = "Registro actualizado correctamente";
 		$respuesta['codigo'] = 200;
 		echo json_encode($respuesta, JSON_PRETTY_PRINT);
-		header('Location: index.php?page=edcliente&id=' .$id);
+		header('Location: index.php?page=edformulario&id=' .$id);
 	//}
 }
 	public function editarCliente($id, $datos) {
@@ -161,12 +161,12 @@ class ClienteController {
 	public function subirArchivo($id, $orden,$datos) {
 		$clientes = new ClienteModel();
 		$clientes->subirArchivo($id, $orden,$datos);
-		header('Location: index.php?page=edcliente&id=' .$id);
+		header('Location: index.php?page=edformulario&id=' .$id);
 	}
 	public function autorizaForm($id, $datos) {
 		$clientes = new ClienteModel();
 		$clientes->autorizaForm($id,$datos); 
-		header('Location: index.php?page=edcliente&id=' .$id);
+		header('Location: index.php?page=edformulario&id=' .$id);
 	}
 	public function obtenerFormulario($id) {
 		$clientes = new ClienteModel();

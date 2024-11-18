@@ -37,7 +37,7 @@ $facturas = $listafacturas->obtenerFacturas();
                     <td><?php echo $row[9];?></td>
                     
                     <td>
-                         <a  class="btn btn-warning"href=" index.php?page=pedido&id=<?php echo $row[0]; ?>">Editar</a>
+                         <a  class="btn btn-warning" href="#">Editar</a>
                     </td>
                 </tr>
                 <?php

@@ -18,7 +18,7 @@ require_once './controllers/ClienteController.php';
     </div>
     <div class="row-2">
     <div class="accordion" id="accordionClientes01">
-      <form action="index.php?page=cliente-insertar" method="POST">
+      <form action="index.php?page=formulario-insertar" method="POST">
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" 

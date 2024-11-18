@@ -10,7 +10,7 @@ require_once './controllers/ProductoController.php';
  $datos= new ProductoController();
  $listaProductos = new ProductoController();
  $productos = $listaProductos->obtenerProductos();
-  
+
  $getCliente = 0;
  $getFecha = '';
  $getFormaPago = 0;
@@ -34,6 +34,7 @@ require_once './controllers/ProductoController.php';
     }
     } else {
     $id = 0;
+    
     }
 ?>
 

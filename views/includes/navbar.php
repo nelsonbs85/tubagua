@@ -28,7 +28,7 @@ if (!isset($_SESSION['id_usuario'])) {
                             Solicitud de Crédito
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="index.php?page=cliente">Crear Solicitud</a>
+                                <a class="dropdown-item" href="index.php?page=formulario">Crear Solicitud</a>
                                 <a class="dropdown-item" href="index.php?page=listacliente">Lista de Solicitudes</a>
                             </div>
                     </li>

@@ -36,12 +36,12 @@ $clientes = $listaClientes->obtenerClientes();
                     <td>
                         <?php if ($row[31]!='A'){?>
                             Estado: Ingresada<br>
-                            <a  class="btn btn-warning"href=" index.php?page=edcliente&id=<?php echo $row[0]; ?>">Editar</a>
+                            <a  class="btn btn-warning"href=" index.php?page=edformulario&id=<?php echo $row[0]; ?>">Editar</a>
                         
                         <?php }else{?>
                             Estado Completada<br>
                             <a  class="btn btn-primary "
-                             href=" index.php?page=edcliente&id=<?php echo $row[0]; ?>">Ver</a>
+                             href=" index.php?page=edformulario&id=<?php echo $row[0]; ?>">Ver</a>
                         <?php }?>
                     </td>
                 </tr>

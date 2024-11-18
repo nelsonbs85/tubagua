@@ -75,7 +75,7 @@ $usuario = $_SESSION['nick'];
 		$respuesta['mensaje'] = "No puede ingresar números" ;
 		$respuesta['codigo'] = 400;
 		echo json_encode($respuesta);
-    //    header('Location: index.php?page=cliente');*/
+    //    header('Location: index.php?page=formulario');*/
 	} else {
         
 		//aqui debe ir el array completamente depurado, validado

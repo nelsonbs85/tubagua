@@ -34,7 +34,7 @@
     if ($extension) {
         $objeto->subirArchivo($id,$orden, $datos);
     }else{
-        header('Location: index.php?page=edcliente&id=' .$id);
+        header('Location: index.php?page=edformulario&id=' .$id);
     }
     
 
