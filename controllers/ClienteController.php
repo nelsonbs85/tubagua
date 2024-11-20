@@ -26,6 +26,19 @@ class ClienteController {
             die();
 		}
 	}
+	public function cliente() {
+
+		//session_start();
+	if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
+		require_once('./views/includes/cabecera.php');
+		require_once('./views/includes/navbar.php');
+		require_once('./views/paginas/cliente.php');
+		require_once('./views/includes/pie.php');
+	} else{
+		header('Location: index.php?page=login');
+		die();
+	}
+}
 	public function edformulario() {
 		//session_start();
 
@@ -54,14 +67,29 @@ class ClienteController {
             die();
 		}
 	}
-	public function listacliente() {
+	public function listaformulario() {
 		// if (!isset($_SESSION['id_usuario'])) {
 		// 	session_start();
 		// }
 		if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 	        require_once('./views/includes/cabecera.php');
 	        require_once('./views/includes/navbar.php');
-	        require_once('./views/paginas/listacliente.php');
+	        require_once('./views/paginas/listaformulario.php');
+	        require_once('./views/includes/pie.php');
+		} else{
+			header('Location: index.php?page=login');
+            die();
+		}
+	}
+
+	public function listaclientes() {
+		// if (!isset($_SESSION['id_usuario'])) {
+		// 	session_start();
+		// }
+		if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
+	        require_once('./views/includes/cabecera.php');
+	        require_once('./views/includes/navbar.php');
+	        require_once('./views/paginas/listaclientes.php');
 	        require_once('./views/includes/pie.php');
 		} else{
 			header('Location: index.php?page=login');
@@ -78,6 +106,15 @@ class ClienteController {
 		//$nivelAcceso = $this->obtenerNivel();
 	////	if ($nivelAcceso >= 2){
 			require_once('./views/paginas/formulario-insertar.php');
+		//}else{
+		//	header('Location: index.php?page=error');
+		//	die();
+	//	}
+	}
+	public function clienteInsertar() {
+		//$nivelAcceso = $this->obtenerNivel();
+	////	if ($nivelAcceso >= 2){
+			require_once('./views/paginas/cliente-insertar.php');
 		//}else{
 		//	header('Location: index.php?page=error');
 		//	die();
@@ -119,7 +156,7 @@ class ClienteController {
 			$respuesta['mensaje'] = "Registro insertado correctamente";
 			$respuesta['codigo'] = 200;
 			echo json_encode($respuesta, JSON_PRETTY_PRINT);
-			header('Location: index.php?page=listacliente');
+			header('Location: index.php?page=listaformulario');
 		//}
 	}
 	
@@ -189,6 +226,36 @@ class ClienteController {
 	public function obtenerListaPedidos($idCliente) {
 		$clientes = new ClienteModel();
 		return $clientes->obtenerListaPedidos(trim($idCliente));
+	}
+	public function addCliente($datos) {
+		$clientes = new ClienteModel();
+		$newcliente = $clientes->addCliente($datos);
+		
+		//		return $clientes->addCliente($datos);
+		$respuesta['mensaje'] = "Registro insertado correctamente";
+		$respuesta['codigo'] = 200;
+		header('Location: index.php?page=cliente&id=' .$newcliente);	
+
+
+	}
+	public function buscaClientebyId($id) {
+		$clientes = new ClienteModel();
+		return $clientes->buscaClientebyId($id);
+	}
+	public function buscaClientes() {
+		$clientes = new ClienteModel();
+		return $clientes->buscaClientes();
+	}
+	public function updateCliente($datos) {
+		$clientes = new ClienteModel();
+		$newcliente = $clientes->updateCliente($datos);
+		
+		//		return $clientes->addCliente($datos);
+		$respuesta['mensaje'] = "Registro insertado correctamente";
+		$respuesta['codigo'] = 200;
+		header('Location: index.php?page=cliente&id=' .$datos['idCliente']);	
+
+
 	}
 }
 }

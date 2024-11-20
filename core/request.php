@@ -12,7 +12,8 @@ if (!empty($page)) {
 		'recibo'		=> array('model' => 'ProductoModel','view' => 'recibo', 'controller' => 'ProductoController'), 
 	
 		'edformulario'			=> array('model' => 'ClienteModel',	'view' => 'edformulario', 'controller' => 'ClienteController'), 
-		'listacliente'		=> array('model' => 'ClienteModel',	'view' => 'listacliente', 'controller' => 'ClienteController'), 
+		'listaformulario'		=> array('model' => 'ClienteModel',	'view' => 'listaformulario', 'controller' => 'ClienteController'), 
+		'listaclientes'		=> array('model' => 'ClienteModel',	'view' => 'listaclientes', 'controller' => 'ClienteController'), 
 		'listaproducto'		=> array('model' => 'ProductoModel','view' => 'listaproducto', 'controller' => 'ProductoController'), 
 		'listadepositos'		=> array('model' => 'ProductoModel','view' => 'listadeposito', 'controller' => 'ProductoController'), 
 	
@@ -21,6 +22,7 @@ if (!empty($page)) {
 		'listapedido'		=> array('model' => 'ProductoModel','view' => 'listapedido', 'controller' => 'ProductoController'), 
 		'formulario-insertar' 	=> array('model' => 'ClienteModel',	'view' => 'formularioInsertar', 	'controller' => 'ClienteController'), 
 		'formulario-editar' 	=> array('model' => 'ClienteModel',	'view' => 'formularioEditar', 	'controller' => 'ClienteController'), 
+		'cliente-insertar' 	=> array('model' => 'ClienteModel',	'view' => 'clienteInsertar', 	'controller' => 'ClienteController'), 
 		'detalle-insertar' 	=> array('model' => 'ProductoModel',	'view' => 'detalleInsertar', 	'controller' => 'ProductoController'), 
 		'subir-archivo' 	=> array('model' => 'ClienteModel',	'view' => 'archivoInsertar', 	'controller' => 'ClienteController'), 
 		'autoriza-form' 	=> array('model' => 'ClienteModel',	'view' => 'autoriza', 	'controller' => 'ClienteController'), 

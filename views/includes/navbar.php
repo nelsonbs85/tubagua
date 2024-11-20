@@ -29,7 +29,16 @@ if (!isset($_SESSION['id_usuario'])) {
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="index.php?page=formulario">Crear Solicitud</a>
-                                <a class="dropdown-item" href="index.php?page=listacliente">Lista de Solicitudes</a>
+                                <a class="dropdown-item" href="index.php?page=listaformulario">Lista de Solicitudes</a>
+                            </div>
+                    </li>
+                    <li class="nav-item dropdown" >	
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Clientes
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="index.php?page=cliente">Crear Cliente</a>
+                                <a class="dropdown-item" href="index.php?page=listaclientes">Lista de Clientes</a>
                             </div>
                     </li>
                     <li class="nav-item dropdown" >	
@@ -42,8 +51,6 @@ if (!isset($_SESSION['id_usuario'])) {
                                 <a class="dropdown-item" href="index.php?page=recibo">Crear Recibo</a>
                                 <a class="dropdown-item" href="index.php?page=estadocuenta">Estado de Cuenta</a>
                             </div>
-                            
-                           
                     </li>
                     <li class="nav-item dropdown" >	
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

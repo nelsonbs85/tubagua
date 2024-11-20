@@ -81,7 +81,13 @@ class ProductoModel extends DB
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
-
+	public function obtenerDatosMunicipio($depto)
+	{
+		$db = new ModeloBase();
+		$query = "SELECT * from departamento WHERE departamento_id = " .$depto; 
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
 	public function obtenerDetalleRecibobyId($id)
 	{
 		$db = new ModeloBase();

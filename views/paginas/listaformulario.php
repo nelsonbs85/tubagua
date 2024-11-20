@@ -3,8 +3,8 @@
 $usuario = $_SESSION['nick'];
 
 require_once './controllers/ClienteController.php';
-$listaClientes = new ClienteController();
-$clientes = $listaClientes->obtenerClientes();
+$listaformularios = new ClienteController();
+$clientes = $listaformularios->obtenerClientes();
 
 ?>
  

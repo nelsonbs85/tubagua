@@ -237,11 +237,14 @@ public function detalleInsertar() {
 		$producto = new ProductoModel();
 		return $producto->obtenerProducto($descripcion);
 	}
-	public function obtenerDatos($tabla,$campo) {
+	public function obtenerDatos($tabla,$campo,) {
 		$datos = new ProductoModel();
 		return $datos->obtenerDatos($tabla,$campo);
 	}
-
+	public function obtenerDatosMunicipio($depto) {
+		$datos = new ProductoModel();
+		return $datos->obtenerDatosMunicipio($depto);
+	}
 	
 	public function obtenerDetalleRecibobyId($id) {
 		$datos = new ProductoModel();

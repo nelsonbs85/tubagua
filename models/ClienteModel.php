@@ -118,7 +118,22 @@ class ClienteModel extends DB
 
 
 	}
-
+	public function buscaClientebyId($id)
+	{
+		$conn = new DB();
+		$query = "SELECT * FROM cliente WHERE id = " .$id;
+		
+		$resultado = $conn->query($query);
+		return $resultado;
+	}
+	public function buscaClientes()
+	{
+		$conn = new ModeloBase();
+		$query = "SELECT * FROM cliente";
+		
+		$resultado = $conn->obtenerTodos($query);
+		return $resultado;
+	}
 	public function autorizaForm($id, $datos)
 	{
 
@@ -253,5 +268,62 @@ class ClienteModel extends DB
 			echo $e->getMessage();
 		}
 	}
+	public function addCliente($datos)
+	{
+		$conn = new DB();
+		try {
+			$query = "INSERT INTO cliente  (active, estado, codigo, nit, cui, 
+			nombre_comercial, razon_social,
+			limite_credito, dias_credito,direccion_facturacion,
+			pais_id,departamento_id, municipio_id, fecha_alta, usuario_id )
+			VALUES (1,1,'" . $datos['codigo']
+				. "', '" . $datos['nit']
+				. "', " . $datos['cui']
+				. ", '" . $datos['nombre_comercial']
+				. "', '" . $datos['razon_social']
+				. "', " . $datos['limite_credito']
+				. ", " . $datos['dias_credito']
+				. ", '" . $datos['direccion_facturacion']
+				. "',1, " . $datos['departamento_id']
+				. ", " . $datos['municipio_id']
+				. ", '" . $datos['fecha_alta']
+				. "', " . $datos['usuario']
+				. ")";
+			
+			$resultado = $conn->query($query);
+			
+			if (!$resultado) {
+				return false;
+			} else {
+				return $conn->lastInsertId();
+			}
+		} catch (PDOException $e) {
+			
+			echo $e->getMessage();
+		}
+	}
+	public function updateCliente($datos)
+	{
 
+		$conn = new DB();
+		try {
+			
+			$query = "UPDATE cliente
+			SET codigo= '" .$datos['codigo']
+			."', nit ='" .$datos['nit']
+			."', cui ='" .$datos['cui']
+			."', nit ='" .$datos['nit']
+			."', nombre_comercial ='" .$datos['nombre_comercial']
+			."', razon_social ='" .$datos['razon_social']
+			."', limite_credito =" .$datos['limite_credito']
+			.", dias_credito =" .$datos['dias_credito']
+			.", direccion_facturacion ='" .$datos['direccion_facturacion']
+			."', departamento_id =" .$datos['departamento_id']
+			.", municipio_id =" .$datos['municipio_id']
+			." WHERE id =" . $datos['idCliente'];
+			$resultado = $conn->query($query);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
 }
