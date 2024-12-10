@@ -107,6 +107,20 @@ public function detalleInsertar() {
             die();
 		}
 	}
+	public function listaproductoreal() {
+		//  if (!isset($_SESSION['id_usuario'])) {
+		//  	session_start();
+		//  }
+		if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
+	        require_once('./views/includes/cabecera.php');
+	        require_once('./views/includes/navbar.php');
+	        require_once('./views/paginas/listaproductoreal.php');
+	        require_once('./views/includes/pie.php');
+		} else{
+			header('Location: index.php?page=login');
+            die();
+		}
+	}
 	public function listadeposito() {
 		//  if (!isset($_SESSION['id_usuario'])) {
 		//  	session_start();
@@ -209,7 +223,10 @@ public function detalleInsertar() {
 		$producto = new ProductoModel();
 		return $producto->obtenerProductos();
 	}
-
+	public function obtenerProductosreal() {
+		$producto = new ProductoModel();
+		return $producto->obtenerProductosreal();
+	}
 	public function obtenerFacturas() {
 		$producto = new ProductoModel();
 		return $producto->obtenerFacturas();

@@ -33,6 +33,35 @@ class ProductoModel extends DB
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
+	public function obtenerProductosreal()
+	{
+		$db = new ModeloBase();
+		$query = "SELECT a.id, a.codigo, a.nombre_corto, b.nombre, c.nombre, d.nombre,
+		stock, f.precio_local, g.cantidad
+		FROM articulo a 
+		INNER JOIN unidad_medida b 
+    	on a.uni_med_id = b.id
+   			 INNER JOIN categoria c 
+    	on a.categoria_id = c.id
+		INNER JOIN marca d
+		on a.marca_id = d.id
+		INNER JOIN inventario e 
+		on a.id = e.articulo_id
+		INNER JOIN listado_precio_d f
+		on a.id =f. articulo_id
+        INNER JOIN (
+            SELECT pedido_d.articulo_id articulo, sum(cantidad)  cantidad FROM pedido
+            	inner join pedido_d on 
+            	pedido.id = pedido_d.pedido_id
+            WHERE pedido.status <7
+            GROUP by pedido_d.articulo_id
+        ) g  on a.id = g.articulo
+		WHERE a.active = 1
+		and stock >0 
+		";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
 	public function obtenerProductosbyDescripcion($descripcion)
 	{
 		$db = new ModeloBase();

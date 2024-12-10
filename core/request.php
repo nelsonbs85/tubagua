@@ -15,6 +15,7 @@ if (!empty($page)) {
 		'listaformulario'		=> array('model' => 'ClienteModel',	'view' => 'listaformulario', 'controller' => 'ClienteController'), 
 		'listaclientes'		=> array('model' => 'ClienteModel',	'view' => 'listaclientes', 'controller' => 'ClienteController'), 
 		'listaproducto'		=> array('model' => 'ProductoModel','view' => 'listaproducto', 'controller' => 'ProductoController'), 
+		'listaproductoreal'		=> array('model' => 'ProductoModel','view' => 'listaproductoreal', 'controller' => 'ProductoController'), 
 		'listadepositos'		=> array('model' => 'ProductoModel','view' => 'listadeposito', 'controller' => 'ProductoController'), 
 	
 		'listafacturas'		=> array('model' => 'ProductoModel','view' => 'listafacturas', 'controller' => 'ProductoController'), 

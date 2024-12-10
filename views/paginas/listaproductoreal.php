@@ -3,7 +3,7 @@ $usuario = $_SESSION['nick'];
 
 require_once './controllers/ProductoController.php';
 $listaProductos = new ProductoController();
-$productos = $listaProductos->obtenerProductos();
+$productos = $listaProductos->obtenerProductosreal();
 
 ?>
  
@@ -19,8 +19,8 @@ $productos = $listaProductos->obtenerProductos();
                 <th>Nombre</th>
                 <th>Marca</th>
                 <th>Medida</th>
-                <th>Categoria</th>
                 <th>Existencias</th>
+                <th>Cant. No. Aut.</th>
                 <th>Precio</th>
             </thead>
             <tbody >
@@ -34,8 +34,9 @@ $productos = $listaProductos->obtenerProductos();
                     <td><?php echo $row[2];?></td>
                     <td><?php echo $row[5];?></td>
                     <td><?php echo $row[3];?></td>
-                    <td><?php echo $row[4];?></td>
+                    <!-- <td><?php echo $row[4];?></td> -->
                     <td><?php echo $row[6];?></td>
+                    <td><?php echo $row[8];?></td>
                     <td><?php echo $row[7];?></td>
                 </tr>
                 <?php

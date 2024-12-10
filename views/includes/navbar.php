@@ -58,6 +58,7 @@ if (!isset($_SESSION['id_usuario'])) {
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="index.php?page=listaproducto">Listado de Existencias</a>
+                                <a class="dropdown-item" href="index.php?page=listaproductoreal">Listado de Existencias Real</a>
                                 <a class="dropdown-item" href="index.php?page=pedido">Hacer Pedido</a>
                                 <a class="dropdown-item" href="index.php?page=listapedido">Lista de Pedidos</a>
                             </div>
