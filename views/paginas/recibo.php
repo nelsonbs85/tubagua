@@ -69,7 +69,7 @@ if (isset($_POST['formaPago'])) {
             <button class="btn btn-primary" type="input">Buscar</button>
           </div>
           <input type="text" class="form-control" name="search"
-            placeholder="Puede buscar por Nombre Comercial, Razón Social o NIT" aria-label=""
+            placeholder="Puede buscar por Nombre Comercial, Razón Social, Referencia o NIT" aria-label=""
             aria-describedby="basic-addon1">
       </form>
   </div>
@@ -81,11 +81,11 @@ if (isset($_POST['formaPago'])) {
       <div class="table-responsive">
         <table id="busqueda" class="responsive table table-striped table-bordered display">
           <thead>
-            <!-- <th>#</th> -->
-            <th>Nombre Comercial</th>
-            <th>Razon Social</th>
-            <th>NIT</th>
-            <th> </th>
+          <th>Código</th>
+                <th>Nit</th>
+                <th>Razón Social</th>
+                <th>Departamento</th>
+                <th>Municipio</th>
             <!-- <th>Total Factura</th>                       -->
           </thead>
 
@@ -96,9 +96,11 @@ if (isset($_POST['formaPago'])) {
              // if ($pendiente>0){
               ?>
 
-              <td><?php echo $row[1]; ?></td>
-              <td><?php echo $row[2]; ?></td>
-              <td><?php echo $row[3]; ?></td>
+<td><?php echo $row[0];?></td>
+                    <td><?php echo $row[3];?></td>
+                    <td><?php echo $row[1];?></td>
+                    <td><?php echo $row[5];?></td>
+                    <td><?php echo $row[6];?></td>
               <td>
                 <form action="index.php?page=recibo&idCliente=<?php echo $row[0] ?>" method="POST">
                   <button type="submit" class="btn btn-success" name="btn<?php echo $row[0] ?>"

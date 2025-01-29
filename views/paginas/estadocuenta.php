@@ -9,10 +9,10 @@ $objPedido = new ProductoController();
 $clientes = $objCliente->obtenerClientes();
 
 
- if (isset($_GET['idDetalle'])) { 
+if (isset($_GET['idDetalle'])) {
     echo "  <script type='text/javascript'> 
             $(document).ready(function(){ $('#exampleModal').modal('show'); }); 
-            </script>"; 
+            </script>";
 }
 ?>
 <main role="main" class="container">
@@ -28,23 +28,25 @@ $clientes = $objCliente->obtenerClientes();
             </div>
             <br>
             <input type="text" class="form-control" name="x"
-                placeholder="Puede buscar por Nombre Comercial, Razón Social o NIT" aria-label=""
+                placeholder="Puede buscar por Nombre Comercial, Razón Social, Referencia o NIT" aria-label=""
                 aria-describedby="basic-addon1">
         </div>
         <br>
     </form>
     <?php if (isset($_POST['x'])) {
         $clientesBusqueda = $objCliente->obtenerDatosClientebyDesc($_POST['x']);
-        ?>
+    ?>
 
         <div class="table-responsive">
             <table id="solicitud" class="responsive table table-striped table-bordered display">
                 <thead>
                     <!-- <th>#</th> -->
-                    <th>Nombre Comercial</th>
-                    <th>Razon Social</th>
-                    <th>NIT</th>
-                    <th> </th>
+                    <th>Código</th>
+                    <th>Nit</th>
+                    <th>Razón Social</th>
+                    <th>Departamento</th>
+                    <th>Municipio</th>
+                    <th>Acción</th>
                     <!-- <th>Total Factura</th>                       -->
                 </thead>
 
@@ -56,11 +58,13 @@ $clientes = $objCliente->obtenerClientes();
 
                         //$pendiente = $objProducto->ClienteTienePendiente($row[0]);
                         // if ($pendiente>0){
-                        ?>
+                    ?>
                         <tr>
-                            <td><?php echo $row[1]; ?></td>
-                            <td><?php echo $row[2]; ?></td>
+                            <td><?php echo $row[0]; ?></td>
                             <td><?php echo $row[3]; ?></td>
+                            <td><?php echo $row[1]; ?></td>
+                            <td><?php echo $row[5]; ?></td>
+                            <td><?php echo $row[6]; ?></td>
                             <td>
                                 <form action="index.php?page=estadocuenta&idCliente=<?php echo $row[0] ?>" method="POST">
                                     <button type="submit" class="btn btn-success" name="btn<?php echo $row[0] ?>"
@@ -71,10 +75,11 @@ $clientes = $objCliente->obtenerClientes();
                                 </form>
                             </td>
                         </tr>
-                        <?php
+                    <?php
 
                     }
-                    //} ?>
+                    //} 
+                    ?>
                 </tbody>
             </table>
         </div>
@@ -83,7 +88,7 @@ $clientes = $objCliente->obtenerClientes();
     if (isset($_GET['idCliente'])) {
         $idCliente = $_GET['idCliente'];
         $clientesPedido = $objCliente->obtenerListaPedidos($idCliente);
-        ?>
+    ?>
         <div class="table-responsive">
             <table id="solicitud" class="responsive table table-striped table-bordered display">
                 <thead>
@@ -102,7 +107,7 @@ $clientes = $objCliente->obtenerClientes();
                         while ($row = $clientesPedido->fetch()) {
                             //$pendiente = $objProducto->ClienteTienePendiente($row[0]);
                             // if ($pendiente>0){
-                            ?>
+                        ?>
 
                             <td><?php echo $row[0]; ?></td>
                             <td><?php echo $row[1]; ?></td>
@@ -110,8 +115,8 @@ $clientes = $objCliente->obtenerClientes();
                             <td><?php echo $row[3]; ?></td>
                             <td><?php echo number_format(round($row[5], 2), 2); ?></td>
                             <td>
-                                <form id="miformulario" action="index.php?page=estadocuenta&idCliente=<?php echo $idCliente ?>&idDetalle=<?php echo $row[0] ?>" 
-                                method="POST">
+                                <form id="miformulario" action="index.php?page=estadocuenta&idCliente=<?php echo $idCliente ?>&idDetalle=<?php echo $row[0] ?>"
+                                    method="POST">
                                     <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">
                                     Launch demo modal
@@ -127,9 +132,10 @@ $clientes = $objCliente->obtenerClientes();
                                 </form>
 
                             </td>
-                        </tr>
-                    <?php }
-                        //} ?>
+                    </tr>
+                <?php }
+                        //} 
+                ?>
                 </tbody>
             </table>
         </div>
@@ -140,11 +146,11 @@ $clientes = $objCliente->obtenerClientes();
             <div class="modal-dialog modal-lg">
                 <div class="modal-content ">
                     <div class="modal-header">
-                        <?php if (isset($_GET['idDetalle'])){
+                        <?php if (isset($_GET['idDetalle'])) {
                             $idDetalle = $_GET['idDetalle'];
-                            }else {
-                                $idDetalle = 0; 
-                            }
+                        } else {
+                            $idDetalle = 0;
+                        }
                         ?>
 
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Pedido # <?php echo $idDetalle; ?></span></h1>
@@ -172,18 +178,18 @@ $clientes = $objCliente->obtenerClientes();
                                             <td><?php echo $row2[7]; ?></td>
                                             <td><?php echo $row2[9]; ?></td>
 
-                                            <?php
+                                        <?php
 
-                                            $totaldetalle = $totaldetalle + $row2[9];
+                                        $totaldetalle = $totaldetalle + $row2[9];
                                     } ?>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
 
-                                        <td>Total</td>
-                                        <td><?php echo number_format(round($totaldetalle, 2), 2) ?></td>
-                                    </tr>
+                                            <td>Total</td>
+                                            <td><?php echo number_format(round($totaldetalle, 2), 2) ?></td>
+                                        </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -196,5 +202,5 @@ $clientes = $objCliente->obtenerClientes();
         </div>
 
         <!-- FIN MODAL DETALLE DE PEDIDO -->
-      
+
     <?php } ?>

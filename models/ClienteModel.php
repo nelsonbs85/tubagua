@@ -65,7 +65,7 @@ class ClienteModel extends DB
 	{
 		$db = new ModeloBase();
 		$query = "SELECT * FROM (
-			SELECT a.id,nombre_comercial, razon_social, nit,  CONCAT(UPPER(nombre_comercial),'-',UPPER(razon_social),'-',UPPER(NIT),'-',UPPER(referencia)) 
+			SELECT a.id,nombre_comercial, razon_social, nit,  CONCAT(UPPER(nombre_comercial),'-',UPPER(razon_social),'-',UPPER(NIT),'-',COALESCE(UPPER(REFERENCIA),'')) 
 			CLIENTE_BUSQUEDA, b.nombre departamento, c.nombre municipio FROM `cliente` a
 	inner join departamento b on a.departamento_id = b.id 
 		inner join municipio c on c.id = a.municipio_id and c.departamento_id = b.id 
