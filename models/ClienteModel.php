@@ -65,8 +65,11 @@ class ClienteModel extends DB
 	{
 		$db = new ModeloBase();
 		$query = "SELECT * FROM (
-			SELECT id,nombre_comercial, razon_social, nit,  CONCAT(UPPER(nombre_comercial),'-',UPPER(razon_social),'-',UPPER(NIT)) 
-			CLIENTE_BUSQUEDA FROM `cliente` ) A
+			SELECT a.id,nombre_comercial, razon_social, nit,  CONCAT(UPPER(nombre_comercial),'-',UPPER(razon_social),'-',UPPER(NIT),'-',UPPER(referencia)) 
+			CLIENTE_BUSQUEDA, b.nombre departamento, c.nombre municipio FROM `cliente` a
+	inner join departamento b on a.departamento_id = b.id 
+		inner join municipio c on c.id = a.municipio_id and c.departamento_id = b.id 
+) A
 			WHERE CLIENTE_BUSQUEDA like '%" .strtoupper($search) . "%' 
 			AND EXISTS (SELECT 1 FROM PEDIDO B 
                 WHERE A.ID = B.cliente_id)";
