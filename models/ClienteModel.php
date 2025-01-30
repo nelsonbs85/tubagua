@@ -64,15 +64,18 @@ class ClienteModel extends DB
 	public function obtenerDatosClientebyDesc($search)
 	{
 		$db = new ModeloBase();
-		$query = "SELECT * FROM (
+		$query = "SELECT A.ID, NOMBRE_COMERCIAL, RAZON_SOCIAL, A.NIT, CLIENTE_BUSQUEDA, departamento, municipio, SUM(SALDO) SALDO FROM (
 			SELECT a.id,nombre_comercial, razon_social, nit,  CONCAT(UPPER(nombre_comercial),'-',UPPER(razon_social),'-',UPPER(NIT),'-',COALESCE(UPPER(REFERENCIA),'')) 
 			CLIENTE_BUSQUEDA, b.nombre departamento, c.nombre municipio FROM `cliente` a
 	inner join departamento b on a.departamento_id = b.id 
 		inner join municipio c on c.id = a.municipio_id and c.departamento_id = b.id 
 ) A
-			WHERE CLIENTE_BUSQUEDA like '%" .strtoupper($search) . "%' 
+INNER JOIN vw_saldocliente B ON 
+	B.cliente_id = A.id 
+			WHERE CLIENTE_BUSQUEDA like  '%" .strtoupper($search) . "%' 
 			AND EXISTS (SELECT 1 FROM PEDIDO B 
-                WHERE A.ID = B.cliente_id)";
+                WHERE A.ID = B.cliente_id)
+                GROUP BY A.ID, NOMBRE_COMERCIAL, RAZON_SOCIAL, A.NIT, CLIENTE_BUSQUEDA, departamento, municipio";
 
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
@@ -221,25 +224,25 @@ class ClienteModel extends DB
 		}
 	}
 
-	public function editarCliente($id, $datos)
-	{
-		$db = new ModeloBase();
-		try {
-			$editar = $db->editar('form_clientes', $id, $datos);
-		} catch (PDOException $e) {
-			echo $e->getMessage();
-		}
-	}
+	// public function editarCliente($id, $datos)
+	// {
+	// 	$db = new ModeloBase();
+	// 	try {
+	// 		$editar = $db->editarCliente('form_clientes', $id, $datos);
+	// 	} catch (PDOException $e) {
+	// 		echo $e->getMessage();
+	// 	}
+	// }
 
-	public function eliminarCliente($id)
-	{
-		$db = new ModeloBase();
-		try {
-			$eliminar = $db->eliminar('form_clientes', $id);
-		} catch (PDOException $e) {
-			echo $e->getMessage();
-		}
-	}
+	// public function eliminarCliente($id)
+	// {
+	// 	$db = new ModeloBase();
+	// 	try {
+	// 		$eliminar = $db->eliminar('form_clientes', $id);
+	// 	} catch (PDOException $e) {
+	// 		echo $e->getMessage();
+	// 	}
+	// }
 
 	public function subirArchivo($id, $orden, $datos)
 	{

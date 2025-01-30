@@ -86,6 +86,7 @@ if (isset($_POST['formaPago'])) {
                 <th>Razón Social</th>
                 <th>Departamento</th>
                 <th>Municipio</th>
+                <th>Saldo</th>
             <!-- <th>Total Factura</th>                       -->
           </thead>
 
@@ -101,6 +102,8 @@ if (isset($_POST['formaPago'])) {
                     <td><?php echo $row[1];?></td>
                     <td><?php echo $row[5];?></td>
                     <td><?php echo $row[6];?></td>
+                    <td><?php echo number_format($row[7],2,".",",");?></td>
+
               <td>
                 <form action="index.php?page=recibo&idCliente=<?php echo $row[0] ?>" method="POST">
                   <button type="submit" class="btn btn-success" name="btn<?php echo $row[0] ?>"
@@ -125,7 +128,7 @@ if (isset($_POST['formaPago'])) {
         
         ?>
 
-        <div class="datos" id="datos" style="display">
+        <div class="datos" id="datos" style="display:inline">
           <label id="datosnombre" class="badge text-bg-warning col-10">
             <h5><?php echo $row[7]; ?></h5>
           </label>

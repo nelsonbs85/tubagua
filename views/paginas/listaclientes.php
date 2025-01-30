@@ -37,6 +37,7 @@ $clientes = new ClienteController();
                 <th>Razón Social</th>
                 <th>Departamento</th>
                 <th>Municipio</th>
+                <th>Saldo</th>
                 <!-- <th>Nombre Comercial.</th> -->
                 <th>Acción</th>
             </thead>
@@ -51,6 +52,7 @@ $clientes = new ClienteController();
                     <td><?php echo $row[1];?></td>
                     <td><?php echo $row[5];?></td>
                     <td><?php echo $row[6];?></td>
+                    <td><?php echo number_format($row[7],2,".",",");?></td>
                     
                     <td>
                         <a  class="btn btn-warning"href=" index.php?page=cliente&id=<?php echo $row[0]; ?>">Editar</a>
