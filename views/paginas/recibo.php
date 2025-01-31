@@ -100,6 +100,7 @@ if (isset($_POST['formaPago'])) {
 
           <tbody>
             <?php
+            
             while ($row = $clientesBusqueda->fetch()) {
               //$pendiente = $objProducto->ClienteTienePendiente($row[0]);
               // if ($pendiente>0){
@@ -137,10 +138,8 @@ if (isset($_POST['formaPago'])) {
      <!--tabla detalle de facturas --> 
       <div>
       <br>
-      <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        Detalle de Facturas
-      </button>
-      <div class="row"><br></div>
+
+    
       <div class="collapse" id="collapseExample">
         <div class="panel-body p-20">
           <div class="table-responsive">
@@ -158,6 +157,7 @@ if (isset($_POST['formaPago'])) {
               <tbody>
                 <?php
                 $cnt = 1;
+                $saldoTotal=0;
                 $saldos = new ProductoController();
                 $facturas = $saldos->obtenerFacturasbyCliente($idCliente);
                 while ($row = $facturas->fetch()) {
@@ -169,8 +169,10 @@ if (isset($_POST['formaPago'])) {
                     <td><?php echo $row[3]; ?></td>
                     <td><?php echo $row[5] + $row[4]; ?></td>
                     <td><?php echo $row[3] - $row[4] - $row[5]; ?></td>
+                    
                   </tr>
                 <?php
+                $saldoTotal = $saldoTotal+ ($row[3] - $row[4] - $row[5]);
                   $cnt = $cnt + 1;
                 }
 
@@ -182,6 +184,12 @@ if (isset($_POST['formaPago'])) {
         </div>
       </div>
       </div>
+      <div class="row"><br></div>
+      <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Detalle de Facturas ↑ Saldo:  <strong><?php echo number_format($saldoTotal, 2, ".", ","); ?></strong>
+      </button>
+
+      <div class="row"><br></div>
       <!--tabla detalle de facturas -->
 
 
@@ -266,7 +274,7 @@ if (isset($_POST['formaPago'])) {
             <?php } ?>
 
             <label for="">Monto</label>
-            <input type="number" name="total_pago" id="total_pago" <?php echo $disabled ?> class="form-control" value="<?php
+            <input type="number" name="total_pago" step="any" max="<?php echo $saldoTotal ?>" id="total_pago" <?php echo $disabled ?> class="form-control" value="<?php
                                                                                                                         if ($getTotalPago > 0) {
                                                                                                                           echo $getTotalPago;
                                                                                                                         } else {
@@ -326,9 +334,13 @@ if (isset($_POST['formaPago'])) {
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Facturas a cancelar:
-
-              </h1>
+              </h1>            
+              
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="row-2">
+              <br>
+              <h3><span class="badge bg-info text-dark">Saldo a Cancelar: <?php echo $saldoTotal?></span>  </h3> 
             </div>
             <br>
 
@@ -344,11 +356,16 @@ if (isset($_POST['formaPago'])) {
 
                       <th style="width:20%">Abono</th>
                       <th>Saldo</th>
-
                     </thead>
 
                     <tbody>
-                      <?php
+        <script>
+            function sumarabonos(){
+              var valor
+            }
+
+        </script>
+          <?php
 
                       $cnt = 1;
                       //                       var_dump($idCliente);
