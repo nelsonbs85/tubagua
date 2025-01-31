@@ -189,14 +189,15 @@ public function detalleInsertar() {
 	}
 
 	
-	public function insertarRecibo($datos) {
+	public function insertarRecibo($idCliente,$datos) {
 		
 		$recibo = new ProductoModel();
 		$id = $recibo->insertarRecibo($datos);
 		$respuesta['mensaje'] = "Registro insertado correctamente";
 		$respuesta['codigo'] = 200;
+		//header('Location: index.php?page=recibo&idCliente=' .$idCliente);	
 		return $id;
-		//header('Location: index.php?page=recibo&id=' . $id);	
+		
 	}
 
 	public function insertarDetalleRecibo($datos) {
@@ -205,7 +206,7 @@ public function detalleInsertar() {
 		$id = $recibo->insertarDetalleRecibo($datos);
 		$respuesta['mensaje'] = "Registro insertado correctamente";
 		$respuesta['codigo'] = 200;
-		header('Location: index.php?page=recibo&idRecibo=' .$id);	
+		header('Location: index.php?page=recibo&mensaje=' .$id .'&idRecibo=' .$datos['recibo_id'] .'&idCliente=' .$datos['recibo_id']);	
 	}
 	public function insertarDetalle($datos) {
 		

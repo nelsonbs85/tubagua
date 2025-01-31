@@ -4,10 +4,10 @@ mysqli_ssl_set($con,NULL,NULL, "{path to CA cert}", NULL, NULL);
 mysqli_real_connect($conn, "azuremysqlgt.mysql.database.azure.com", "nbstargt", "{your_password}", "{your_database}", 3306, MYSQLI_CLIENT_SSL);
 */
 class DB extends PDO {
-	private $hostname = 'MYSQL1001.site4now.net'; //'azuremysqlgt.mysql.database.azure.com';
-	private $database = 'db_ab07ea_tubagua';
-	private $username = 'ab07ea_tubagua' ;//'nbstargt';
-	private $password = 'Tubagua123!';//'15Mar2010*!';
+	private $hostname = 'localhost'; //'azuremysqlgt.mysql.database.azure.com';
+	private $database = 'tubagua';
+	private $username = 'root';
+	private $password = '';//'15Mar2010*!';
 	private $pdo;
 	private $sQuery;
 	private $dbConnected = false;

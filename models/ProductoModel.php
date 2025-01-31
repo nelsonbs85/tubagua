@@ -207,7 +207,7 @@ class ProductoModel extends DB
 		$query = "SELECT  count(*) FROM 
 			(SELECT
 			f.id,
-			f.numero_factura,
+			coalesce(f.numero_factura,0.00),
 			f.nit,
 			SUM(fd.total) AS total_factura,
 			COALESCE(nc.notas_de_credito, 0) AS notas_de_credito,
@@ -506,14 +506,15 @@ WHERE
 				. ", " . $datos['banco_para_recibos_id']
 				. ", " . $datos['usuario_id']
 				. ")";
-			var_dump($query);
-			$resultado = $conn->query($query);
-			if (!$resultado) {
-				var_dump($datos['factura_id']);
-				return false;
-			} else {
-				return $datos['recibo_id'];
-			}
+				print_R ($query);
+				var_dump($query);
+				$resultado = $conn->query($query);
+				if (!$resultado) {
+					return false;
+				} else {
+					return $conn->lastInsertId();
+				}
+				
 			///return $conn->mysql_insert_id();
 		} catch (PDOException $e) {
 

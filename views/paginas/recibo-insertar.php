@@ -5,8 +5,10 @@
     require_once 'controllers/ProductoController.php';
     $autoriza ="";
     $recibo = new ProductoController();
-    var_dump($_POST);
-
+    var_dump($_GET);
+    if (isset($_GET['idCliente'])) {
+        $idCliente=$_GET['idCliente'];
+        }
     if  (isset($_POST['autoriza']) ){
         $datos = array(
             'forma' => $_POST['autoriza'],
@@ -19,6 +21,7 @@
     }else {
         
         $datos = array(    
+        'idCliente'   => $idCliente, 
         'recibo_id'   => $_POST['recibo_id'], 
         'fecha_recibo' =>  $_POST['fechaRecibo'], 
         'fecha_operacion' => date("Y-m-d"),
@@ -29,7 +32,7 @@
         'banco_para_recibos_id' => $_POST['banco_id'],
         'usuario_id' => $usuario_id,
 	);
-    
+    var_dump($datos);
     if (empty($datos['recibo_id'])) {
 		$respuesta['mensaje'] = "No puede insertar con campos vacíos";
 		$respuesta['codigo'] = 400;

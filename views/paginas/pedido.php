@@ -13,6 +13,7 @@ require_once './controllers/ProductoController.php';
 
  $getCliente = 0;
  $getFecha = '';
+ $getEstado =0;
  $getFormaPago = 0;
  $getTransporte = 0;
  $getObservaciones = '';

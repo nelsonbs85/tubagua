@@ -12,13 +12,18 @@ if (isset($_POST['finaliza'])){
   $idRecibo = $objProducto->finalizaRecibo($_GET['idRecibo']);
   $finaliza = true; 
 }
+if (isset($_GET['idCliente'])) {
+  $idCliente=$_GET['idCliente'];
+  }
+ 
 if (isset($_POST['formaPago'])) {
   $data = array(
     'usuario_id' => $usuario_id,
     'status' => 1,
     'fecha_asignado' => date("Y-m-d"),
   );
-  $idRecibo = $objProducto->insertarRecibo($data);
+  $idRecibo = $objProducto->insertarRecibo($idCliente,$data);
+  //$objProducto->insertarRecibo($idCliente,$data);
   $disabled = " disabled ";
   $cliente = $_POST['clienteId'];
   $idCliente = $_POST['clienteId'];
@@ -27,9 +32,10 @@ if (isset($_POST['formaPago'])) {
   $getBanco = $_POST['banco_para_recibos_id'];
   $getFechaRecibo = $_POST['fechaRecibo'];
   $getEstado = 0; 
-} 
+  $getTotalPago=$_POST['total_pago'];;
+} /*
   elseif (isset($_GET['idRecibo'])) {
-    
+    $idCliente = $_GET['idCliente'];
     $idRecibo = $_GET['idRecibo'];
     $recibo = $objProducto->obtenerRecibosbyId($idRecibo);
     
@@ -43,18 +49,21 @@ if (isset($_POST['formaPago'])) {
       $getEstado = $row[9];
       $getBanco = $row[10];
       $getFechaRecibo = $row[1];
+      $getTotalPago=$row[2];;
     
   }
-} else{
+*/else{
+  //$idCliente = $_GET['idCliente'];
   $getEstado = 0;
   $getFormaPago = 0;
+  $getTotalPago=0;
   $cliente = 0;
   $getDocumento = 0;
   $getBanco = 0;
   $getFechaRecibo = "";
   $idRecibo = 0;
   $disabled = "";
-  $idCliente = 0;
+//  $idCliente = 0;
 }
 
 ?>
@@ -144,9 +153,50 @@ if (isset($_POST['formaPago'])) {
       <?php }
 
       ?>
+      <!--tabla detalle de facturas -->
+      <div class="panel-body p-20">
+    <div class="table-responsive">
+         <table id="solicitud" class="responsive table table-striped table-bordered display">     
+            <thead>
+                <th>Factura</th>
+                <th>Abonos</th>
+                <th>Notas de Crédito</th>
+                <th>Monto Factura</th>
+                <th>Total Pagado</th>
+                <th>Saldo</th>
+                <!-- <th>Nombre Comercial.</th> -->
+               
+            </thead>
+            <tbody >
+                <?php 
+                $cnt= 1;
+                $saldos = new ProductoController();
+                $facturas = $saldos->obtenerFacturasbyCliente($idCliente);
+                while ($row = $facturas->fetch()) {
+
+                ?><tr>
+                    <td><?php echo $row[1];?></td>
+                    <td><?php echo $row[5];?></td>
+                    <td><?php echo $row[4];?></td>
+                    <td><?php echo $row[3];?></td>
+                    <td><?php echo $row[5]+$row[4];?></td>
+                    <td><?php echo $row[3]-$row[4]-$row[5];?></td>
+                </tr>
+                <?php
+                    $cnt= $cnt+1;
+                  }
+                
+                
+                ?>
+            </tbody>
+        </table>
+    </div><!-- /.row -->
+</div>
+      
+      <!--tabla detalle de facturas -->
       <h5><strong>Ingresar información:</strong> </h5>
       <div class="container">
-        <form action="index.php?page=recibo" method="POST">
+        <form action="index.php?page=recibo&idCliente=<?php echo $idCliente?>"  method="POST">
           <div class="row-2">
             <label class="">Forma de Pago: </label>
             <select class=" form-control" onchange="mostrar()" aria-label="Default select example" name="formaPago"
@@ -178,7 +228,7 @@ if (isset($_POST['formaPago'])) {
                 <label class="">Banco: </label>
                 <select class=" form-control" aria-label="Default select example" id='banco_para_recibos_id'
                   name="banco_para_recibos_id" <?php echo $disabled ?>>
-                  <option selected>Seleccione uno:</option>
+                  <option selected value=0>Seleccione uno:</option>
                   <?php
                   $formaPago = $objProducto->obtenerDatos('banco_para_recibos', 'id');
                   while ($row = $formaPago->fetch()) { ?>
@@ -194,12 +244,24 @@ if (isset($_POST['formaPago'])) {
                     if ($getDocumento > 0) {
                       echo $getDocumento;
                     } else {
-                      echo '';
+                      echo '0';
                     }
 
                     ?>">
               </div> <!-- div condicion de efectivo -->
             <?php } ?>
+
+            <label for="">Monto</label>
+            <input type="number" name="total_pago" id="total_pago" <?php echo $disabled ?> class="form-control" value="<?php
+                    if ($getTotalPago > 0) {
+                      echo $getTotalPago;
+                    } else {
+                      echo '';
+                    }
+
+                    ?>">
+              </div> <!-- div condicion de efectivo -->
+            
             <label for="">Fecha: </label>
             <input type="date" <?php echo $disabled ?> class="form-control col-2" name="fechaRecibo" id="fechaRecibo"
               value="<?php echo $getFechaRecibo ?>">
@@ -222,7 +284,7 @@ if (isset($_POST['formaPago'])) {
           Agregar Facturas:
           </button>
           <br>
-        <form action="index.php?page=recibo&idRecibo=<?php echo $idRecibo ?>" method="POST">
+        <form action="index.php?page=recibo&idCliente=<?php echo $idCliente ?>&idRecibo=<?php echo $idRecibo ?>" method="POST">
           <button type="input" class="btn btn-danger">
             Finalizar
           </button>
@@ -285,7 +347,7 @@ if (isset($_POST['formaPago'])) {
                           ?>
                           <tr>
                             <td>
-                              <form action="index.php?page=recibo-insertar" method="POST">
+                              <form action="index.php?page=recibo-insertar&idCliente=<?php echo $idCliente?>" method="POST">
                                 <button type="submit" class="btn btn-success" name="btn<?php echo $row[0] ?>"
                                   id="btn<?php echo $row[0] ?>">
                                   <i class="bi bi-plus-circle-dotted"></i>
