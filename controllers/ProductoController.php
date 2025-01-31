@@ -289,11 +289,11 @@ public function detalleInsertar() {
 		$upda = $datos->autorizaDetalle($id);
 		header('Location: index.php?page=pedido&id=' .$id);	
 	}
-	public function finalizaRecibo($id) {
+	public function finalizaRecibo($id,$idCliente) {
 
 		$datos = new ProductoModel();
 		$upda = $datos->finalizaRecibo($id);
-		header('Location: index.php?page=recibo&idRecibo=' .$id);	
+		header('Location: index.php?page=recibo&idRecibo=' .$id .'&idCliente=' .$idCliente);	
 	}
 }
 }
