@@ -146,10 +146,9 @@ if (isset($_POST['formaPago'])) {
             <table id="solicitud" class="responsive table table-striped table-bordered display">
               <thead>
                 <th>Factura</th>
+                <th>Monto Factura</th>
                 <th>Abonos</th>
                 <th>Notas de Crédito</th>
-                <th>Monto Factura</th>
-                <th>Total Pagado</th>
                 <th>Saldo</th>
                 <!-- <th>Nombre Comercial.</th> -->
 
@@ -164,11 +163,10 @@ if (isset($_POST['formaPago'])) {
 
                 ?><tr>
                     <td><?php echo $row[1]; ?></td>
-                    <td><?php echo $row[5]; ?></td>
-                    <td><?php echo $row[4]; ?></td>
-                    <td><?php echo $row[3]; ?></td>
-                    <td><?php echo $row[5] + $row[4]; ?></td>
-                    <td><?php echo $row[3] - $row[4] - $row[5]; ?></td>
+                    <td><?php echo number_format(round($row[3],2),2); ?></td>
+                    <td><?php echo number_format(round($row[5],2),2); ?></td>
+                    <td><?php echo number_format(round($row[4],2),2); ?></td>
+                    <td><?php echo number_format(round($row[3] - $row[4] - $row[5],2),2); ?></td>
                     
                   </tr>
                 <?php
@@ -340,8 +338,9 @@ if (isset($_POST['formaPago'])) {
             </div>
             <div class="row-2">
               <br>
-              <h3><span class="badge bg-info text-dark">Saldo a Cancelar: <?php echo $saldoTotal?></span>  </h3> 
+              <h3><span class="badge bg-info text-dark">Saldo a Cancelar: <?php echo number_format(round($saldoTotal,2),2)?></span>  </h3> 
             </div>
+            <p>Suma de los números seleccionados: <span id="sum">0</span></p>
             <br>
 
             <div class="modal-body">
@@ -350,7 +349,7 @@ if (isset($_POST['formaPago'])) {
                 <div class="table-responsive">
                   <table id="solicitud" class="responsive table table-striped table-bordered display">
                     <thead>
-                      <th>Sel.</th>
+                      <th style="width: 5%; align:center">Sel.</th>
                       <th>Factura</th>
                       <th>Total</th>
 
@@ -359,12 +358,7 @@ if (isset($_POST['formaPago'])) {
                     </thead>
 
                     <tbody>
-        <script>
-            function sumarabonos(){
-              var valor
-            }
 
-        </script>
           <?php
 
                       $cnt = 1;
@@ -377,10 +371,10 @@ if (isset($_POST['formaPago'])) {
                       ?>
                         <tr>
                           <td>
-                            <form action="index.php?page=recibo-insertar&idCliente=<?php echo $idCliente ?>" method="POST">
-                              <button type="submit" class="btn btn-success" name="btn<?php echo $row[0] ?>"
-                                id="btn<?php echo $row[0] ?>">
-                                <i class="bi bi-plus-circle-dotted"></i>
+                            <!-- <form action="index.php?page=recibo-insertar&idCliente=<?php echo $idCliente ?>" method="POST"> -->
+                              <input class="form-check-input"  type="checkbox" name="chk<?php echo $row[0] ?>"
+                                id="chk<?php echo $row[0] ?>" onclick='updateSum()'>
+                               
                                 <input type="hidden" name="recibo_id" id="recibo_id" value=<?php echo $idRecibo ?>>
                                 <input type="hidden" name="documento" id="documento" value="<?php echo $getDocumento ?>">
                                 <input type="hidden" name="fechaRecibo" id="fechaRecibo" value=<?php echo $getFechaRecibo ?>>
@@ -394,10 +388,10 @@ if (isset($_POST['formaPago'])) {
                           <td><?php echo $row[1]; ?></td>
                           <td><?php echo $row[3]; ?></td>
                           <!-- <td><?php echo $row[2]; ?></td> -->
-                          <td><input name="abono" class="form-control"
-                              type="number" step="0.01" required></td>
+                          <td><input id="abn<?php echo $row[0] ?>" name="abn<?php echo $row[0] ?>"class="form-control"
+                              type="number" step="any" max ="<?php echo $row[3]; ?>"  ></td>
                           <td><?php echo $row[6]; ?></td>
-                          </form>
+                          <!-- </form> -->
                         </tr>
                       <?php
                         $cnt = $cnt + 1;
@@ -461,4 +455,21 @@ if (isset($_POST['formaPago'])) {
         </table>
       </div><!-- /.table responsible detalle recibo -->
     <?php  } ?>
+    <script>
+    function updateSum() {
+            let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let sum = 0;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    let idFactura = checkbox.id.substring(3);
+                    
+                    let abono = document.getElementById('abn'+idFactura).value;
+                    sum += parseInt(abono);
+                    console.log(idFactura);
+                    console.log(abono);
+                }
+            });
+            document.getElementById('sum').textContent = sum;
+        }
+    </script>
 </main>

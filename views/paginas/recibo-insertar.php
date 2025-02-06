@@ -5,7 +5,7 @@
     require_once 'controllers/ProductoController.php';
     $autoriza ="";
     $recibo = new ProductoController();
-    var_dump($_GET);
+    
     if (isset($_GET['idCliente'])) {
         $idCliente=$_GET['idCliente'];
         }
