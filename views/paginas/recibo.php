@@ -100,7 +100,7 @@ if (isset($_POST['formaPago'])) {
 
           <tbody>
             <?php
-            
+
             while ($row = $clientesBusqueda->fetch()) {
               //$pendiente = $objProducto->ClienteTienePendiente($row[0]);
               // if ($pendiente>0){
@@ -128,70 +128,70 @@ if (isset($_POST['formaPago'])) {
             ?>
           </tbody>
       </div>
-      <?php
+    <?php
     }
     // var_dump($idRecibo);
     if (isset($_GET['idCliente']) || $idRecibo > 0) {
       //  $idCliente = $_GET['idCliente'];
-      
-     ?>
-     <!--tabla detalle de facturas --> 
+
+    ?>
+      <!--tabla detalle de facturas -->
       <div>
-      <br>
-
-    
-      <div class="collapse" id="collapseExample">
-        <div class="panel-body p-20">
-          <div class="table-responsive">
-            <table id="solicitud" class="responsive table table-striped table-bordered display">
-              <thead>
-                <th>Factura</th>
-                <th>Monto Factura</th>
-                <th>Abonos</th>
-                <th>Notas de Crédito</th>
-                <th>Saldo</th>
-                <!-- <th>Nombre Comercial.</th> -->
-
-              </thead>
-              <tbody>
-                <?php
-                $cnt = 1;
-                $saldoTotal=0;
-                $saldos = new ProductoController();
-                $facturas = $saldos->obtenerFacturasbyCliente($idCliente);
-                while ($row = $facturas->fetch()) {
-
-                ?><tr>
-                    <td><?php echo $row[1]; ?></td>
-                    <td><?php echo number_format(round($row[3],2),2); ?></td>
-                    <td><?php echo number_format(round($row[5],2),2); ?></td>
-                    <td><?php echo number_format(round($row[4],2),2); ?></td>
-                    <td><?php echo number_format(round($row[3] - $row[4] - $row[5],2),2); ?></td>
-                    
-                  </tr>
-                <?php
-                $saldoTotal = $saldoTotal+ ($row[3] - $row[4] - $row[5]);
-                  $cnt = $cnt + 1;
-                }
+        <br>
 
 
-                ?>
-              </tbody>
-            </table>
-          </div><!-- /.row -->
+        <div class="collapse" id="collapseExample">
+          <div class="panel-body p-20">
+            <div class="table-responsive">
+              <table id="solicitud" class="responsive table table-striped table-bordered display">
+                <thead>
+                  <th>Factura</th>
+                  <th>Monto Factura</th>
+                  <th>Abonos</th>
+                  <th>Notas de Crédito</th>
+                  <th>Saldo</th>
+                  <!-- <th>Nombre Comercial.</th> -->
+
+                </thead>
+                <tbody>
+                  <?php
+                  $cnt = 1;
+                  $saldoTotal = 0;
+                  $saldos = new ProductoController();
+                  $facturas = $saldos->obtenerFacturasbyCliente($idCliente);
+                  while ($row = $facturas->fetch()) {
+
+                  ?><tr>
+                      <td><?php echo $row[1]; ?></td>
+                      <td><?php echo number_format(round($row[3], 2), 2); ?></td>
+                      <td><?php echo number_format(round($row[5], 2), 2); ?></td>
+                      <td><?php echo number_format(round($row[4], 2), 2); ?></td>
+                      <td><?php echo number_format(round($row[3] - $row[4] - $row[5], 2), 2); ?></td>
+
+                    </tr>
+                  <?php
+                    $saldoTotal = $saldoTotal + ($row[3] - $row[4] - $row[5]);
+                    $cnt = $cnt + 1;
+                  }
+
+
+                  ?>
+                </tbody>
+              </table>
+            </div><!-- /.row -->
+          </div>
         </div>
-      </div>
       </div>
       <div class="row"><br></div>
       <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        Detalle de Facturas ↑ Saldo:  <strong><?php echo number_format($saldoTotal, 2, ".", ","); ?></strong>
+        Detalle de Facturas ↑ Saldo: <strong><?php echo number_format($saldoTotal, 2, ".", ","); ?></strong>
       </button>
 
       <div class="row"><br></div>
       <!--tabla detalle de facturas -->
 
 
-<?php
+      <?php
       $infocliente = $objCliente->obtenerDatosCliente($idCliente);
       while ($row = $infocliente->fetch()) {
 
@@ -213,7 +213,7 @@ if (isset($_POST['formaPago'])) {
       <?php }
 
       ?>
-    
+
       <h5><strong>Ingresar información:</strong> </h5>
       <div class="container">
         <form action="index.php?page=recibo&idCliente=<?php echo $idCliente ?>" method="POST">
@@ -225,7 +225,7 @@ if (isset($_POST['formaPago'])) {
               <?php
               $formaPago = $objProducto->obtenerDatos('forma_de_pago', 'id');
               while ($row = $formaPago->fetch()) {
-                if ($row[0] < 6) { ?>
+                if ($row[0] < 5) { ?>
                   <option value="<?php echo $row[0]; ?>" <?php echo $row[0] == $getFormaPago ? " selected " : ""
                                                           ?>>
                     <?php echo $row[1]; ?>
@@ -273,14 +273,15 @@ if (isset($_POST['formaPago'])) {
 
             <label for="">Monto</label>
             <input type="number" name="total_pago" step="any" max="<?php echo $saldoTotal ?>" id="total_pago" <?php echo $disabled ?> class="form-control" value="<?php
-                                                                                                                        if ($getTotalPago > 0) {
-                                                                                                                          echo $getTotalPago;
-                                                                                                                        } else {
-                                                                                                                          echo '';
-                                                                                                                        }
+                if ($getTotalPago > 0) {
+                  echo $getTotalPago;
+                } else {
+                  echo '';
+                }
 
-                                                                                                                        ?>">
+                ?>">
           </div> <!-- div condicion de efectivo -->
+
 
           <label for="">Fecha: </label>
           <input type="date" <?php echo $disabled ?> class="form-control col-2" name="fechaRecibo" id="fechaRecibo"
@@ -288,29 +289,101 @@ if (isset($_POST['formaPago'])) {
           <?php if (($idRecibo == 0)) { ?>
             <div class="row-2">
               <br>
-              <button type="submit" class="btn btn-success">Guardar</button>
-              <input type="hidden" name="clienteId" id="clienteId" value=<?php echo $_GET['idCliente']; ?>>
-              <input type="hidden" value="Y" name="nuevo" id="nuevo">
+              
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <input type="hidden" name="clienteId" id="clienteId" value=<?php echo $_GET['idCliente']; ?>>
+                <input type="hidden" value="Y" name="nuevo" id="nuevo">
             </div>
           <?php } ?>
       </div>
+      <br>
       </form>
       <!-- mostrar facturas -->
-      <?php if ($idCliente && $getEstado != 7) { ?>
-        <div class="row-2">
-          <br>
-          <button type="button" class=" col-2 btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-
-            Agregar Facturas:
-          </button>
-          <br>
-          <form action="index.php?page=recibo&idCliente=<?php echo $idCliente ?>&idRecibo=<?php echo $idRecibo ?>" method="POST">
-            <button type="input" class="btn btn-danger">
+      <?php if ($idCliente && $idRecibo) { ?>
+        
+        <form action="index.php?page=recibo&idCliente=<?php echo $idCliente ?>&idRecibo=<?php echo $idRecibo ?>" method="POST"> 
+        <div class="container row">
+        
+        <div class="col">
+            <button type="input" class="btn btn-danger col-3">
               Finalizar
             </button>
+            </div>
             <input type="hidden" name="finaliza" value="true">
-          </form>
+            <div class="col">
+          <button class="btn btn-success" type="button" id ="detallefactura" data-bs-toggle="collapse" data-bs-target="#collapseExample1"
+            aria-expanded="false" aria-controls="collapseExample1">
+            Mostrar Facturas
+          </button>     
+          </div>   
         </div>
+        
+          <div class="collapse" id="collapseExample1">
+        <div class="row-2">
+      </form>  <br>
+          <h3>Saldo a Cancelar:
+          <span id ="montocancela" class="badge bg-info  text-dark">
+              <?php echo (float)$getTotalPago ?></span> </h3>
+        </div>
+        <h4>Total Abonado: <span class="badge bg-success text-dark" id="sum">0</span></p></h4>
+        <br>
+        <h4>Pendiente de asignar: <span class="badge bg-warning text-secondary" id="restante">0</span></p></h4>
+        <span><label id="warn" class="badge text-bg-danger"></label></span>
+        <form action="index.php?page=recibo-insertar&idCliente=<?php echo $idCliente ?>" method="POST">
+
+          <div class="table-responsive" >
+            <table id="solicitud" class="responsive table table-striped table-bordered display">
+              <thead>
+                
+                <th>Factura</th>
+                <th>Total</th>
+                <th style="width: 5%; align:center">Sel.</th>
+                <th style="width:20%">Abono</th>
+                
+                <th>Saldo</th>
+              </thead>
+
+              <tbody>
+
+                <?php
+                $cnt = 1;
+                //                       var_dump($idCliente);
+                $saldos = new ProductoController();
+                $facturas = $saldos->obtenerFacturasbyCliente($idCliente);
+
+                while ($row = $facturas->fetch()) {
+
+                ?>
+                  <tr>
+                    <td><?php echo $row[1]; ?></td>
+                    <td id="tot<?php echo $row[0] ?>"><?php echo $row[3]; ?></td>
+                    <!-- <td><?php echo $row[2]; ?></td> -->
+                    <td>
+                      <input class="form-check-input" type="checkbox" name="chk<?php echo $row[0] ?>"
+                        id="chk<?php echo $row[0] ?>" onclick='updateSum()'>
+                      <input type="hidden" name="fac<?php echo $row[0] ?>" value=<?php echo $row[0] ?>>
+                    </td>
+                    <td><input id="abn<?php echo $row[0] ?>" name="abn<?php echo $row[0] ?>" class="form-control" value=0.00 required onchange='updateSum()'
+                        type="number" step="any" max="<?php echo $row[3]; ?>"></td>
+                    <td><?php echo $row[6]; ?></td>
+
+                  </tr>
+                <?php
+                  $cnt = $cnt + 1;
+                }
+
+                ?>
+              </tbody>
+            </table>
+            <button class="btn btn-success" type="button" id ="guardardetalle" 
+            aria-expanded="false" aria-controls="collapseExample1">
+            Guardar Abonos
+          </button>    
+          </div><!-- /.table responsive -->
+      </div><!-- /.colapse -->
+          <span id= "tablafacturas"></span>
+          
+        </form>
       <?php } ?>
 
 
@@ -327,149 +400,101 @@ if (isset($_POST['formaPago'])) {
       } else {
         $visible = "";
       } ?>
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Facturas a cancelar:
-              </h1>            
-              
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="row-2">
-              <br>
-              <h3><span class="badge bg-info text-dark">Saldo a Cancelar: <?php echo number_format(round($saldoTotal,2),2)?></span>  </h3> 
-            </div>
-            <p>Suma de los números seleccionados: <span id="sum">0</span></p>
-            <br>
+      
+  </div>
 
-            <div class="modal-body">
-              <div class="panel-body p-30">
-
-                <div class="table-responsive">
-                  <table id="solicitud" class="responsive table table-striped table-bordered display">
-                    <thead>
-                      <th style="width: 5%; align:center">Sel.</th>
-                      <th>Factura</th>
-                      <th>Total</th>
-
-                      <th style="width:20%">Abono</th>
-                      <th>Saldo</th>
-                    </thead>
-
-                    <tbody>
-
+  <!-- mostrar facturas -->
+<?php } ?>
+<?php if (isset($_GET['idRecibo'])) { ?>
+  <!-- Button trigger modal -->
+  <div class="collapse" id="collapseExample1>">
+    <div class="table-responsive">
+      <table id="detalleRecibo" class="responsive table table-striped table-bordered display">
+        <thead>
+          <th>#</th>
+          <th>Factura</th>
+          <th>Fecha Pedido</th>
+          <th>Abono</th>
+          <!-- <th>Total Factura</th>                       -->
+        </thead>
+        <tbody>
           <?php
+          $cnt = 1;
+          $montototal = 0;
+          $abonototal = 0;
+          $detalle = $objProducto->obtenerDetalleRecibobyId($idRecibo);
+          while ($row = $detalle->fetch()) {
+          ?><tr>
+              <td><?php echo $cnt; ?> </td>
+              <td><?php echo $row[0] . " " . $row[1]; ?></td>
+              <td><?php echo $row[2]; ?></td>
+              <td align="right"><?php echo number_format(round($row[4], 2), 2); ?></td>
+              <!-- <td align="right"><?php echo number_format(round($row[6], 2), 2); ?></td>                           -->
+            </tr>
+          <?php
+            $cnt = $cnt + 1;
+            $abonototal += $row[4];
+            $montototal += $row[6];
+          }
+          ?>
+          <td><strong>Total:</strong></td>
+          <td></td>
+          <td></td>
 
-                      $cnt = 1;
-                      //                       var_dump($idCliente);
-                      $saldos = new ProductoController();
-                      $facturas = $saldos->obtenerFacturasbyCliente($idCliente);
+          <td align="right"><strong>
+              <?php echo number_format(round($abonototal, 2), 2); ?>
+            </strong></td>
+          <!-- <td align="right" ><strong><?php echo number_format(round($montototal, 2), 2); ?></strong></td> -->
+        </tbody>
+      </table>
+    </div><!-- /.table responsible detalle recibo -->
+  </div>
+<?php  } ?>
+<script>
+  function updateSum() {
+    let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    let sum = 0;
+    let montocancela = parseFloat(document.getElementById('montocancela').textContent);
 
-                      while ($row = $facturas->fetch()) {
+    checkboxes.forEach(checkbox => {
+      if (checkbox.checked) {
+        let idFactura = checkbox.id.substring(3);
+        let abono = document.getElementById('abn' + idFactura).value;
+        let montoFactura = document.getElementById('tot' + idFactura).textContent;
+        let faltante = 0;
+        
+        console.log(montoFactura)
+        if (parseFloat(abono) > 0) {
 
-                      ?>
-                        <tr>
-                          <td>
-                            <!-- <form action="index.php?page=recibo-insertar&idCliente=<?php echo $idCliente ?>" method="POST"> -->
-                              <input class="form-check-input"  type="checkbox" name="chk<?php echo $row[0] ?>"
-                                id="chk<?php echo $row[0] ?>" onclick='updateSum()'>
-                               
-                                <input type="hidden" name="recibo_id" id="recibo_id" value=<?php echo $idRecibo ?>>
-                                <input type="hidden" name="documento" id="documento" value="<?php echo $getDocumento ?>">
-                                <input type="hidden" name="fechaRecibo" id="fechaRecibo" value=<?php echo $getFechaRecibo ?>>
-                                <!-- <input  type  ="hidden" name="monto" id ="monto" value =<?php echo $row[9] ?>> -->
-                                <input type="hidden" name="forma_de_pago_id" id="forma_de_pago_id" value=<?php echo $getFormaPago ?>>
-                                <input type="hidden" name="banco_id" id="banco_id" value=<?php echo $getBanco ?>>
-                                <input type="hidden" name="factura_id" id="factura_id" value=<?php echo $row[0] ?>>
-                              </button>
+          if (parseFloat(abono) > montoFactura) {
+            checkbox.checked = false;
+            document.getElementById('warn').textContent = "Valor ingresado No debe ser mayor al monto pendiente";
 
-                          </td>
-                          <td><?php echo $row[1]; ?></td>
-                          <td><?php echo $row[3]; ?></td>
-                          <!-- <td><?php echo $row[2]; ?></td> -->
-                          <td><input id="abn<?php echo $row[0] ?>" name="abn<?php echo $row[0] ?>"class="form-control"
-                              type="number" step="any" max ="<?php echo $row[3]; ?>"  ></td>
-                          <td><?php echo $row[6]; ?></td>
-                          <!-- </form> -->
-                        </tr>
-                      <?php
-                        $cnt = $cnt + 1;
-                      }
-
-                      ?>
-                    </tbody>
-                  </table>
-                </div><!-- /.row -->
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              <!-- <button type="button" class="btn btn-primary">Guardar</button> -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- mostrar facturas -->
-    <?php } ?>
-    <?php if (isset($_GET['idRecibo'])) { ?>
-      <!-- Button trigger modal -->
-      <div class="table-responsive">
-        <table id="detalleRecibo" class="responsive table table-striped table-bordered display">
-          <thead>
-            <th>#</th>
-            <th>Factura</th>
-            <th>Fecha Pedido</th>
-            <th>Abono</th>
-            <!-- <th>Total Factura</th>                       -->
-          </thead>
-          <tbody>
-            <?php
-            $cnt = 1;
-            $montototal = 0;
-            $abonototal = 0;
-            $detalle = $objProducto->obtenerDetalleRecibobyId($idRecibo);
-            while ($row = $detalle->fetch()) {
-            ?><tr>
-                <td><?php echo $cnt; ?> </td>
-                <td><?php echo $row[0] . " " . $row[1]; ?></td>
-                <td><?php echo $row[2]; ?></td>
-                <td align="right"><?php echo number_format(round($row[4], 2), 2); ?></td>
-                <!-- <td align="right"><?php echo number_format(round($row[6], 2), 2); ?></td>                           -->
-              </tr>
-            <?php
-              $cnt = $cnt + 1;
-              $abonototal += $row[4];
-              $montototal += $row[6];
-            }
-            ?>
-            <td><strong>Total:</strong></td>
-            <td></td>
-            <td></td>
-
-            <td align="right"><strong>
-                <?php echo number_format(round($abonototal, 2), 2); ?>
-              </strong></td>
-            <!-- <td align="right" ><strong><?php echo number_format(round($montototal, 2), 2); ?></strong></td> -->
-          </tbody>
-        </table>
-      </div><!-- /.table responsible detalle recibo -->
-    <?php  } ?>
-    <script>
-    function updateSum() {
-            let checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            let sum = 0;
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    let idFactura = checkbox.id.substring(3);
-                    
-                    let abono = document.getElementById('abn'+idFactura).value;
-                    sum += parseInt(abono);
-                    console.log(idFactura);
-                    console.log(abono);
-                }
-            });
-            document.getElementById('sum').textContent = sum;
+          } else {
+            sum += parseFloat(abono);
+            document.getElementById('warn').textContent = '';
+            faltante=parseFloat(montocancela) - parseFloat(sum);
+            console.log(parseFloat(faltante))
+            document.getElementById('restante').textContent=faltante.toFixed(2);
+          }
+        } else {
+          checkbox.checked = false;
+          document.getElementById('warn').textContent = "Valor ingresado debe ser mayor a 0.00";
         }
-    </script>
+
+
+      }
+    });
+    document.getElementById('sum').textContent = sum.toFixed(2);
+    
+  }
+
+  
+detallefactura.onclick = function () {
+  //document.location.href ="#tablafacturas";
+  document.getElementById("tablafacturas").scrollIntoView();
+
+        
+};
+</script>
 </main>

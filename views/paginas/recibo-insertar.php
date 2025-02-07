@@ -32,7 +32,7 @@
         'banco_para_recibos_id' => $_POST['banco_id'],
         'usuario_id' => $usuario_id,
 	);
-    var_dump($datos);
+    var_dump($_POST);
     if (empty($datos['recibo_id'])) {
 		$respuesta['mensaje'] = "No puede insertar con campos vacíos";
 		$respuesta['codigo'] = 400;
