@@ -5,7 +5,7 @@
     require_once 'controllers/ProductoController.php';
     $autoriza ="";
     $recibo = new ProductoController();
-    
+    var_dump($_POST);    
     if (isset($_GET['idCliente'])) {
         $idCliente=$_GET['idCliente'];
         }
@@ -27,12 +27,12 @@
         'fecha_operacion' => date("Y-m-d"),
 		'factura_id'   => $_POST['factura_id'], 
         'monto' => $_POST['abono'],
-        'forma_de_pago_id' => $_POST['forma_de_pago_id'],
+        'forma_de_pago_id' => $_POST['formapago'],
         'documento' => $_POST['documento'],
         'banco_para_recibos_id' => $_POST['banco_id'],
         'usuario_id' => $usuario_id,
 	);
-    var_dump($_POST);
+    
     if (empty($datos['recibo_id'])) {
 		$respuesta['mensaje'] = "No puede insertar con campos vacíos";
 		$respuesta['codigo'] = 400;

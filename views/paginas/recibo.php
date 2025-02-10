@@ -7,7 +7,7 @@ require_once './controllers/ClienteController.php';
 $finaliza = false;
 $objCliente = new ClienteController();
 $objProducto = new ProductoController();
-//var_dump($_GET);
+
 if (isset($_POST['finaliza'])) {
   $idRecibo = $objProducto->finalizaRecibo($_GET['idRecibo'], $_GET['idCliente']);
   $finaliza = true;
@@ -33,9 +33,11 @@ if (isset($_POST['formaPago'])) {
   $getFechaRecibo = $_POST['fechaRecibo'];
   $getEstado = 0;
   $getTotalPago = $_POST['total_pago'];;
-} elseif (isset($_GET['idRecibo'])) {
+  
+} elseif (isset($_GET['idrecibo'])) { 
+
   $idCliente = $_GET['idCliente'];
-  $idRecibo = $_GET['idRecibo'];
+  $idRecibo = $_GET['idrecibo'];
   $recibo = $objProducto->obtenerRecibosbyId($idRecibo);
 
   while ($row = $recibo->fetch()) {
@@ -120,7 +122,6 @@ if (isset($_POST['formaPago'])) {
                     <i class="bi bi-send"></i>
                     <input type="hidden" name="clienteId" id="clienteId" value=<?php echo $row[0] ?>>
                   </button>
-                </form>
               </td>
               <tr></tr>
             <?php }
@@ -292,7 +293,6 @@ if (isset($_POST['formaPago'])) {
               
                 <button type="submit" class="btn btn-success">Guardar</button>
                 <input type="hidden" name="clienteId" id="clienteId" value=<?php echo $_GET['idCliente']; ?>>
-                <input type="hidden" value="Y" name="nuevo" id="nuevo">
             </div>
           <?php } ?>
       </div>
@@ -311,7 +311,7 @@ if (isset($_POST['formaPago'])) {
             </div>
             <input type="hidden" name="finaliza" value="true">
             <div class="col">
-          <button class="btn btn-success" type="button" id ="detallefactura" data-bs-toggle="collapse" data-bs-target="#collapseExample1"
+          <button class="btn btn-success" type="button" id ="detallefactura" name="detallefactura" data-bs-toggle="collapse" data-bs-target="#collapseExample1"
             aria-expanded="false" aria-controls="collapseExample1">
             Mostrar Facturas
           </button>     
@@ -363,7 +363,7 @@ if (isset($_POST['formaPago'])) {
                         id="chk<?php echo $row[0] ?>" onclick='updateSum()'>
                       <input type="hidden" name="fac<?php echo $row[0] ?>" value=<?php echo $row[0] ?>>
                     </td>
-                    <td><input id="abn<?php echo $row[0] ?>" name="abn<?php echo $row[0] ?>" class="form-control" value=0.00 required onchange='updateSum()'
+                    <td><input id="abn<?php echo $row[0] ?>" name="abn<?php echo $row[0] ?>" class="form-control" value=<?php echo $row[3]; ?> required onchange='updateSum()'
                         type="number" step="any" max="<?php echo $row[3]; ?>"></td>
                     <td><?php echo $row[6]; ?></td>
 
@@ -375,10 +375,17 @@ if (isset($_POST['formaPago'])) {
                 ?>
               </tbody>
             </table>
-            <button class="btn btn-success" type="button" id ="guardardetalle" 
-            aria-expanded="false" aria-controls="collapseExample1">
+            <button class="btn btn-success" type="submit" id ="guardardetalle" >
             Guardar Abonos
-          </button>    
+            <input type="hidden" name="recibod" id="recibod" value=<?php echo $idRecibo ?>>
+            <input type="hidden" name="fechaRecibod" id="fechaRecibod" value=<?php echo $getFechaRecibo ?>>
+            <!-- <input type="hidden" name="factura_id" id="factura_id" value=<?php echo $ge ?>> -->
+            <input type="hidden" name="formapagod" id="formapagod" value=<?php echo $getFormaPago ?>>
+            <input type="hidden" name="documentod" id="documentod" value=<?php echo $getDocumento ?>>
+            <input type="hidden" name="banco_idd" id="banco_idd" value=<?php echo $getBanco ?>>
+            <input type="hidden" name="contador" id="contador" >      
+          </button>
+        
           </div><!-- /.table responsive -->
       </div><!-- /.colapse -->
           <span id= "tablafacturas"></span>
@@ -451,17 +458,17 @@ if (isset($_POST['formaPago'])) {
   </div>
 <?php  } ?>
 <script>
-  function updateSum() {
+   function updateSum() {
     let checkboxes = document.querySelectorAll('input[type="checkbox"]');
     let sum = 0;
     let montocancela = parseFloat(document.getElementById('montocancela').textContent);
-
+    let contador = 0;     
     checkboxes.forEach(checkbox => {
       if (checkbox.checked) {
         let idFactura = checkbox.id.substring(3);
         let abono = document.getElementById('abn' + idFactura).value;
         let montoFactura = document.getElementById('tot' + idFactura).textContent;
-        let faltante = 0;
+        let faltante = montocancela;
         
         console.log(montoFactura)
         if (parseFloat(abono) > 0) {
@@ -469,32 +476,31 @@ if (isset($_POST['formaPago'])) {
           if (parseFloat(abono) > montoFactura) {
             checkbox.checked = false;
             document.getElementById('warn').textContent = "Valor ingresado No debe ser mayor al monto pendiente";
-
+           
           } else {
-            sum += parseFloat(abono);
-            document.getElementById('warn').textContent = '';
-            faltante=parseFloat(montocancela) - parseFloat(sum);
-            console.log(parseFloat(faltante))
-            document.getElementById('restante').textContent=faltante.toFixed(2);
+            if(parseFloat(abono) > faltante){
+              checkbox.checked = false;
+              document.getElementById('warn').textContent = "Valor ingresado No debe ser mayor al monto restante";
+           
+            }else{
+              sum += parseFloat(abono);
+              document.getElementById('warn').textContent = '';
+              faltante=parseFloat(montocancela) - parseFloat(sum).toFixed(2);
+              document.getElementById('restante').textContent=faltante.toFixed(2);
+            }
+            contador = parseInt(contador)+1;
+            document.getElementById('contador').value=contador;
+            
           }
         } else {
           checkbox.checked = false;
           document.getElementById('warn').textContent = "Valor ingresado debe ser mayor a 0.00";
         }
-
-
       }
     });
     document.getElementById('sum').textContent = sum.toFixed(2);
     
   }
 
-  
-detallefactura.onclick = function () {
-  //document.location.href ="#tablafacturas";
-  document.getElementById("tablafacturas").scrollIntoView();
-
-        
-};
 </script>
 </main>
