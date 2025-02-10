@@ -300,12 +300,12 @@ WHERE
 	{
 		$db = new ModeloBase();
 		$query = "SELECT b.recibo_id, b.fecha_recibo, SUM(b.monto), b.documento,
-		 d.nombre_comercial FROM recibo a left join recibo_d b on a.id = b.recibo_id 
+		 d.nombre_comercial, c.cliente_id FROM recibo a left join recibo_d b on a.id = b.recibo_id 
 		 left join factura c on c.id = b.factura_id left join cliente d 
 		 on d.id = c.cliente_id 
 		   WHERE a.usuario_id = " . $usuario_id
 			. " GROUP BY b.recibo_id, b.fecha_recibo, b.documento,
-		  d.nombre_comercial"
+		  d.nombre_comercial, c.cliente_id"
 		;
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;

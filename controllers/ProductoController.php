@@ -206,7 +206,7 @@ public function detalleInsertar() {
 		$id = $recibo->insertarDetalleRecibo($datos);
 		$respuesta['mensaje'] = "Registro insertado correctamente";
 		$respuesta['codigo'] = 200;
-		header('Location: index.php?page=recibo' .$id .'&idrecibo=' .$datos['recibo_id'] .'&idCliente=' .$datos['idCliente']);	
+		
 	}
 	public function insertarDetalle($datos) {
 		

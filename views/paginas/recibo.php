@@ -39,7 +39,6 @@ if (isset($_POST['formaPago'])) {
   $idCliente = $_GET['idCliente'];
   $idRecibo = $_GET['idrecibo'];
   $recibo = $objProducto->obtenerRecibosbyId($idRecibo);
-
   while ($row = $recibo->fetch()) {
 
     $getFormaPago = $row[7];
@@ -377,6 +376,7 @@ if (isset($_POST['formaPago'])) {
             </table>
             <button class="btn btn-success" type="submit" id ="guardardetalle" >
             Guardar Abonos
+            <input type="hidden" name="cliented" id="cliented" value=<?php echo $idCliente ?>>
             <input type="hidden" name="recibod" id="recibod" value=<?php echo $idRecibo ?>>
             <input type="hidden" name="fechaRecibod" id="fechaRecibod" value=<?php echo $getFechaRecibo ?>>
             <!-- <input type="hidden" name="factura_id" id="factura_id" value=<?php echo $ge ?>> -->
@@ -384,6 +384,8 @@ if (isset($_POST['formaPago'])) {
             <input type="hidden" name="documentod" id="documentod" value=<?php echo $getDocumento ?>>
             <input type="hidden" name="banco_idd" id="banco_idd" value=<?php echo $getBanco ?>>
             <input type="hidden" name="contador" id="contador" >      
+            <!-- <input type="hidden" name="facturasx" id="facturasx" >  
+            <input type="hidden" name="abonosx" id="abonosx" > -->
           </button>
         
           </div><!-- /.table responsive -->
@@ -461,6 +463,8 @@ if (isset($_POST['formaPago'])) {
    function updateSum() {
     let checkboxes = document.querySelectorAll('input[type="checkbox"]');
     let sum = 0;
+    let facturas = ""; 
+    let abonos = ""; 
     let montocancela = parseFloat(document.getElementById('montocancela').textContent);
     let contador = 0;     
     checkboxes.forEach(checkbox => {
@@ -470,7 +474,7 @@ if (isset($_POST['formaPago'])) {
         let montoFactura = document.getElementById('tot' + idFactura).textContent;
         let faltante = montocancela;
         
-        console.log(montoFactura)
+        
         if (parseFloat(abono) > 0) {
 
           if (parseFloat(abono) > montoFactura) {
@@ -484,9 +488,14 @@ if (isset($_POST['formaPago'])) {
            
             }else{
               sum += parseFloat(abono);
+              abonos = abonos+ ',' + abono ;
+              facturas = facturas +','+idFactura;
               document.getElementById('warn').textContent = '';
               faltante=parseFloat(montocancela) - parseFloat(sum).toFixed(2);
               document.getElementById('restante').textContent=faltante.toFixed(2);
+            
+              // document.getElementById('facturasx').textContent=abonos;
+              // document.getElementById('abonosx').textContent=facturas;
             }
             contador = parseInt(contador)+1;
             document.getElementById('contador').value=contador;

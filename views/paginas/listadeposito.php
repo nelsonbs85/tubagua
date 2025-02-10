@@ -35,7 +35,7 @@ $pedidos = $listaPedidos->obtenerDepositos($usuario_id);
                     <td><?php echo $row[4];?></td>
                     <td><?php echo $row[2];?></td>
                     <td>
-                         <a  class="btn btn-success"href="index.php?page=recibo&idRecibo=<?php echo $row[0] ?>">Ver</a>
+                         <a  class="btn btn-success" href="index.php?page=recibo&idrecibo=<?php echo $row[0] ?> &idCliente=<?php echo $row[5] ?>" >Ver</a>
                     </td>
                 </tr>
                 <?php
