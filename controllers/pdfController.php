@@ -39,6 +39,8 @@ if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 				$getEstado = $row[9];
 				$getBanco = $row[12];
 				$getFecha = $row[1];
+				$getVendedor = $row[13];
+				$getRuta = $row[16];
 			}
 			$cliente = $objCliente->obtenerDatosCliente($getClienteid);
 				while ($rowcliente=$cliente->fetch()){
@@ -46,29 +48,92 @@ if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 					$codigo=$rowcliente[4];
 					$direccion= $rowcliente[15];
 				}
+			
+
+			$pdf->ln(4);
 			$pdf->setX(5);
-			$pdf->cell(0,10,"Cliente: " .$getcliente 	 ,0,1,'L');
+			
+			/* CLIENTE */
+			$pdf->SetFont("Arial",'B',7);
+			$pdf->cell(0,5,"CLIENTE: ",0,0,'L');
+			$pdf->setX(20);
+			$pdf->SetFont("Arial",'',7);
+			$pdf->MultiCell(50,4 ,mb_convert_encoding(trim($getcliente), 'ISO-8859-1', 'UTF-8') , 0,'L');
 			$pdf->setX(5);
-			$pdf->cell(1,5,"NIT: " .$nit 	 ,0,1,'L');
+			/* VENDEDOR */
+			$pdf->SetFont("Arial",'B',7);
+			$pdf->cell(0,4,"VENDEDOR: ",0,0,'L');
+			$pdf->setX(20);
+			$pdf->SetFont("Arial",'',7);
+			$pdf->MultiCell(50,4 ,mb_convert_encoding(trim($getVendedor), 'ISO-8859-1', 'UTF-8') , 0,'L');
 			$pdf->setX(5);
-			$pdf->cell(0,5,"Código: " .$codigo 	 ,0,1,'L');
+				/* RUTA */
+			$pdf->SetFont("Arial",'B',7);
+			$pdf->cell(0,4,"RUTA: ",0,0,'L');
+			$pdf->setX(20);
+			$pdf->SetFont("Arial",'',7);
+			$pdf->cell(1,4, $getRuta	 ,0,1,'L');
 			$pdf->setX(5);
-			$pdf->MultiCell(0, 5, "Dirección: " .mb_convert_encoding($direccion, 'ISO-8859-1', 'UTF-8') , 0);
+			
+			/* NIT */
+			$pdf->SetFont("Arial",'B',7);
+			$pdf->cell(0,4,"NIT: ",0,0,'L');
+			$pdf->setX(20);
+			$pdf->SetFont("Arial",'',7);
+			$pdf->cell(1,4, $nit 	 ,0,1,'L');
+			$pdf->setX(5);
+				/* CODIGO CLIENTE */
+			$pdf->SetFont("Arial",'B',7);
+			$pdf->cell(0,4,"CODIGO: ",0,0,'L');
+			$pdf->setX(20);
+			$pdf->SetFont("Arial",'',7);
+			$pdf->cell(1,4, $codigo 	 ,0,1,'L');
+			$pdf->setX(5);
+			/* DIRECCIÃ“N */
+			$pdf->SetFont("Arial",'B',7);
+			$pdf->cell(0,4,"DIRECCION: ",0,0,'L');
+			$pdf->setX(20);
+			$pdf->SetFont("Arial",'',7);
+			$pdf->MultiCell(50,4 ,mb_convert_encoding(trim($direccion), 'ISO-8859-1', 'UTF-8') , 0,'L');
+			$pdf->line(5,40,60,40);
+			$pdf->ln(3);
 			
 			$pdf->ln(20);
-			$pdf->line(5,40,70,40);
+			
+			/*Detalle de facturas*/
+			$y=60;
 			$pdf->setXY(5,40);
-			$y=50;
+			
 			$total = 0; 
+			$pdf->SetFont("Arial",'B',7);
+			$pdf->cell(20,5,"Factura",1,0,'C');
+			$pdf->cell(20,5,"Total",1,0,'C');
+			$pdf->cell(20,5,"Saldo",1,1,'C');
+			$pdf->SetFont("Arial",'',7);
 			while ($row = $detalle->fetch()) {
 				$getFactura = $row[5] ." " .$row[6];
-				$getMonto = $row[2];
+				$getSaldo= $row[15]-$row[2];
 				$pdf->setX(5);
-				$pdf->cell(0,5,"Factura a pagar: " . $getFactura ."		" .number_format(round($getMonto,2),2),0,1,'L');
+				$pdf->cell(0,5,$getFactura,0,0,'L');
+				//$pdf->cell(20,5,"Total",1,0,'C');
+				$getMonto = $row[2];
+				$pdf->setX(25);
+				$pdf->cell(20,5,number_format(round($getMonto,2),2),0,0,'R');
+				$pdf->setX(45);
+				$pdf->cell(20,5,number_format(round($getSaldo,2),2),0,1,'R');
 				$y +=5; 
 				$total +=$getMonto;  
 			}  
+			
+			$pdf->setX(5);
+			$pdf->SetFont("Arial",'B',7);
+				$pdf->cell(0,5,"Total:",1,0,'L');	
+				$pdf->setX(25);
+				$pdf->cell(20,5,number_format(round($total,2),2),0,1,'R');
+				$pdf->SetFont("Arial",'',7);
+				$y +=5; 
 			//$pdf->line(5,$y,70,$y);
+			$pdf->ln(5);
 			$pdf->setX(5);
 			$pdf->cell(0,5,"Pago Realizado: " . $getFormaPago,0,1,'L');
 			$pdf->setX(5);

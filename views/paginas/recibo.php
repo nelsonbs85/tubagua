@@ -298,24 +298,28 @@ if (isset($_POST['formaPago'])) {
       <br>
       </form>
       <!-- mostrar facturas -->
-      <?php if ($idCliente && $idRecibo) { ?>
+      <?php if ($idCliente && $idRecibo) {
+      //if (isset($getEstado)==2) { ?>
         
         <form action="index.php?page=recibo&idCliente=<?php echo $idCliente ?>&idRecibo=<?php echo $idRecibo ?>" method="POST"> 
         <div class="container row">
         
         <div class="col">
+            <?php if (isset($_GET['idrecibo'])&& $getEstado!=7) { ?>
             <button type="input" class="btn btn-danger col-3">
-              Finalizar
-            </button>
-            </div>
-            <input type="hidden" name="finaliza" value="true">
-            <div class="col">
+                  Finalizar
+                </button>            </div>
+                <input type="hidden" name="finaliza" value="true">
+        </div>
+            <?php }elseif($getEstado!=7){ ?>
+        <div class="col">
           <button class="btn btn-success" type="button" id ="detallefactura" name="detallefactura" data-bs-toggle="collapse" data-bs-target="#collapseExample1"
             aria-expanded="false" aria-controls="collapseExample1">
-            Mostrar Facturas
+            Agregar Facturas
           </button>     
-          </div>   
-        </div>
+        </div>   
+        <?php } ?>
+    </div>
         
           <div class="collapse" id="collapseExample1">
         <div class="row-2">
@@ -362,7 +366,8 @@ if (isset($_POST['formaPago'])) {
                         id="chk<?php echo $row[0] ?>" onclick='updateSum()'>
                       <input type="hidden" name="fac<?php echo $row[0] ?>" value=<?php echo $row[0] ?>>
                     </td>
-                    <td><input id="abn<?php echo $row[0] ?>" name="abn<?php echo $row[0] ?>" class="form-control" value=<?php echo $row[3]; ?> required onchange='updateSum()'
+                    <td><input id="abn<?php echo $row[0] ?>" name="abn<?php echo $row[0] ?>" 
+                    class="form-control" value='0.00'  required onchange='updateSum()'
                         type="number" step="any" max="<?php echo $row[3]; ?>"></td>
                     <td><?php echo $row[6]; ?></td>
 
@@ -400,11 +405,14 @@ if (isset($_POST['formaPago'])) {
         $visible = "style=display:none";
         $disabled = "disabled";
       ?>
+        <div class="container">
         <a class="btn btn-primary" target="_blank" href="index.php?page=recibopdf&id=<?php echo $idRecibo; ?>"
           role="button">
           <i class="bi bi-printer"></i>
           Imprimir
         </a>
+        </div>
+        
       <?php
       } else {
         $visible = "";

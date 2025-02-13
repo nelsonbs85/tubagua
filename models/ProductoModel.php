@@ -159,7 +159,7 @@ class ProductoModel extends DB
 		$query = "SELECT  * FROM 
 			(SELECT
 			f.id,
-			f.numero_factura,
+			CONCAT(f.serie,' ',f.numero_factura) numero_factura,
 			f.nit,
 			SUM(fd.total) AS total_factura,
 			COALESCE(nc.notas_de_credito, 0) AS notas_de_credito,
@@ -320,15 +320,28 @@ WHERE
 		//  inner join factura c on c.id = b.factura_id inner join cliente d on d.id = c.cliente_id;";
 		$query = "SELECT b.recibo_id, b.fecha_recibo, SUM(b.monto), b.documento,
 		 d.nombre_comercial,c.serie, c.numero_factura,b.forma_de_pago_id,c.cliente_id, a.status, 
-		 b.banco_para_recibos_id, e.nombre, f.nombre
+		 b.banco_para_recibos_id, e.nombre, f.nombre, concat(g.nombres,' ',g.apellidos) nombreusuario,
+		  c.id, x.total_factura, i.nombre
 		 FROM recibo a inner join recibo_d b on a.id = b.recibo_id 
+
 		 inner join factura c on c.id = b.factura_id inner join cliente d 
 		 on d.id = c.cliente_id 
+		      inner join (SELECT factura_id, sum(total) total_factura FROM factura_d
+                     GROUP by factura_id
+			) as x on x.factura_id = c.id 
 		 inner join forma_de_pago e on b.forma_de_pago_id = e.id
 		 left join banco_para_recibos f on f.id = b.banco_para_recibos_id
+		 inner join usuario g on a.usuario_id = g.id
+		  left join(select z.vendedor_id,nombre
+                   from ruta z
+                   inner join (select vendedor_id, max(id) id
+                  from ruta group by vendedor_id) y
+                   on z.vendedor_id = y.vendedor_id
+                   and y.id = z.id
+                    ) as i on i.vendedor_id = g.id
 		 WHERE b.recibo_id = " . $id . " GROUP BY b.recibo_id, b.fecha_recibo, b.documento,
 		  d.nombre_comercial,c.serie, c.numero_factura,b.forma_de_pago_id,c.cliente_id,a.status,
-		  b.banco_para_recibos_id, e.nombre ";
+		  b.banco_para_recibos_id, e.nombre,c.id, i.nombre";
 		//var_dump($query);
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
@@ -552,23 +565,23 @@ WHERE
 			echo $e->getMessage();
 		}
 	}
-	public function editarProducto($id, $datos)
-	{
-		$db = new ModeloBase();
-		try {
-			$editar = $db->editar('articulo', $id, $datos);
-		} catch (PDOException $e) {
-			echo $e->getMessage();
-		}
-	}
+	// public function editarProducto($id, $datos)
+	// {
+	// 	$db = new ModeloBase();
+	// 	try {
+	// 		$editar = $db->editar('articulo', $id, $datos);
+	// 	} catch (PDOException $e) {
+	// 		echo $e->getMessage();
+	// 	}
+	// }
 
-	public function eliminarProducto($id)
-	{
-		$db = new ModeloBase();
-		try {
-			$eliminar = $db->eliminar('articulo', $id);
-		} catch (PDOException $e) {
-			echo $e->getMessage();
-		}
-	}
+	// public function eliminarProducto($id)
+	// {
+	// 	$db = new ModeloBase();
+	// 	try {
+	// 		$eliminar = $db->eliminar('articulo', $id);
+	// 	} catch (PDOException $e) {
+	// 		echo $e->getMessage();
+	// 	}
+	// }
 }

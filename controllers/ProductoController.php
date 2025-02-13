@@ -293,7 +293,7 @@ public function detalleInsertar() {
 
 		$datos = new ProductoModel();
 		$upda = $datos->finalizaRecibo($id);
-		header('Location: index.php?page=recibo&idRecibo=' .$id .'&idCliente=' .$idCliente);	
+		header('Location: index.php?page=recibo&idrecibo=' .$id .'&idCliente=' .$idCliente);	
 	}
 }
 }

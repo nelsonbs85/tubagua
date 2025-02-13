@@ -171,14 +171,7 @@ class ClienteController {
 		header('Location: index.php?page=edformulario&id=' .$id);
 	//}
 }
-	public function editarCliente($id, $datos) {
-		$cliente = new ClienteModel();
-		$cliente->editarCliente($id, $datos);
-	}
-	public function eliminarCliente($id) {
-		$cliente = new ClienteModel();
-		$cliente->eliminarCliente($id);
-	}
+	
 	public function obtenerClientes() {
 		$clientes = new ClienteModel();
 		return $clientes->obtenerClientes();
