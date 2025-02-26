@@ -238,9 +238,9 @@ public function detalleInsertar() {
 		return $producto->obtenerFacturasbyCliente($id);
 	}
 
-	public function obtenerDepositos($usuario_id) {
+	public function obtenerDepositos($usuario_id, $startDate, $endDate) {
 		$producto = new ProductoModel();
-		return $producto->obtenerDepositos($usuario_id);
+		return $producto->obtenerDepositos($usuario_id,$startDate, $endDate);
 	}
 
 	public function obtenerRecibosbyId($id) {

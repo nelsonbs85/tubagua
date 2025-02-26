@@ -46,8 +46,12 @@ if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 				while ($rowcliente=$cliente->fetch()){
 					$nit = $rowcliente[5];
 					$codigo=$rowcliente[4];
-					$direccion= $rowcliente[15];
-				}
+					$zona = " zona " .$rowcliente[16];
+					$direccion= trim($rowcliente[15]) .($rowcliente[16] ? $zona : ', ');
+					$departamento = $rowcliente[43];
+					$municipio  = $rowcliente[50];
+				    $direccion = $direccion .$municipio .", " .$departamento; 
+			}
 			
 
 			$pdf->ln(4);
@@ -89,20 +93,17 @@ if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 			$pdf->SetFont("Arial",'',7);
 			$pdf->cell(1,4, $codigo 	 ,0,1,'L');
 			$pdf->setX(5);
-			/* DIRECCIÓN */
+			/* DIRECCIÃ“N */
 			$pdf->SetFont("Arial",'B',7);
 			$pdf->cell(0,4,"DIRECCION: ",0,0,'L');
 			$pdf->setX(20);
 			$pdf->SetFont("Arial",'',7);
 			$pdf->MultiCell(50,4 ,mb_convert_encoding(trim($direccion), 'ISO-8859-1', 'UTF-8') , 0,'L');
-			$pdf->line(5,40,60,40);
-			$pdf->ln(3);
-			
 			$pdf->ln(20);
 			
 			/*Detalle de facturas*/
-			$y=60;
-			$pdf->setXY(5,40);
+			$y=80;
+			$pdf->setXY(5,45);
 			
 			$total = 0; 
 			$pdf->SetFont("Arial",'B',7);
@@ -142,10 +143,8 @@ if ( isset($_SESSION['id_usuario']) && $_SESSION['login'] == 'ok') {
 			$pdf->cell(0,5,"Documento " . $getDocumento,0,1,'L');
 			$pdf->setX(5);
 			$pdf->cell(0,5,"Fecha: " . $getFecha,0,1,'L');
-
-			$pdf->line(5,$y+10,70,$y+10);
 			$pdf->SetFont("Arial",'B',15);
-			$pdf->cell(0,10,"Total 			" . number_format(round($total,2),2),0,1,'L');
+			// $pdf->cell(0,10,"Total 			" . number_format(round($total,2),2),0,1,'L');
 			$pdf->output();
 
 		}		

@@ -142,7 +142,7 @@ class ProductoModel extends DB
 			inner join factura_d b on a.id = b.factura_id 
 			inner join cliente c on a.cliente_id = c.id
 			WHERE
-			a.active = 1 and a.status in (2,3,4) and not exists (
+			a.active = 1 and a.status in (2,3,4,5) and not exists (
 				SELECT 1 FROM recibo_d x
 				WHERE x.factura_id = a.id
 				)
@@ -192,7 +192,7 @@ class ProductoModel extends DB
 				GROUP BY
 					factura_id
 			) rd ON rd.factura_id = f.id
-		WHERE 
+		WHERE  f.status in (2,3,4,5) and 
 			f.cliente_id =" . $id 
 			. " GROUP BY
 			f.id, f.numero_factura, f.nit, nc.notas_de_credito, rd.abonos ) A
@@ -240,7 +240,7 @@ class ProductoModel extends DB
 				GROUP BY
 					factura_id
 			) rd ON rd.factura_id = f.id
-		WHERE 
+		WHERE f.status in (2,3,4,5)
 			f.cliente_id =" . $idCliente
 			. " GROUP BY
 			f.id, f.numero_factura, f.nit, nc.notas_de_credito, rd.abonos ) A
@@ -296,17 +296,32 @@ WHERE
 		return $resultado;
 	}
 
-	public function obtenerDepositos($usuario_id)
+	public function obtenerDepositos($usuario_id, $startDate,$endDate)
 	{
+		// $start=date('Y/d/m', strtotime($startDate));
+		// $end=date('Y/d/m', strtotime($endDate));
+		$start =$startDate;
+		$end = $endDate;
 		$db = new ModeloBase();
-		$query = "SELECT b.recibo_id, b.fecha_recibo, SUM(b.monto), b.documento,
-		 d.nombre_comercial, c.cliente_id FROM recibo a left join recibo_d b on a.id = b.recibo_id 
+		$query = "SELECT  b.recibo_id, b.fecha_recibo, SUM(b.monto), b.documento,
+		 d.nombre_comercial, c.cliente_id,a.status,e.nombre,
+		 case when a.status = 0 then 'RECHAZADO'
+		 		when a.status = 1 then 'CREADO'  
+		 	  when a.status in (2,3,4,5) then 'EN REVISIÓN'
+			  when a.status >= 6 then 'OPERADO' 
+			  END ESTADO_DESC
+		   FROM recibo a left join recibo_d b on a.id = b.recibo_id 
 		 left join factura c on c.id = b.factura_id left join cliente d 
 		 on d.id = c.cliente_id 
-		   WHERE a.usuario_id = " . $usuario_id
-			. " GROUP BY b.recibo_id, b.fecha_recibo, b.documento,
-		  d.nombre_comercial, c.cliente_id"
+		          left join forma_de_pago e on b.forma_de_pago_id = e.id
+		   WHERE  a.usuario_id = " . $usuario_id
+			. " and b.fecha_recibo between '" .$start . "' and '" .$end
+			
+			."' GROUP BY b.recibo_id, b.fecha_recibo, b.documento,
+		  d.nombre_comercial, c.cliente_id, a.status, e.nombre order by b.fecha_Recibo desc
+		  limit 30 "
 		;
+		
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
@@ -417,7 +432,7 @@ WHERE
 		$conn = new DB();
 		try {
 			//$insertar = $db->insertar('articulo', $datos);
-			$query = "UPDATE recibo SET status= 7 WHERE id =" . $id;
+			$query = "UPDATE recibo SET status= 6 WHERE id =" . $id;
 			$resultado = $conn->query($query);
 
 		} catch (PDOException $e) {

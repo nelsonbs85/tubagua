@@ -121,6 +121,7 @@ if (isset($_POST['formaPago'])) {
                     <i class="bi bi-send"></i>
                     <input type="hidden" name="clienteId" id="clienteId" value=<?php echo $row[0] ?>>
                   </button>
+            </form >
               </td>
               <tr></tr>
             <?php }
@@ -225,7 +226,7 @@ if (isset($_POST['formaPago'])) {
               <?php
               $formaPago = $objProducto->obtenerDatos('forma_de_pago', 'id');
               while ($row = $formaPago->fetch()) {
-                if ($row[0] < 5) { ?>
+                if ($row[0] <= 5) { ?>
                   <option value="<?php echo $row[0]; ?>" <?php echo $row[0] == $getFormaPago ? " selected " : ""
                                                           ?>>
                     <?php echo $row[1]; ?>
@@ -261,13 +262,13 @@ if (isset($_POST['formaPago'])) {
                 </select>
                 <label>Documento: </label>
                 <input type="number" name="documento" id="documento" <?php echo $disabled ?> class="form-control" value="<?php
-                                                                                                                          if ($getDocumento > 0) {
-                                                                                                                            echo $getDocumento;
-                                                                                                                          } else {
-                                                                                                                            echo '0';
-                                                                                                                          }
+                          if ($getDocumento > 0) {
+                            echo $getDocumento;
+                          } else {
+                            echo '0';
+                          }
 
-                                                                                                                          ?>">
+                          ?>">
               </div> <!-- div condicion de efectivo -->
             <?php } ?>
 
@@ -304,20 +305,22 @@ if (isset($_POST['formaPago'])) {
         <form action="index.php?page=recibo&idCliente=<?php echo $idCliente ?>&idRecibo=<?php echo $idRecibo ?>" method="POST"> 
         <div class="container row">
         
-        <div class="col">
-            <?php if (isset($_GET['idrecibo'])&& $getEstado!=7) { ?>
-            <button type="input" class="btn btn-danger col-3">
-                  Finalizar
-                </button>            </div>
-                <input type="hidden" name="finaliza" value="true">
+            <div class="col">
+                <?php if (isset($_GET['idrecibo'])&& $getEstado!=6) { ?>
+                <button type="input" class="btn btn-danger col-3">
+                      Finalizar
+                    </button>
+                    <input type="hidden" name="finaliza" value="true">
+            </div>
+            <?php }
+            if($getEstado!=6){ ?>
+            <div class="col">
+              <button class="btn btn-success" type="button" id ="detallefactura" name="detallefactura" data-bs-toggle="collapse" data-bs-target="#collapseExample1"
+                aria-expanded="false" aria-controls="collapseExample1">
+                Agregar Facturas
+              </button>     
+            </div>   
         </div>
-            <?php }elseif($getEstado!=7){ ?>
-        <div class="col">
-          <button class="btn btn-success" type="button" id ="detallefactura" name="detallefactura" data-bs-toggle="collapse" data-bs-target="#collapseExample1"
-            aria-expanded="false" aria-controls="collapseExample1">
-            Agregar Facturas
-          </button>     
-        </div>   
         <?php } ?>
     </div>
         
@@ -401,7 +404,7 @@ if (isset($_POST['formaPago'])) {
       <?php } ?>
 
 
-      <?php if ((isset($getEstado)) && ($getEstado == 7)) {
+      <?php if ((isset($getEstado)) && ($getEstado == 6)) {
         $visible = "style=display:none";
         $disabled = "disabled";
       ?>

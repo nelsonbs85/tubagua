@@ -13,6 +13,7 @@ $facturas = $listafacturas->obtenerFacturas();
 <main role="main" class="container">
 
 <h1 class="align-center" >Listado de Facturas:</h1>
+
 <div class="panel-body p-20">
     <div class="table-responsive">
     <table id="solicitud" class="responsive table table-striped table-bordered display">     
