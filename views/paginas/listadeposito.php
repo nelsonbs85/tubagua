@@ -9,7 +9,7 @@ require_once './controllers/ProductoController.php';
 <main role="main" class="container">
 
     <h1 class="align-center">Listado de Recibos:</h1>
-    <form action="index.php?page=listadeposito" method="POST">
+    <form action="index.php?page=listadepositos" method="POST">
         <div class="container">
             <h5>Seleccione rango de Fechas: </h5>
             <div class="row justify-content-center">
@@ -52,8 +52,6 @@ require_once './controllers/ProductoController.php';
                     $endDate =$_POST['endDate'];
                     $listaPedidos = new ProductoController();
                     $pedidos = $listaPedidos->obtenerDepositos($usuario_id,$startDate, $endDate);
-
-                
                         $cnt = 1;
                     while ($row = $pedidos->fetch()) {
                     ?><tr>
@@ -73,7 +71,8 @@ require_once './controllers/ProductoController.php';
                                 </a>
                                 <?php if ($row[6] == '0') {  ?>
                                     <a class="btn btn-warning"
-                                        href="index.php?page=recibo&idrecibo=<?php echo $row[0] ?> &idCliente=<?php echo $row[5] ?>">Editar
+                                        href="index.php?page=recibo&edit=<?php echo $row[0] ?> &idCliente=<?php echo $row[5] ?>">
+                                        Editar
                                     </a>
                             </td>
                         <?php } ?>

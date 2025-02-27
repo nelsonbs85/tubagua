@@ -315,7 +315,7 @@ WHERE
 		 on d.id = c.cliente_id 
 		          left join forma_de_pago e on b.forma_de_pago_id = e.id
 		   WHERE  a.usuario_id = " . $usuario_id
-			. " and b.fecha_recibo between '" .$start . "' and '" .$end
+			. " and a.status in (0,1,2,3,4,5,6,7) and b.fecha_recibo between '" .$start . "' and '" .$end
 			
 			."' GROUP BY b.recibo_id, b.fecha_recibo, b.documento,
 		  d.nombre_comercial, c.cliente_id, a.status, e.nombre order by b.fecha_Recibo desc
@@ -576,6 +576,19 @@ WHERE
 
 			}
 			///return $conn->mysql_insert_id();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+	public function anulaRecibo($id)
+	{
+
+		$conn = new DB();
+		try {
+			//$insertar = $db->insertar('articulo', $datos);
+			$query = "UPDATE recibo SET status= -1 WHERE id =" . $id;
+			$resultado = $conn->query($query);
+			//var_dump($query);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}

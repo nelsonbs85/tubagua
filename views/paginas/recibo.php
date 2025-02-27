@@ -1,6 +1,9 @@
 <?php
 $usuario_id = $_SESSION['id_usuario'];
 $usuario = $_SESSION['nick'];
+$editRecibo = 0; 
+
+
 
 require_once './controllers/ProductoController.php';
 require_once './controllers/ClienteController.php';
@@ -12,6 +15,7 @@ if (isset($_POST['finaliza'])) {
   $idRecibo = $objProducto->finalizaRecibo($_GET['idRecibo'], $_GET['idCliente']);
   $finaliza = true;
 }
+
 if (isset($_GET['idCliente'])) {
   $idCliente = $_GET['idCliente'];
 }
@@ -50,8 +54,34 @@ if (isset($_POST['formaPago'])) {
     $getBanco = $row[10];
     $getFechaRecibo = $row[1];
     $getTotalPago = $row[2];;
+    /* SI EL RECIBO ES RECHAZADO, SE CREA OTRO,
+    VIENE EN EL GET EL FLAG EDIT, */
+
   }
-} else {
+} elseif (isset($_GET['edit'])) { 
+
+  $idCliente = $_GET['idCliente'];
+  $idRecibo = $_GET['edit'];
+  $recibo = $objProducto->obtenerRecibosbyId($idRecibo);
+  while ($row = $recibo->fetch()) {
+
+    $getFormaPago = $row[7];
+    $disabled = "";
+    $cliente = $row[8];
+    $idCliente = $row[8];
+    $getDocumento = $row[3];
+    $getEstado = $row[9];
+    $getBanco = $row[10];
+    $getFechaRecibo = $row[1];
+    $getTotalPago = $row[2];;
+    /* SI EL RECIBO ES RECHAZADO, SE CREA OTRO,
+    VIENE EN EL GET EL FLAG EDIT, */
+    
+      $idRecibo = $objProducto->anulaRecibo($idRecibo);
+    //  $finaliza = true;
+    
+  }
+}else {
   //$idCliente = $_GET['idCliente'];
   $getEstado = 0;
   $getFormaPago = 0;
@@ -287,7 +317,7 @@ if (isset($_POST['formaPago'])) {
           <label for="">Fecha: </label>
           <input type="date" <?php echo $disabled ?> class="form-control col-2" name="fechaRecibo" id="fechaRecibo"
             value="<?php echo $getFechaRecibo ?>">
-          <?php if (($idRecibo == 0)) { ?>
+          <?php if (($idRecibo == 0) || (isset($_GET['edit']))) { ?>
             <div class="row-2">
               <br>
               
@@ -313,7 +343,7 @@ if (isset($_POST['formaPago'])) {
                     <input type="hidden" name="finaliza" value="true">
             </div>
             <?php }
-            if($getEstado!=6){ ?>
+            if($getEstado<6&&!isset($_GET['edit'])){ ?>
             <div class="col">
               <button class="btn btn-success" type="button" id ="detallefactura" name="detallefactura" data-bs-toggle="collapse" data-bs-target="#collapseExample1"
                 aria-expanded="false" aria-controls="collapseExample1">

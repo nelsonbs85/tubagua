@@ -295,5 +295,11 @@ public function detalleInsertar() {
 		$upda = $datos->finalizaRecibo($id);
 		header('Location: index.php?page=recibo&idrecibo=' .$id .'&idCliente=' .$idCliente);	
 	}
+	public function anulaRecibo($id) {
+
+		$datos = new ProductoModel();
+		$upda = $datos->anulaRecibo($id);
+		//header('Location: index.php?page=recibo&idrecibo=' .$id .'&idCliente=' .$idCliente);	
+	}
 }
 }
