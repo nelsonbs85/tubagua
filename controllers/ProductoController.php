@@ -289,6 +289,12 @@ public function detalleInsertar() {
 		$upda = $datos->autorizaDetalle($id);
 		header('Location: index.php?page=pedido&id=' .$id);	
 	}
+	public function actualizaBoleta($id, $banco,$boleta) {
+
+		$datos = new ProductoModel();
+		$upda = $datos->actualizaBoleta( $id, $banco, $boleta);
+	//	header('Location: index.php?page=listadepositos');	
+	}
 	public function finalizaRecibo($id,$idCliente) {
 
 		$datos = new ProductoModel();

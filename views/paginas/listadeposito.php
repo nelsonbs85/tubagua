@@ -4,6 +4,19 @@ $usuario = $_SESSION['nick'];
 $usuario_id = $_SESSION['id_usuario'];
 
 require_once './controllers/ProductoController.php';
+$objProducto = new ProductoController();
+//var_dump($_POST);
+if (isset($_POST['id'])) {
+    
+    $data = array(
+        'id' => $_POST['id'],
+        'documento' => $_POST['documento'],
+        'banco' =>  $_POST['banco']
+      );
+      $objProducto->actualizaBoleta ($_POST['id'],$_POST['banco'], $_POST['documento']);
+    
+}
+
 ?>
 
 <main role="main" class="container">
@@ -61,7 +74,55 @@ require_once './controllers/ProductoController.php';
                             <td><?php echo $row[3]; ?></td>
                             <td><?php echo $row[4]; ?></td>
                             <td><?php echo $row[2]; ?></td>
-                            <td><?php echo $row[7]; ?></td>
+                            <td><?php 
+                                echo $row[7]; 
+                                if ($row[1]==1||$row[6]==2){?>
+                                        <br>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" 
+                                        data-bs-target="#exampleModal<?php echo $row[0]?>">
+                                        Agregar Boleta
+                                        </button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal<?php echo $row[0]?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Ingreso de Boleta</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <form action="index.php?page=listadepositos" method="POST">
+                                                <label class="">Banco: </label>
+                                                <select class=" form-control" aria-label="Default select example"
+                                                 id='banco'
+                                                name="banco" >
+                                                <option selected value=0>Seleccione uno:</option>
+                                                <?php
+                                                $formaPago = $objProducto->obtenerDatos('banco_para_recibos', 'id');
+                                                while ($rowb = $formaPago->fetch()) { ?>
+                                                    <option value="<?php echo $rowb[0]; ?>">
+                                                    <?php echo $rowb[1]; ?>
+                                                    </option>
+                                                <?php } ?>
+                                                </select>
+                                                <label>Documento: </label>
+                                                <input type="number" name="documento" id="documento"
+                                                 class="form-control">
+                                                 <input type="hidden" name="id" id="id" value=<?php echo $row[0] ?>>
+
+                                            
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                            </div>
+                                            </form>    
+                                        </div>
+                                        </div>
+                                        </div>
+                                                             
+                                <?php }?>
+                            </td>
                             <td><?php echo $row[8]; ?></td>
 
                             <td>
@@ -86,7 +147,14 @@ require_once './controllers/ProductoController.php';
                     ?>
                 </tbody>
             </table>
+              
         </div><!-- /.row -->
-    </div>
 
+    </div>
+    <!-- Button trigger modal -->
+
+
+
+
+    
 </main><!-- /.container -->

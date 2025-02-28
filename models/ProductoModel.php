@@ -439,6 +439,29 @@ WHERE
 			echo $e->getMessage();
 		}
 	}
+	public function actualizaBoleta( $id, $banco, $boleta)
+	{
+	
+		$conn = new DB();
+		try {
+			//$insertar = $db->insertar('articulo', $datos);
+			$query = "UPDATE recibo_d SET
+			forma_pago_id_origen =forma_de_pago_id, 
+			documento_cheque = documento,
+			banco_para_recibos_cheques_id= banco_para_recibos_id
+			WHERE recibo_id =" . $id;
+			$resultado = $conn->query($query);
+			$query = "UPDATE recibo_d SET
+				forma_de_pago_id = 2,
+				documento= " . $boleta 
+				.", banco_para_recibos_id = " .$banco
+			." WHERE recibo_id =" . $id;
+			$resultado = $conn->query($query);
+
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
 	public function insertarProducto($datos)
 	{
 		$conn = new DB();
