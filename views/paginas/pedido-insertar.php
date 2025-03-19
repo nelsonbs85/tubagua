@@ -5,10 +5,10 @@
     require_once 'controllers/ProductoController.php';
 
     $pedido = new ProductoController();
-
+    var_dump($_POST);
 	$datos = array(
 		'cliente_id'   => $_POST['clienteId'], 
-        'fecha_pedido' =>  date("Y-m-d"),
+        'fecha_pedido' =>  $_POST['fechapedido'], 
         'forma_de_pago' => $_POST['formaPago'],
         'transporte_id' => $_POST['transporte'],
         'observaciones' => trim($_POST['pedidoObser']),

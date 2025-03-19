@@ -27,7 +27,7 @@ class ProductoModel extends DB
 		on a.id = e.articulo_id
 		INNER JOIN listado_precio_d f
 		on a.id =f. articulo_id
-		WHERE a.active = 1
+		WHERE a.active = 1 and estado = 1
 		and stock >0
 		";
 		$resultado = $db->obtenerTodos($query);

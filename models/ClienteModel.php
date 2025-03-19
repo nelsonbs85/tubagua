@@ -35,7 +35,7 @@ class ClienteModel extends DB
 		inner join departamento b on a.departamento_id = b.id 
 		inner join municipio c on c.id = a.municipio_id and c.departamento_id = b.id 
 		WHERE a.id = " . $id;
-		//var_dump($query);
+		
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}

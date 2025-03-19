@@ -185,7 +185,7 @@ public function detalleInsertar() {
 		$id = $producto->insertarPedido($datos);
 		$respuesta['mensaje'] = "Registro insertado correctamente";
 		$respuesta['codigo'] = 200;
-		header('Location: index.php?page=pedido&id=' .$id);	
+		header('Location: index.php?page=pedido&idCliente=' .$datos['cliente_id'] .'&id=' .$id);	
 	}
 
 	
