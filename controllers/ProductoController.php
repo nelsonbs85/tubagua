@@ -208,13 +208,14 @@ public function detalleInsertar() {
 		$respuesta['codigo'] = 200;
 		
 	}
-	public function insertarDetalle($datos) {
+	public function insertarDetalle($datos,$cliente) {
 		
 		$producto = new ProductoModel();
 		$id = $producto->insertarDetalle($datos);
 		$respuesta['mensaje'] = "Registro insertado correctamente";
 		$respuesta['codigo'] = 200;
-		header('Location: index.php?page=pedido&id=' .$id);	
+		//header('Location: index.php?page=pedido&id=' .$id);	
+		header('Location: index.php?page=pedido&idCliente=' .$cliente .'&id=' .$id);	
 	}
 	public function ClienteTienePendiente($idCliente) {
 		$producto = new ProductoModel();
@@ -224,6 +225,12 @@ public function detalleInsertar() {
 		$producto = new ProductoModel();
 		return $producto->obtenerProductos();
 	}
+
+	public function obtenerProductosbyDesc($busqueda) {
+		$producto = new ProductoModel();
+		return $producto->obtenerProductosbyDesc($busqueda);
+	}
+
 	public function obtenerProductosreal() {
 		$producto = new ProductoModel();
 		return $producto->obtenerProductosreal();
@@ -280,14 +287,25 @@ public function detalleInsertar() {
 		$datos = new ProductoModel();
 		return $datos->obtenerDetalle($pedido_id);
 	}
+
 	public function obtenerPedido($pedido_id) {
 		$datos = new ProductoModel();
 		return $datos->obtenerPedido($pedido_id);
 	}
-	public function autorizaDetalle($id) {
+
+	public function obtenerDetallePedido($pedido_id) {
+		$datos = new ProductoModel();
+		return $datos->obtenerDetallePedido($pedido_id);
+	}
+
+	public function obtenerPedidoCompleto($pedido_id) {
+		$datos = new ProductoModel();
+		return $datos->obtenerPedidoCompleto($pedido_id);
+	}
+	public function autorizaDetalle($id, $cliente) {
 		$datos = new ProductoModel();
 		$upda = $datos->autorizaDetalle($id);
-		header('Location: index.php?page=pedido&id=' .$id);	
+		header('Location: index.php?page=pedido&idCliente=' .$cliente .'&id=' .$id);	
 	}
 	public function actualizaBoleta($id, $banco,$boleta) {
 

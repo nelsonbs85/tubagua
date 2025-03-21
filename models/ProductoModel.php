@@ -33,6 +33,31 @@ class ProductoModel extends DB
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
+
+	public function obtenerProductosbyDesc($desc)
+	{
+		$db = new ModeloBase();
+		$query = "SELECT a.id, a.codigo, a.nombre_corto, b.nombre, c.nombre, d.nombre,
+		stock, f.precio_local
+		FROM articulo a 
+		INNER JOIN unidad_medida b 
+    	on a.uni_med_id = b.id
+   			 INNER JOIN categoria c 
+    	on a.categoria_id = c.id
+		INNER JOIN marca d
+		on a.marca_id = d.id
+		INNER JOIN inventario e 
+		on a.id = e.articulo_id
+		INNER JOIN listado_precio_d f
+		on a.id =f. articulo_id
+		WHERE a.active = 1 and estado = 1
+		and stock >0 and  UPPER(concat(a.codigo, a.nombre_corto, b.nombre,c.nombre, d.nombre)) like '%" .strtoupper($desc) ."%'
+		limit 10 
+		";
+		$resultado = $db->obtenerTodos($query);
+		return $resultado;
+	}
+
 	public function obtenerProductosreal()
 	{
 		$db = new ModeloBase();
@@ -62,6 +87,7 @@ class ProductoModel extends DB
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
+	
 	public function obtenerProductosbyDescripcion($descripcion)
 	{
 		$db = new ModeloBase();
@@ -381,6 +407,55 @@ WHERE
 		return $resultado;
 
 	}
+
+	public function obtenerDetallePedido($id)
+	{
+		$conn = new DB();
+		$query = "SELECT 
+			b.*, c.nombre_corto, c.codigo
+			FROM pedido a
+				inner join pedido_d b on a.id = b.pedido_id
+				inner join articulo c on c.id = b.articulo_id 
+		 where a.id =" . $id;
+		// var_dump($query);
+		$resultado = $conn->query($query);
+		// while ($row = $resultado->fetch()) {
+		// 	$result = $row[0];
+		//   }
+		return $resultado;
+
+	}
+	public function obtenerPedidoCompleto($id)
+	{
+		$conn = new DB();
+		$query = "SELECT  
+		a.id, a.cliente_id, a.forma_de_pago, b.nombre_comercial, a.status,  
+	a.fecha_pedido, a.usuario_vendedor_id,c.nombre formapago,d.nombre depto, e.nombre municipio,
+    f.nombre transporte, a.usuario_pedido_creado_id, concat(g.nombres,' ',g.apellidos) nombre_usuario, 
+	i.nombre ruta
+		FROM pedido a
+			inner join cliente b on a.cliente_id = b.id
+			inner join forma_de_pago c on a.forma_de_pago = c.id
+			inner join departamento d on b.departamento_id = d.id
+			inner join municipio e on e.id = b.municipio_id and e.departamento_id=d.id
+			inner join transporte f on f.id = a.transporte_id
+			inner join usuario g on a.usuario_pedido_creado_id = g.id
+		  left join(select z.vendedor_id,nombre
+                   from ruta z
+                   inner join (select vendedor_id, max(id) id
+                  from ruta group by vendedor_id) y
+                   on z.vendedor_id = y.vendedor_id
+                   and y.id = z.id
+                    ) as i on i.vendedor_id = g.id
+		 where a.id =" . $id;
+		// var_dump($query);
+		$resultado = $conn->query($query);
+		// while ($row = $resultado->fetch()) {
+		// 	$result = $row[0];
+		//   }
+		return $resultado;
+
+	}
 	public function obtenerPedidos($usuario_id)
 	{
 		$db = new ModeloBase();
@@ -420,7 +495,7 @@ WHERE
 		$conn = new DB();
 		try {
 			//$insertar = $db->insertar('articulo', $datos);
-			$query = "UPDATE pedido SET status= 7 WHERE id =" . $id;
+			$query = "UPDATE pedido SET status= 2 WHERE id =" . $id;
 			$resultado = $conn->query($query);
 		} catch (PDOException $e) {
 			echo $e->getMessage();

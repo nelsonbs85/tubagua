@@ -35,11 +35,11 @@ $pedidos = $listaPedidos->obtenerPedidos($usuario_id);
                     <td><?php echo $row[3];?></td>
                     
                     <td>
-                        <?php if ($row[5]<7){ ?>En Proceso
-                         <a  class="btn btn-warning"href=" index.php?page=pedido&id=<?php echo $row[0]; ?>">Editar</a>
+                        <?php if ($row[5]<2){ ?>En Proceso
+                         <a  class="btn btn-warning"href=" index.php?page=pedido&idCliente=<?php echo $row[2] ?>&id=<?php echo $row[0]; ?>">Editar</a>
                          <?php }else {?>Finalizado
 
-                            <a  class="btn btn-success"href=" index.php?page=pedido&id=<?php echo $row[0]; ?>">Ver</a>
+                            <a  class="btn btn-success"href=" index.php?page=pedido&idCliente=<?php echo $row[2] ?>&id=<?php echo $row[0]; ?>">Ver</a>
                          <?php }?>
                     </td>
                 </tr>

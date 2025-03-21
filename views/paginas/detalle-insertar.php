@@ -3,20 +3,21 @@
     $usuario = $_SESSION['nick'];
 	
     require_once 'controllers/ProductoController.php';
-
+    
     $pedido = new ProductoController();
     if ($_POST['autoriza'] ){
+        $cliente = $_POST['clienteid'];
         $datos = array(
             'autoriza' => $_POST['autoriza'],
             'pedido_id' => $_POST['pedido_id']
         );
-        $pedido->autorizaDetalle($datos['pedido_id']);
+        $pedido->autorizaDetalle($datos['pedido_id'], $cliente);
 
     }else {
         
         $cantidad = $_POST['cantidad'];
         $precio = $_POST['precio'];
-    
+        $cliente = $_POST['clientei'];
         $datos = array(    
         'pedido_id'   => $_POST['pedido_id'], 
 		'articulo_id'   => $_POST['articulo_id'], 
@@ -33,7 +34,7 @@
 //        echo json_encode($respuesta);
 	
 	} else {
-		$pedido->insertarDetalle($datos);
+		$pedido->insertarDetalle($datos, $cliente);
 	}   
 }
  

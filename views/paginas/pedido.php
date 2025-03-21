@@ -1,14 +1,20 @@
 ﻿<?php
 $usuario_id = $_SESSION['id_usuario'];
 $usuario = $_SESSION['nick'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Procesa el formulario
+    // ...
 
+    // Mantén el collapse abierto
+    $desplegarCollapse = true;
+}
 
 require_once './controllers/ClienteController.php';
 require_once './controllers/ProductoController.php';
 $objCliente = new ClienteController();
 $datos = new ProductoController();
 $listaProductos = new ProductoController();
-$productos = $listaProductos->obtenerProductos();
+
 $disabled = '';
 $getCliente = 0;
 $getFecha = '';
@@ -21,10 +27,9 @@ $getDireccionEntrega = '';
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     // id index exists
-
+    $disabled = ' disabled ';
     $pedidos = $datos->obtenerPedido($id);
-    $tabactive = "active";
-    $active = '';
+
     while ($row = $pedidos->fetch()) {
         $getEstado = $row[2];
         $getCliente = $row[3];
@@ -43,7 +48,7 @@ if (isset($_GET['id'])) {
 
 <main role="main" class="container border">
 
-<div class="row-2 container">
+    <div class="row-2 container">
         <h2 style="text-align:center"><strong>Generar Pedido</strong></h1>
             <label for=""><strong>Búsqueda por Cliente:</strong></label>
             <form action="index.php?page=pedido" method="POST">
@@ -109,7 +114,7 @@ if (isset($_GET['id'])) {
     }
     if (isset($_GET['idCliente']) || isset($_GET['id']) > 0) {
         $idCliente = $_GET['idCliente'];
-        
+
         $infocliente = $objCliente->obtenerDatosCliente($idCliente);
 
         while ($row = $infocliente->fetch()) {
@@ -151,7 +156,7 @@ if (isset($_GET['id'])) {
                     <label for="">Forma de Pago</label>
                 </div>
                 <div class="col-6">
-                    <select class=" form-control" aria-label="Default select example" name="formaPago">
+                    <select class=" form-control" aria-label="Default select example" name="formaPago" <?php echo $disabled ?>>
                         <option selected>Forma de Pago:</option>
                         <?php
                         $formaPago = $datos->obtenerDatos('forma_de_pago', 'id');
@@ -170,7 +175,7 @@ if (isset($_GET['id'])) {
                     <label for="">Transporte:</label>
                 </div>
                 <div class="col-6">
-                    <select class=" form-control" aria-label="Default select example" name="transporte">
+                    <select class=" form-control" aria-label="Default select example" name="transporte" <?php echo $disabled ?>>
                         <option selected>Seleccione uno:</option>
                         <?php
                         $formaPago = $datos->obtenerDatos('transporte', 'id');
@@ -186,15 +191,15 @@ if (isset($_GET['id'])) {
 
                 <col class="col-4">
                 <label for=""><b>Observaciones:</b></label>
-                <textarea class=" form-control" name="pedidoObser" id="pedidoObser" cols="4" rows="3"><?php if ($getObservaciones) {
-                                                                                                            echo $getObservaciones;
-                                                                                                        } else {
-                                                                                                            echo "";
-                                                                                                        }; ?></textarea>
+                <textarea class=" form-control" <?php echo $disabled ?> name="pedidoObser" id="pedidoObser" cols="4" rows="3"><?php if ($getObservaciones) {
+                                                                                                                                    echo $getObservaciones;
+                                                                                                                                } else {
+                                                                                                                                    echo "";
+                                                                                                                                }; ?></textarea>
                 </col>
                 <col class="col-4">
                 <label for=""><b>Dirección de Entrega:</b></label>
-                <textarea class=" form-control" name="dirEntrega" id="dirEntrega" cols="4" rows="3"><?php echo trim($getDireccionEntrega); ?>
+                <textarea class=" form-control" <?php echo $disabled ?> name="dirEntrega" id="dirEntrega" cols="4" rows="3"><?php echo trim($getDireccionEntrega); ?>
                         </textarea>
                 </col>
             </div>
@@ -248,104 +253,138 @@ if (isset($_GET['id'])) {
 
         </div>
         <br>
-        <?php if ($getEstado != 6) { ?>
-           
-            
-            <div class="row-2">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Agregar Producto
-                </button>
+        <?php if ($getEstado == 1) { ?>
+            <div class="row">
+                <div class="col-4">
+                    <!-- Button trigger modal -->
+                    <button class="btn btn-success" type="button" id="detallefactura" name="detallefactura" data-bs-toggle="collapse" data-bs-target="#collapseExample1"
+                        aria-expanded="false" aria-controls="collapseExample1">
+                        Agregar Producto
+                    </button>
+                </div>
+                <div class="col-6">
+                    <form action="index.php?page=detalle-insertar" method="POST">
+                        <button type="submit" class="btn btn-danger">Finalizar Pedido</button>
+                        <input type="hidden" value=" <?php echo $id ?>" name="pedido_id" id="pedido_id">
+                        <input type="hidden" value="F" name="autoriza" id="autoriza">
+                        <input type="hidden" value="<?php echo $idCliente ?>" name="clienteid" id="clienteid">
+                    </form>
+                </div>
             </div>
             <br>
-            <div class="col-6">
-                <form action="index.php?page=detalle-insertar" method="POST">
-                    <button type="submit" class="btn btn-warning">Finalizar Pedido</button>
-                    <input type="hidden" value=" <?php echo $id ?>" name="pedido_id" id="pedido_id">
-                    <input type="hidden" value="F" name="autoriza" id="autoriza">
-                </form>
+            <script>
+                var desplegarCollapse = <?php echo isset($desplegarCollapse) &&
+                                            $desplegarCollapse ? 'true' : 'false'; ?>;
+            </script>
+
+
+            <div class="collapse" id="collapseExample1">
+                <div class="row-2">
+                    <div>
+                        <label for=""><strong>Búsqueda de Artículos:</strong></label>
+                        <form action="index.php?page=pedido&idCliente=<?php echo $_GET['idCliente'] ?>&id=<?php echo $id ?>"
+                            method="POST">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend row-2">
+                                    <button class="btn btn-primary" type="input">Buscar</button>
+                                </div>
+                                <input type="text" class="form-control" name="searchArt"
+                                    placeholder="Puede buscar por nombre, categoria, código" aria-label=""
+                                    aria-describedby="basic-addon1">
+                                <!-- <input type="hidden" value="0" name="searchArt" id="searchArt"> -->
+                        </form>
+                    </div>
+                    <?php if (isset($_POST['searchArt'])) { ?>
+                        <table id="articulo" class="large table-responsive table-bordered display">
+                            <thead>
+
+                                <th class="col-1">#</th>
+                                <th class="col-1">Código</th>
+                                <th>Nombre</th>
+                                <!-- <th>Marca</th> -->
+                                <!-- <th>Categoria</th> -->
+                                <!-- <th class ="col-1">Existencias</th> -->
+                                <th class="col-1">Vista</th>
+                                <th class="col-1">Agregar</th>
+
+                            </thead>
+                            <tbody>
+                                <?php
+                                $cnt = 1;
+
+                                $productos = $listaProductos->obtenerProductosbyDesc($_POST['searchArt']);
+                                while ($row = $productos->fetch()) {
+                                    $path = __DIR__ . '\\img';
+
+                                ?><tr>
+                                        <td><?php echo $row[0]; ?></td>
+                                        <td><?php echo $row[1]; ?></td>
+                                        <td style="width: 20%"><?php echo $row[2] . " -" . $row[5]; ?></td>
+                                        <!-- <td><?php echo $row[5]; ?></td> -->
+                                        <!-- <td><?php echo $row[3]; ?></td> -->
+                                        <!-- <td><?php echo $row[4]; ?></td> -->
+                                        <!-- <td><?php echo $row[6]; ?></td> -->
+                                        <!-- <?php $imagen = __DIR__ . '\img\0.jpg' ?> -->
+                                        <?php $imagen = './img/jpg' ?>
+
+                                        <!-- <td><?php echo "<img width='100%' height='100%' src='./assets/img/" . $row[0] . ".jpg'>" ?></td> -->
+                                        <td><img src="./assets/img/<?php echo $row[0] . '.jpg' ?>" alt="" width='100%' height='100%' onerror="this.onerror=null; this.src='./assets/img/0.jpg'"></td>
+                                        <td <?php if ($row[6] <= 0) {
+                                                echo "disabled";
+                                            } else {
+                                                echo "";
+                                            } ?>>
+                                            <form action="index.php?page=detalle-insertar" method="POST">
+
+                                                <div class="row-2">
+                                                    <label class="col-2" for="">Cantidad:</label>
+                                                    <input require class="col-3 form-control" type="number" max="<?php echo $row[6] ?>" name="cantidad"
+                                                        placeholder="Max. <?php echo $row[6] ?>">
+                                                </div>
+                                                <div class="row-2">
+                                                    <label class="col-2" for="">Precio:</label>
+                                                    <input class="col-3 form-control" step="0.01" type="number" name="precio"
+                                                        placeholder="Max. <?php echo $row[7] ?>">
+                                                </div>
+                                                <div class="row-2">
+                                                    <input type="hidden" value=" <?php echo $id ?>" name="pedido_id" id="pedido_id">
+                                                    <input type="hidden" value="<?php echo $row[0] ?>" name="articulo_id" id="articulo_id">
+                                                    <input type="hidden" value="<?php echo $idCliente ?>" name="clientei" id="clienteid">
+                                                    <button type="submit" class="btn btn-primary">Agregar</button>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    <?php } ?>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    <?php } ?>
+
+                </div>
+
             </div>
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content model-dialog-centered">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Listado de Artículos</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                       
-                            <table id="solicitud" class="large table-responsive table-bordered display">
-                                <thead>
 
-                                    <th class="col-1">#</th>
-                                    <th class="col-1">Código</th>
-                                    <th>Nombre</th>
-                                    <!-- <th>Marca</th> -->
-                                    <!-- <th>Categoria</th> -->
-                                    <!-- <th class ="col-1">Existencias</th> -->
-                                    <th class="col-1">Vista</th>
-                                    <th class="col-1">Agregar</th>
 
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $cnt = 1;
-                                    while ($row = $productos->fetch()) {
-                                        $path = __DIR__.'\\img';
-                                        
-                                    ?><tr>
-                                            <td><?php echo $row[0]; ?></td>
-                                            <td><?php echo $row[1]; ?></td>
-                                            <td style="width: 20%"><?php echo $row[2] . " -" . $row[5]; ?></td>
-                                            <!-- <td><?php echo $row[5]; ?></td> -->
-                                            <!-- <td><?php echo $row[3]; ?></td> -->
-                                            <!-- <td><?php echo $row[4]; ?></td> -->
-                                            <!-- <td><?php echo $row[6]; ?></td> -->
-                                             <!-- <?php $imagen= __DIR__ .'\img\0.jpg'?> -->
-                                             <?php $imagen= './img/jpg'?>
-
-                                             <!-- <td><?php echo "<img width='100%' height='100%' src='./assets/img/" .$row[0] .".jpg'>"?></td> -->
-                                            <td><img src="./assets/img/<?php echo $row[0] .'.jpg' ?>" alt="" width='100%' height='100%' onerror="this.onerror=null; this.src='./assets/img/0.jpg'"></td>
-                                            <td <?php if ($row[6] <= 0) {
-                                                    echo "disabled";
-                                                } else {
-                                                    echo "";
-                                                } ?>>
-                                                <form action="index.php?page=detalle-insertar" method="POST">
-
-                                                    <div class="row-2">
-                                                        <label class="col-2" for="">Cantidad:</label>
-                                                        <input require class="col-3 form-control" type="number" max="<?php echo $row[6] ?>" name="cantidad"
-                                                            placeholder="Max. <?php echo $row[6] ?>">
-                                                    </div>
-                                                    <div class="row-2">
-                                                        <label class="col-2" for="">Precio:</label>
-                                                        <input class="col-3 form-control" type="number" name="precio"
-                                                            placeholder="Max. <?php echo $row[7] ?>">
-                                                    </div>
-                                                    <div class="row-2">
-                                                        <input type="hidden" value=" <?php echo $id ?>" name="pedido_id" id="pedido_id">
-                                                        <input type="hidden" value="<?php echo $row[0] ?>" name="articulo_id" id="articulo_id">
-                                                        <button type="submit" class="btn btn-primary">Agregar</button>
-                                                    </div>
-                                                </form>
-                                            </td>
-                                        <?php } ?>
-                                        </tr>
-                                </tbody>
-                            </table>
-                        </div><!--MODAL BODY -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div> <!-- MODAL CONTENT -->
-                </div><!-- MODAL DIALOG -->
-            </div><!-- MODAL FADE -->
-            <!-- MODAL 2 --
-                
-            <?php }
-    } ?>    <!-- Si no está autorizado -->
-            <!-- Modal -->
+        <?php } elseif ($getEstado == 2) {  ?>
+            <div class="col-6">
+                <div class="container">
+                    <a class="btn btn-primary" target="_blank" href="index.php?page=pedidopdf&id=<?php echo $id; ?>"
+                        role="button">
+                        <i class="bi bi-printer"></i>
+                        Imprimir
+                    </a>
+                </div>
+            </div>
+    <?php   }
+    } ?>
+    <!-- Si no está autorizado -->
+    <!-- Modal -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (desplegarCollapse) {
+                // Abre el collapse utilizando Bootstrap
+                $('#collapseExample1').collapse('show');
+            }
+        });
+    </script>
 </main>

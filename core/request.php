@@ -31,6 +31,7 @@ if (!empty($page)) {
 		'pedido-insertar' 	=> array('model' => 'ProductoModel','view' => 'pedidoInsertar', 	'controller' => 'ProductoController'), 
 		'recibo-insertar' 	=> array('model' => 'ProductoModel','view' => 'reciboInsertar', 	'controller' => 'ProductoController'), 
 		'recibopdf' 	=> array('model' => 'pdfModel','view' => 'recibopdf', 	'controller' => 'pdfController'), 
+		'pedidopdf' 	=> array('model' => 'pdfModel','view' => 'pedidopdf', 	'controller' => 'pdfPedidoController'), 
 		
 
 	);
