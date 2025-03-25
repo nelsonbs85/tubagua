@@ -231,9 +231,9 @@ public function detalleInsertar() {
 		return $producto->obtenerProductosbyDesc($busqueda);
 	}
 
-	public function obtenerProductosreal() {
+	public function obtenerProductosreal($cadena) {
 		$producto = new ProductoModel();
-		return $producto->obtenerProductosreal();
+		return $producto->obtenerProductosreal($cadena);
 	}
 	public function obtenerFacturas() {
 		$producto = new ProductoModel();

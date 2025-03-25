@@ -1,6 +1,7 @@
 ﻿<?php
 $usuario_id = $_SESSION['id_usuario'];
 $usuario = $_SESSION['nick'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Procesa el formulario
     // ...
@@ -8,6 +9,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Mantén el collapse abierto
     $desplegarCollapse = true;
 }
+$credentialsPath = 'archivostubagua-5a6120c8bf21.json';
+//$folderId = '1TOzr41Xkjj_8vK0egVO9Iuv0LG0Z_4J7';
+$folderId ='1ciMJXelFQ3rdp3Bej7yYlH3vEcwFpFmZ';
+$imageName = '3126';
+
+$googleDrive = new GoogleDriveImages($credentialsPath);
+// var_dump ($images);
+// foreach ($images as $image) {
+//     echo 'Nombre: ' . $image['name'] . PHP_EOL;
+//     echo 'Enlace: ' . $image['id'] . PHP_EOL;
+// }
+
+
 
 require_once './controllers/ClienteController.php';
 require_once './controllers/ProductoController.php';
@@ -48,6 +62,7 @@ if (isset($_GET['id'])) {
 
 <main role="main" class="container border">
 
+<!-- <img src="https://lh3.googleusercontent.com/d/1_qoAd3bsXmNYI0_2P60BtJVlL0J2SMSv" alt="" srcset=""> -->
     <div class="row-2 container">
         <h2 style="text-align:center"><strong>Generar Pedido</strong></h1>
             <label for=""><strong>Búsqueda por Cliente:</strong></label>
@@ -305,7 +320,7 @@ if (isset($_GET['id'])) {
                                 <!-- <th>Categoria</th> -->
                                 <!-- <th class ="col-1">Existencias</th> -->
                                 <th class="col-1">Vista</th>
-                                <th class="col-1">Agregar</th>
+                                <th class="col-2">Agregar</th>
 
                             </thead>
                             <tbody>
@@ -314,21 +329,35 @@ if (isset($_GET['id'])) {
 
                                 $productos = $listaProductos->obtenerProductosbyDesc($_POST['searchArt']);
                                 while ($row = $productos->fetch()) {
-                                    $path = __DIR__ . '\\img';
+                                    //$path = __DIR__ . '\\img';
 
                                 ?><tr>
                                         <td><?php echo $row[0]; ?></td>
                                         <td><?php echo $row[1]; ?></td>
                                         <td style="width: 20%"><?php echo $row[2] . " -" . $row[5]; ?></td>
-                                        <!-- <td><?php echo $row[5]; ?></td> -->
-                                        <!-- <td><?php echo $row[3]; ?></td> -->
-                                        <!-- <td><?php echo $row[4]; ?></td> -->
-                                        <!-- <td><?php echo $row[6]; ?></td> -->
-                                        <!-- <?php $imagen = __DIR__ . '\img\0.jpg' ?> -->
-                                        <?php $imagen = './img/jpg' ?>
+                                        <?php 
+                                        //$images = $googleDrive->searchImagesByName($folderId, $row[1]); 
+                                        $images = $googleDrive->searchImagesByName($folderId, $row[1]); 
+                                     //   var_dump($images);
+                                     if ($images){  
+                                        $imageurl = $images;
+                                        
+                                            foreach ($images as $image) {
+                                                $imageurl = "https://lh3.googleusercontent.com/d/" .$image['id'];
+                                                // echo 'Nombre: ' . $image['name'] . PHP_EOL;
+                                                // echo 'Enlace: ' . $image['link'] . PHP_EOL;
+                                            }
+                                            var_dump($imageurl);
+                                     }else { $imageurl = './assets/img/0.jpg';}
+                                        ?>
 
-                                        <!-- <td><?php echo "<img width='100%' height='100%' src='./assets/img/" . $row[0] . ".jpg'>" ?></td> -->
-                                        <td><img src="./assets/img/<?php echo $row[0] . '.jpg' ?>" alt="" width='100%' height='100%' onerror="this.onerror=null; this.src='./assets/img/0.jpg'"></td>
+                                        <td>
+                                            <img src="<?php echo $imageurl ?>"
+                                                 width="100%"
+                                                 height="100%"
+                                                 onerror="this.onerror=null; 
+                                                 this.src='./assets/img/0.jpg'">
+                                                 </td>
                                         <td <?php if ($row[6] <= 0) {
                                                 echo "disabled";
                                             } else {
@@ -338,7 +367,7 @@ if (isset($_GET['id'])) {
 
                                                 <div class="row-2">
                                                     <label class="col-2" for="">Cantidad:</label>
-                                                    <input require class="col-3 form-control" type="number" max="<?php echo $row[6] ?>" name="cantidad"
+                                                    <input require class="col-3 form-'control'" type="number" max="<?php echo $row[6] ?>" name="cantidad"
                                                         placeholder="Max. <?php echo $row[6] ?>">
                                                 </div>
                                                 <div class="row-2">
@@ -350,7 +379,9 @@ if (isset($_GET['id'])) {
                                                     <input type="hidden" value=" <?php echo $id ?>" name="pedido_id" id="pedido_id">
                                                     <input type="hidden" value="<?php echo $row[0] ?>" name="articulo_id" id="articulo_id">
                                                     <input type="hidden" value="<?php echo $idCliente ?>" name="clientei" id="clienteid">
-                                                    <button type="submit" class="btn btn-primary">Agregar</button>
+                                                    <button type="submit" class="btn btn-primary">Normal</button>
+                                                    <button type="submit" class="btn btn-secondary">Fardo <br> Min. <?php echo $row[8]?></button>
+                                                    <button type="submit" class="btn btn-info">Mayorista <br> Min. <?php echo $row[10]?></button>
                                                 </div>
                                             </form>
                                         </td>

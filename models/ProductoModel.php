@@ -1,6 +1,7 @@
 <?php
 require_once 'ModeloBase.php';
 require_once './libs/DB.php';
+require_once './libs/GoogleApi.php';
 
 class ProductoModel extends DB
 {
@@ -38,7 +39,7 @@ class ProductoModel extends DB
 	{
 		$db = new ModeloBase();
 		$query = "SELECT a.id, a.codigo, a.nombre_corto, b.nombre, c.nombre, d.nombre,
-		stock, f.precio_local
+		stock, f.precio_local, a.fardo, a.desc_fardo, a.mayoreo, a.desc_mayoreo
 		FROM articulo a 
 		INNER JOIN unidad_medida b 
     	on a.uni_med_id = b.id
@@ -58,7 +59,7 @@ class ProductoModel extends DB
 		return $resultado;
 	}
 
-	public function obtenerProductosreal()
+	public function obtenerProductosreal($cadena)
 	{
 		$db = new ModeloBase();
 		$query = "SELECT a.id, a.codigo, a.nombre_corto, b.nombre, c.nombre, d.nombre,
@@ -82,7 +83,7 @@ class ProductoModel extends DB
             GROUP by pedido_d.articulo_id
         ) g  on a.id = g.articulo
 		WHERE a.active = 1
-		and stock >0 
+		and stock >0 and a.nombre_corto like '%" .$cadena ."%'
 		";
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
@@ -92,7 +93,7 @@ class ProductoModel extends DB
 	{
 		$db = new ModeloBase();
 		$query = "SELECT a.id, a.codigo, a.nombre_corto, b.nombre, c.nombre, d.nombre,
-		stock, f.precio_local
+		stock, f.precio_local,  a.fardo, a.desc_fardo, a.mayoreo, a.desc_mayoreo
 		FROM articulo a 
 		INNER JOIN unidad_medida b 
     	on a.uni_med_id = b.id
