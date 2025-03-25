@@ -85,7 +85,7 @@ class GoogleDriveImages {
             "'%s' in parents and mimeType = 'application/vnd.google-apps.folder'",
             $folderId
         );
-    
+
         $params = ['q' => $query];
         $subFolders = $this->service->files->listFiles($params);
     
