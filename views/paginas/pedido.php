@@ -9,12 +9,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Mantén el collapse abierto
     $desplegarCollapse = true;
 }
-$credentialsPath = 'archivostubagua-28591ff69fd4.json';
+//$credentialsPath = 'archivostubagua-28591ff69fd4.json';
 //$folderId = '1TOzr41Xkjj_8vK0egVO9Iuv0LG0Z_4J7';
 $folderId ='1ciMJXelFQ3rdp3Bej7yYlH3vEcwFpFmZ';
 $imageName = '3126';
 
-$googleDrive = new GoogleDriveImages($credentialsPath);
+$googleDrive = new GoogleDriveImages();
 // var_dump ($images);
 // foreach ($images as $image) {
 //     echo 'Nombre: ' . $image['name'] . PHP_EOL;

@@ -2,7 +2,7 @@
 include 'api-google/vendor/autoload.php';
 use Google\Client; 
 use Google\Service\Drive;
-$credentialsPath = 'archivostubagua-28591ff69fd4.json';
+
 
 
 //putenv('GOOGLE_APPLICATION_CREDENTIALS=archivostubagua-5a6120c8bf21.json');
@@ -22,8 +22,10 @@ $credentialsPath = 'archivostubagua-28591ff69fd4.json';
 class GoogleDriveImages {
     private $client;
     private $service; 
-
-    public function __construct($credentialsPath) {
+    
+    
+    public function __construct() {
+       $credentialsPath = 'archivostubagua-28591ff69fd4.json';
         $this->client = new Client();
         $this->client->setAuthConfig($credentialsPath);
        // $client->useApplicationDefaultCredentials();
