@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "archivostubagua",
+  "private_key_id": "28591ff69fd46f6a4f59706d0105f9e07c369150",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCu4CYZea38JXZe\nDMj3JMkuyW01k5YKCyPWKmtG7aZMFCgq9ES9COzMqGtPDTRTGuoDRc33XTcFEWJA\ndyNpbXrrx38KvirLAcOYt9Kh1emry+saOqRizhuYoekMdANDPYWmYYwLoR8Xhjg4\numX7NaraGY2J9ifQ7f8xlpQIUfSIbXFw+KUYL+5g9LabTPBPUBio1OtEJwch0quW\nt2CxMyVLn+3CuCcOPJIfWFHnJR7vmWae7DbqSUOT5wi54pjJ1eVeoNFsiCk7n9iU\nIhAP4Wmj4+wG9sqj6tZ+KAvMsefE+HfxECMY6/lKCuORUKzEScXJM+GSj4JsLrLN\nQ/DvUvDjAgMBAAECggEACFgLmVWT9p72+d/USu6HZuMXgeHr28jSSeq2OaknMSQZ\nEoubKAXf/pfenuP7Zie3mLZg8HeTI3vD212T4/jkT5GyPxn5wrvv0D6dHzmsr5TI\nP/UiWNCKwoqfKwfyC+hIkzq+SuPCLwYpcpN6QDU8VLG5bia/mZlxfrU3lPoMF+JE\nuW18LYZuejjjj2ofv9Tf/bTRrSjKSrLEXNIaKeyHAtTJMuEX/GERESud09z2Jv3+\nNrdk/Hnc84B69G7WPBeJkVlYnJqX2mGMg3EZu6sRR4lUiFBy52uf9JIiamjReHYN\n7yJ+dJgHioJR8nvTdoWNcJo8vxT+epcm81HIywGx4QKBgQDftD0kc4fYsPC9udX3\nyjPsdrhqmX0/8KEFNDcNMZKM83QPT+R+MHveLMNBaYu+FFN3MSy6EnaU1bg9+PEy\nNA2DpdsjYb3u/4Isp87jNpsgGpY9Nvl7C8ssOXs5+Qm1Lh0oiqlXv+TJs8Y99FDV\nBhB/MyaQ8uUS2qYS5lcFcinaswKBgQDIH0isr+eIKrR/HmZrjC5xkmc3ZZxQm530\nrxdfh+vWNPwjPqc3cN1R7sKqMt8L4bqUamxqmOEOao+Fqh50gic2V1tWSL84RalY\nqiAoSHeTadD+K9iyvyGZYzRPxsjfY5CIXUd4+1Ty9fuVa2f7kpZHzSzjI/ws9lfJ\niLeyXMhpEQKBgQDbDTUp8m89gtXaEpUw1LFPhVlEGRSKfehOnjiiFL66gtJNBCBs\naLGCdzajYOTTtjec6WwwsE+pojWNia01Sb9KACi7VsSTuWMQsyllWF1CbIZdXu2g\nzYWfwpGlzPTykzs+LblxEZjI4d7nX8ufLRcOV1oWaaJiefRRYXgo/wd4/QKBgCvC\nw4aXlJ6vD/c4M5dS+Rj2tcFkY9EwplLKMuc99rFJttUSL0itUohHGKRVKXcUrlMk\nDn8k3Rnk7WuCLtS1XVPBuIRetgndGdH8qbmFVziSDBR4jBNSPkunaNoFEwneYM2g\n8C8hbosOhSxAZ2WYwWoEEMu+o7dFSx8T2W+UYHKxAoGBAIWpItXHtQnoCjYtOFBn\nROGg7FAL0l2R82WSVnif2SAR6nea4NVfBmPPW5uzGm7CTs0sih5fUUPSGfXKEufj\nyeMBsON9XuQSOg3Fk4CJA/W2Da/I4nuuT6h0rj385xrCFrPAAXZOxQDmlZHBUnky\ncMoniHU4seHeTmUZavxxHJfx\n-----END PRIVATE KEY-----\n",
+  "client_email": "tubagua@archivostubagua.iam.gserviceaccount.com",
+  "client_id": "100248274942423433646",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tubagua%40archivostubagua.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -91,9 +91,9 @@ class ProductoModel extends DB
 	
 	public function obtenerProductosbyDescripcion($descripcion)
 	{
-		$db = new ModeloBase();
+		$db = new ModeloBase(); 
 		$query = "SELECT a.id, a.codigo, a.nombre_corto, b.nombre, c.nombre, d.nombre,
-		stock, f.precio_local,  a.fardo, a.desc_fardo, a.mayoreo, a.desc_mayoreo
+		stock, f.precio_local,  coalesce(a.fardo,0) fardo, a.desc_fardo, coalesce(a.mayoreo,0) mayoreo, a.desc_mayoreo
 		FROM articulo a 
 		INNER JOIN unidad_medida b 
     	on a.uni_med_id = b.id

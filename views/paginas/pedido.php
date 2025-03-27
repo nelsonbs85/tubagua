@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Mantén el collapse abierto
     $desplegarCollapse = true;
 }
-$credentialsPath = 'archivostubagua-5a6120c8bf21.json';
+$credentialsPath = 'archivostubagua-28591ff69fd4.json';
 //$folderId = '1TOzr41Xkjj_8vK0egVO9Iuv0LG0Z_4J7';
 $folderId ='1ciMJXelFQ3rdp3Bej7yYlH3vEcwFpFmZ';
 $imageName = '3126';
@@ -330,7 +330,12 @@ if (isset($_GET['id'])) {
                                 $productos = $listaProductos->obtenerProductosbyDesc($_POST['searchArt']);
                                 while ($row = $productos->fetch()) {
                                     //$path = __DIR__ . '\\img';
-
+                                    if ($row[8]>0){
+                                        $disabledfardo='';
+                                    }else { $disabledfardo =' disabled ';}
+                                    if ($row[10]>0){
+                                        $disabledmayoreo='';
+                                    }else { $disabledmayoreo =' disabled ';}
                                 ?><tr>
                                         <td><?php echo $row[0]; ?></td>
                                         <td><?php echo $row[1]; ?></td>
@@ -347,7 +352,7 @@ if (isset($_GET['id'])) {
                                                 // echo 'Nombre: ' . $image['name'] . PHP_EOL;
                                                 // echo 'Enlace: ' . $image['link'] . PHP_EOL;
                                             }
-                                            var_dump($imageurl);
+                                          //  var_dump($imageurl);
                                      }else { $imageurl = './assets/img/0.jpg';}
                                         ?>
 
@@ -366,22 +371,22 @@ if (isset($_GET['id'])) {
                                             <form action="index.php?page=detalle-insertar" method="POST">
 
                                                 <div class="row-2">
-                                                    <label class="col-2" for="">Cantidad:</label>
-                                                    <input require class="col-3 form-'control'" type="number" max="<?php echo $row[6] ?>" name="cantidad"
+                                                    <label class="col-3" for="">Cantidad:</label>
+                                                    <input require class="col-4 form-'control'" type="number"  max="<?php echo $row[6] ?>" name="cantidad"
                                                         placeholder="Max. <?php echo $row[6] ?>">
                                                 </div>
                                                 <div class="row-2">
-                                                    <label class="col-2" for="">Precio:</label>
-                                                    <input class="col-3 form-control" step="0.01" type="number" name="precio"
+                                                    <label class="col-3" for="">Precio:</label>
+                                                    <input class="col-4 form-control" step="0.01" type="number" name="precio"
                                                         placeholder="Max. <?php echo $row[7] ?>">
                                                 </div>
                                                 <div class="row-2">
                                                     <input type="hidden" value=" <?php echo $id ?>" name="pedido_id" id="pedido_id">
                                                     <input type="hidden" value="<?php echo $row[0] ?>" name="articulo_id" id="articulo_id">
                                                     <input type="hidden" value="<?php echo $idCliente ?>" name="clientei" id="clienteid">
-                                                    <button type="submit" class="btn btn-primary">Normal</button>
-                                                    <button type="submit" class="btn btn-secondary">Fardo <br> Min. <?php echo $row[8]?></button>
-                                                    <button type="submit" class="btn btn-info">Mayorista <br> Min. <?php echo $row[10]?></button>
+                                                    <button type="submit" name='normal' class="btn btn-primary" value ="N">Normal</button>
+                                                    <button type="submit" <?php echo $disabledfardo; ?> name ='fardo' class="btn btn-secondary" value ="<?php echo $row[7]- ($row[7]*$row[9]/100);?>">Fardo <br> Min. <?php echo $row[8]?>  </button>
+                                                    <button type="submit" <?php echo $disabledmayoreo; ?> name="mayorista" class="btn btn-info" value = "<?php echo $row[7]- ($row[7]*$row[11]/100);?>">Mayorista <br> Min. <?php echo $row[10]?></button>
                                                 </div>
                                             </form>
                                         </td>
