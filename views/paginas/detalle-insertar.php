@@ -14,8 +14,8 @@
         $pedido->autorizaDetalle($datos['pedido_id'], $cliente);
 
     }else {                
-        $cantidad = $_POST['cantidad'];
-        $precio = $_POST['precio'];
+        $cantidad = round((float)$_POST['cantidad'],2);
+        $precio = round($_POST['precio'],2);
         $cliente = $_POST['clientei'];
         if (isset($_POST['fardo'])){
             $precio =$_POST['fardo'] ;

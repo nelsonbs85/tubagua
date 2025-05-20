@@ -186,7 +186,7 @@ if (isset($_GET['id'])) {
                     <select class=" form-control" aria-label="Default select example" name="transporte" <?php echo $disabled ?>>
                         <option selected>Seleccione uno:</option>
                         <?php
-                        $formaPago = $datos->obtenerDatos('transporte', 'id',' where active =1 and kuval =0');
+                        $formaPago = $datos->obtenerDatos('transporte', 'id',' where active =1 and kuval ');
                         while ($row = $formaPago->fetch()) { ?>
                             <option value="<?php echo $row[0]; ?>"
                                 <?php echo $row[0] == $getTransporte ? " selected " : ""
@@ -228,27 +228,36 @@ if (isset($_GET['id'])) {
                 <table class="table table-responsive-sm table-bordered display">
                     <thead>
                         <th>#</th>
-                        <th>Artículo</th>
+                        <th>Código</th>
                         <th>Cantidad</th>
                         <th>Precio Unitario</th>
+                        <th>Unidad de Medida</th>
+                        <th>Artículo</th>
                         <th style="text-align:right'">Subtotal</th>
                     </thead>
                     <tbody>
                         <?php
-                        $total = 0;
+                        $cntdetalle=1;
+                        $total = 00;
                         $detalle = $datos->obtenerDetalle($id);
                         while ($det = $detalle->fetch()) { ?>
-                            <td><?php echo $det[4] ?></td>
-                            <td><?php echo $det[20] ?></td>
+                            <!-- <td><?php echo $det[4] ?></td> -->
+                            <td><?php echo $cntdetalle ?></td> 
+                            <td><?php echo $det[21] ?></td> 
                             <td><?php echo $det[5] ?></td>
                             <td><?php echo $det[7] ?></td>
+                            <td><?php echo $det[22] ?></td> 
+                            <td><?php echo $det[20] ?></td>
                             <td style="text-align:right"><?php echo $det[9];
                                                             $total += $det[9];
                                                             ?></td>
                             <tr>
-                            <?php   }
+                            <?php 
+                            $cntdetalle++;  }
                             ?>
                             <td>Total</td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -373,12 +382,12 @@ if (isset($_GET['id'])) {
                                                 <div class="row-2">
                                                     <label class="col-3" for="">Cantidad:</label>
                                                     <input require class="col-4 form-'control'" type="number"  max="<?php echo $row[6] ?>" name="cantidad"
-                                                        placeholder="Max. <?php echo $row[6] ?>">
+                                                        placeholder="Max. <?php echo $row[6] ?>" required>
                                                 </div>
                                                 <div class="row-2">
                                                     <label class="col-3" for="">Precio:</label>
                                                     <input class="col-4 form-control" step="0.01" type="number" name="precio"
-                                                        placeholder="Max. <?php echo $row[7] ?>">
+                                                        placeholder="Max. <?php echo $row[7] ?>" required>
                                                 </div>
                                                 <div class="row-2">
                                                     <input type="hidden" value=" <?php echo $id ?>" name="pedido_id" id="pedido_id">

@@ -490,9 +490,10 @@ WHERE
 	public function obtenerDetalle($pedido_id)
 	{
 		$db = new ModeloBase();
-		$query = "SELECT a.*,nombre_corto FROM pedido_d a
+		$query = "SELECT a.*,nombre_corto, b.codigo, c.nombre FROM pedido_d a
 			INNER JOIN articulo b 
 			on a.articulo_id = b.id
+			INNER JOIN unidad_medida c ON b.uni_med_id = c.id
 		WHERE a.pedido_id = " . $pedido_id;
 		$resultado = $db->obtenerTodos($query);
 		//var_dump($query);
