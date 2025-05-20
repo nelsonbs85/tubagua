@@ -2,30 +2,35 @@
 include 'api-google/vendor/autoload.php';
 use Google\Client; 
 use Google\Service\Drive;
+$credentialsPath = 'archivostubagua-28591ff69fd4.json';
+
+// $directorios = array(
+//     0 =>'1ypcvmK1ANPTld8xdyW2aoRH9JSUdJwOQ',
+//     1 =>'1jweGmbrmZ9XMMkwYK_UVeAX_MybwENS1',
+//     2 =>'1La6E7Ylvk0ibO0fcLhl-fIYq7U3r3s41',
+//     3 =>'12QGPVrC7ew4PqNB3aGtrGIhoc8jhRwon',
+//     4 =>'1yPMTEsv6e0y1Vxo2Y9Knh8ncOz9aXL6X',
+//     5 =>'',
+//     6 =>'',
+//     7 =>'1BDcq9y-3I0xSwUSoamTSZNa2PXhEKK50',
+
+// );
 
 
-
-//putenv('GOOGLE_APPLICATION_CREDENTIALS=archivostubagua-5a6120c8bf21.json');
-// $cliente = new Client();
-// $cliente->useApplicationDefaultCredentials();
-// $cliente->addScope(Drive::DRIVE);
-// //$cliente->setScopes(['https://www..gogleapis.com/auth/drive.file']);
-// //$cliente->addScope(Google_Service_Drive::DRIVE);
-// $service =new Drive($cliente);
-
-// $resultado = $service->files->listFiles();
-// //var_dump($resultado);
-// foreach($resultado as  $elemento){
-//     echo $elemento->id. ' ' .$elemento->name . '<br/>';
-
-// }
 class GoogleDriveImages {
     private $client;
     private $service; 
-    
-    
-    public function __construct() {
-       $credentialsPath = 'archivostubagua-28591ff69fd4.json';
+    private $directorios = array( //prueba
+        0 =>'1hyiSHxcwVrBNaAbnsRV8AANhq6IkXdpU',
+        1 =>'1mrxeXNAuWPTHWLuChA9gz1ABJAbdEOmh',
+        2 =>'1FYTBYDNCfNF95bmmt4V1XuLplHFyjoy6',
+        3 =>'1GBANdjbWsFncXVn8N22fcv8kdO-YgaMU',
+        4 =>'18-jVyRRZfi35VOtZKG7X2Pj1vwTSxkL7',
+        5 =>'',
+        6 =>'',
+        7 =>'1IQZ_I0hLuCCLf2zgRAFSJ2ZlgebMqhZ0',
+    );
+    public function __construct($credentialsPath) {
         $this->client = new Client();
         $this->client->setAuthConfig($credentialsPath);
        // $client->useApplicationDefaultCredentials();
@@ -66,7 +71,8 @@ class GoogleDriveImages {
       
         $params = [
             'q' => $query,
-            'fields' => 'files(id, name, mimeType, webViewLink, parents)'
+            'fields' => 'files(id, name, 
+            mimeType, webViewLink, parents)'
         ];
         $results = $this->service->files->listFiles($params);
     
@@ -101,6 +107,37 @@ class GoogleDriveImages {
     
         return $images;
     }
+    public function searchAll($categoria, $subcategoria, $nombreImagen){
+       
+         $folderId = $this->directorios[$categoria];
+       
+        $imagenes = [];
+		// Buscar imágenes en la carpeta actual
+		$optParams = [
+			'q' => "'$folderId' in parents and name contains '$nombreImagen' and mimeType contains 'image/'",
+			'fields' => 'files(id, name, mimeType)'
+		];
+		$resultados = $this->service->files->listFiles($optParams);
+
+		foreach ($resultados->getFiles() as $archivo) {
+			$imagenes[] =  $archivo->getId();
+		}
+
+		// Obtener subdirectorios dentro de la carpeta actual
+		$optParams = [
+			'q' => "'$folderId' in parents and mimeType = 'application/vnd.google-apps.folder'",
+			'fields' => 'files(id, name)'
+		];
+		$subcarpetas = $this->service->files->listFiles($optParams);
+
+		foreach ($subcarpetas->getFiles() as $carpeta) {
+			$imagenes = array_merge($imagenes, $this->searchAll(
+             $categoria, $subcategoria, $nombreImagen, ''));
+             
+		}
+        var_dump($imagenes);
+		return $imagenes;
+  }
 }
 
 ?>

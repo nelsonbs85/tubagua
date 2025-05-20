@@ -39,7 +39,7 @@ class ProductoModel extends DB
 	{
 		$db = new ModeloBase();
 		$query = "SELECT a.id, a.codigo, a.nombre_corto, b.nombre, c.nombre, d.nombre,
-		stock, f.precio_local, a.fardo, a.desc_fardo, a.mayoreo, a.desc_mayoreo
+		stock, f.precio_local, a.fardo, a.desc_fardo, a.mayoreo, a.desc_mayoreo ,a.categoria_id, a.scategoria_id
 		FROM articulo a 
 		INNER JOIN unidad_medida b 
     	on a.uni_med_id = b.id
@@ -51,6 +51,13 @@ class ProductoModel extends DB
 		on a.id = e.articulo_id
 		INNER JOIN listado_precio_d f
 		on a.id =f. articulo_id
+		INNER JOIN (
+            SELECT pedido_d.articulo_id articulo, sum(cantidad)  cantidad FROM pedido
+            	inner join pedido_d on 
+            	pedido.id = pedido_d.pedido_id
+            WHERE pedido.active = 1 and pedido.status not in (0,7)
+            GROUP by pedido_d.articulo_id
+        ) g  on a.id = g.articulo
 		WHERE a.active = 1 and estado = 1
 		and stock >0 and  UPPER(concat(a.codigo, a.nombre_corto, b.nombre,c.nombre, d.nombre)) like '%" .strtoupper($desc) ."%'
 		limit 10 
@@ -79,10 +86,10 @@ class ProductoModel extends DB
             SELECT pedido_d.articulo_id articulo, sum(cantidad)  cantidad FROM pedido
             	inner join pedido_d on 
             	pedido.id = pedido_d.pedido_id
-            WHERE pedido.status <7
+            WHERE pedido.active = 1 and pedido.status not in (0,7)
             GROUP by pedido_d.articulo_id
         ) g  on a.id = g.articulo
-		WHERE a.active = 1
+		WHERE a.active = 1 and  a.estado=1
 		and stock >0 and a.nombre_corto like '%" .$cadena ."%'
 		";
 		$resultado = $db->obtenerTodos($query);
@@ -130,13 +137,15 @@ class ProductoModel extends DB
 		return $resultado;
 	}
 
-	public function obtenerDatos($tabla, $campo)
+	public function obtenerDatos($tabla, $campo, $condicion = '')
 	{
 		$db = new ModeloBase();
-		$query = "SELECT * from " . $tabla . " order by " . $campo;
+		$query = "SELECT * from " . $tabla . " " .$condicion ." order by " . $campo;
 		$resultado = $db->obtenerTodos($query);
 		return $resultado;
 	}
+
+	
 	public function obtenerDatosMunicipio($depto)
 	{
 		$db = new ModeloBase();

@@ -9,19 +9,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Mantén el collapse abierto
     $desplegarCollapse = true;
 }
-//$credentialsPath = 'archivostubagua-28591ff69fd4.json';
+$credentialsPath = 'archivostubagua-28591ff69fd4.json';
 //$folderId = '1TOzr41Xkjj_8vK0egVO9Iuv0LG0Z_4J7';
-$folderId ='1ciMJXelFQ3rdp3Bej7yYlH3vEcwFpFmZ';
+$folderId ='1jweGmbrmZ9XMMkwYK_UVeAX_MybwENS1';
 $imageName = '3126';
 
-$googleDrive = new GoogleDriveImages();
-// var_dump ($images);
-// foreach ($images as $image) {
-//     echo 'Nombre: ' . $image['name'] . PHP_EOL;
-//     echo 'Enlace: ' . $image['id'] . PHP_EOL;
-// }
-
-
+$googleDrive = new GoogleDriveImages($credentialsPath);
 
 require_once './controllers/ClienteController.php';
 require_once './controllers/ProductoController.php';
@@ -193,7 +186,7 @@ if (isset($_GET['id'])) {
                     <select class=" form-control" aria-label="Default select example" name="transporte" <?php echo $disabled ?>>
                         <option selected>Seleccione uno:</option>
                         <?php
-                        $formaPago = $datos->obtenerDatos('transporte', 'id');
+                        $formaPago = $datos->obtenerDatos('transporte', 'id',' where active =1 and kuval =0');
                         while ($row = $formaPago->fetch()) { ?>
                             <option value="<?php echo $row[0]; ?>"
                                 <?php echo $row[0] == $getTransporte ? " selected " : ""
@@ -336,24 +329,31 @@ if (isset($_GET['id'])) {
                                     if ($row[10]>0){
                                         $disabledmayoreo='';
                                     }else { $disabledmayoreo =' disabled ';}
+
+                                    $categoria = $row[11];
+                                    $subcategoria = $row[12];
+
                                 ?><tr>
                                         <td><?php echo $row[0]; ?></td>
                                         <td><?php echo $row[1]; ?></td>
                                         <td style="width: 20%"><?php echo $row[2] . " -" . $row[5]; ?></td>
                                         <?php 
-                                        //$images = $googleDrive->searchImagesByName($folderId, $row[1]); 
-                                        $images = $googleDrive->searchImagesByName($folderId, $row[1]); 
-                                     //   var_dump($images);
-                                     if ($images){  
+
+
+                                     //   $images = $googleDrive->searchAll($categoria, $subcategoria, $row[1],''); 
+                                     $images =0;
+                                   /*  if (count($images)>0){ 
                                         $imageurl = $images;
                                         
-                                            foreach ($images as $image) {
+                                            /*foreach ($images as $image) {
                                                 $imageurl = "https://lh3.googleusercontent.com/d/" .$image['id'];
                                                 // echo 'Nombre: ' . $image['name'] . PHP_EOL;
                                                 // echo 'Enlace: ' . $image['link'] . PHP_EOL;
-                                            }
+                                            }*/
                                           //  var_dump($imageurl);
-                                     }else { $imageurl = './assets/img/0.jpg';}
+                                          //$imageurl = "https://lh3.googleusercontent.com/d/" .$images[0];
+                                          $imageurl = './assets/img/0.jpg';
+                                  /*   }else { */$imageurl = './assets/img/0.jpg';//}
                                         ?>
 
                                         <td>

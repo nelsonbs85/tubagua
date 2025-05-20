@@ -53,8 +53,8 @@ class ClienteModel extends DB
 			else 'OTRO' end ESTADO,b.nombre FORMA_PAGO, d.razon_social,sum(c.total) TOTAL
 			FROM `pedido` a 
 			LEFT join forma_de_pago b 	ON a.forma_de_pago = b.id 
-			INNER JOIN PEDIDO_D c on a.id = c.pedido_id
-			INNER JOIN CLIENTE d ON a.cliente_id = d.id
+			INNER JOIN pedido_d c on a.id = c.pedido_id
+			INNER JOIN cliente d ON a.cliente_id = d.id
 			WHERE a.cliente_id = " .$idCliente 	." GROUP BY 1,2,3,4,5;";
 			
 		$resultado = $db->obtenerTodos($query);
@@ -73,7 +73,7 @@ class ClienteModel extends DB
 INNER JOIN vw_saldocliente B ON 
 	B.cliente_id = A.id 
 			WHERE CLIENTE_BUSQUEDA like  '%" .strtoupper($search) . "%' 
-			AND EXISTS (SELECT 1 FROM PEDIDO B 
+			AND EXISTS (SELECT 1 FROM pedido B 
                 WHERE A.ID = B.cliente_id)
                 GROUP BY A.ID, NOMBRE_COMERCIAL, RAZON_SOCIAL, A.NIT, CLIENTE_BUSQUEDA, departamento, municipio";
 

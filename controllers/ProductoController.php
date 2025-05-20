@@ -262,9 +262,9 @@ public function detalleInsertar() {
 		$producto = new ProductoModel();
 		return $producto->obtenerProducto($descripcion);
 	}
-	public function obtenerDatos($tabla,$campo,) {
+	public function obtenerDatos($tabla,$campo,$condicion='') {
 		$datos = new ProductoModel();
-		return $datos->obtenerDatos($tabla,$campo);
+		return $datos->obtenerDatos($tabla,$campo, $condicion);
 	}
 	public function obtenerDatosMunicipio($depto) {
 		$datos = new ProductoModel();

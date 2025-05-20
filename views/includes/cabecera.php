@@ -34,7 +34,7 @@
             },
             "order": [[ 0, "desc" ]],
             dom: 'Bfrtip',
-            pageLength: 10,
+            pageLength: 100,
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ]

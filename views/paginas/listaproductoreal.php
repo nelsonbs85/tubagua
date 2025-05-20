@@ -38,6 +38,7 @@ $listaProductos = new ProductoController();
                 <th>Medida</th>
                 <th>Existencias</th>
                 <th>Cant. No. Aut.</th>
+                <th>Exis. Disponibles</th>
                 <th>Precio</th>
             </thead>
             <tbody >
@@ -53,9 +54,10 @@ $listaProductos = new ProductoController();
                     <td><?php echo $row[5];?></td>
                     <td><?php echo $row[3];?></td>
                     <!-- <td><?php echo $row[4];?></td> -->
-                    <td><?php echo $row[6];?></td>
-                    <td><?php echo $row[8];?></td>
-                    <td><?php echo $row[7];?></td>
+                    <td><?php echo number_format($row[6], 0, '.', ','); ?></td>
+                    <td><?php echo number_format($row[8], 0, '.', ','); ?></td>
+                    <td><?php echo number_format($row[6]-$row[8], 0, '.', ','); ?></td>
+                    <td><?php echo number_format($row[7], 2, '.', ','); ?></td>
                 </tr>
                 <?php
                     $cnt= $cnt+1;
