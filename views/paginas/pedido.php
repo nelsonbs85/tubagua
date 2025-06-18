@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Mantén el collapse abierto
     $desplegarCollapse = true;
 }
-$credentialsPath = 'archivostubagua-28591ff69fd4.json';
+$credentialsPath = 'archivostubagua-28591ff69fd4.jason';
 //$folderId = '1TOzr41Xkjj_8vK0egVO9Iuv0LG0Z_4J7';
 $folderId ='1jweGmbrmZ9XMMkwYK_UVeAX_MybwENS1';
 $imageName = '3126';

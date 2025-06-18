@@ -1,7 +1,7 @@
 <?php 
 require_once 'libs/GoogleApi.php';
                                                                              
-//$credentialsPath = 'archivostubagua-28591ff69fd4.json';
+
 //$folderId = '1TOzr41Xkjj_8vK0egVO9Iuv0LG0Z_4J7';
 $folderId ='1ypcvmK1ANPTld8xdyW2aoRH9JSUdJwOQ';
 $imageName = '9747';
